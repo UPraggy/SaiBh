@@ -1,0 +1,27 @@
+{
+  "name": "saibh",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SaiBH - melhores lugares para sair em Belo Horizonte e regiao, de acordo com clima, dia, horario, periodo, custo, se vai com bebe e numero de pessoas.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "expandir": "node scripts/expandirDataset.mjs",
+    "deploy": "vite build && gh-pages -d dist -b gh-pages"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "react-intersection-observer": "^9.13.1",
+    "framer-motion": "^11.5.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "gh-pages": "^6.1.1",
+    "vite": "^5.4.6"
+  }
+}

@@ -1,0 +1,402 @@
+/**
+ * FiltrosBar.css — Treatment A: faixa creme acima dos resultados.
+ * Verde so aparece no switch quando ligado (estado "ativo"); o resto e
+ * vinho/terracota/bege. Em mobile vira bottom-sheet.
+ */
+.filtrosBar {
+    background: var(--bege-card);
+    border-top: 1px solid var(--bege-borda);
+    border-bottom: 1px solid var(--bege-borda);
+    box-shadow: var(--sh);
+    position: relative;
+    z-index: 1;
+}
+.filtrosBarInner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.filtroGrupo { display: flex; flex-direction: column; gap: 7px; }
+.filtroLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--cafe-2);
+}
+.filtroLabel svg { color: var(--terracota); }
+
+/* ---- botoes segmentados (periodo / custo) ---- */
+.segmentos { display: flex; flex-wrap: wrap; gap: 8px; }
+.segBtn {
+    font-family: var(--f-ui);
+    font-size: .86rem;
+    font-weight: 600;
+    color: var(--cafe);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 8px 17px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.segBtn:hover { border-color: var(--terracota-cl); color: var(--vinho); }
+.segBtn.ativo {
+    background: var(--grad-vinho);
+    color: #fff7ec;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(138, 31, 63, .25);
+}
+
+/* ---- linhas de selects ---- */
+.filtroLinha { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+.selectWrap { position: relative; display: inline-flex; }
+.selectWrap select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--f-ui);
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--cafe);
+    background: var(--bege-card);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: var(--r-sm);
+    padding: 10px 38px 10px 13px;
+    min-width: 184px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.selectWrap select:hover { border-color: var(--terracota-cl); }
+.selectWrap select:focus { outline: none; border-color: var(--vinho); box-shadow: 0 0 0 3px var(--rosa-bg); }
+.selectSeta {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cafe-3);
+    pointer-events: none;
+}
+
+/* ---- contador de pessoas ---- */
+.filtroPessoas .contador {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1.5px solid var(--bege-borda);
+    background: var(--bege-card);
+    border-radius: 999px;
+    padding: 5px 8px;
+}
+.filtroPessoas .contador button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--vinho);
+    color: #fff7ec;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--t);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.filtroPessoas .contador button:hover:not(:disabled) { background: var(--terracota); transform: scale(1.06); }
+.filtroPessoas .contador button:disabled { background: var(--areia); color: var(--cafe-3); cursor: not-allowed; }
+.filtroPessoas .contador span {
+    font-family: var(--f-disp);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--cafe);
+    min-width: 20px;
+    text-align: center;
+}
+
+/* ---- linha de baixo: toggles + bebe ---- */
+.filtroLinhaBaixo { gap: 14px; align-items: center; }
+.togglePill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui);
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--cafe);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.togglePill svg { color: var(--cafe-3); transition: var(--t); }
+.togglePill:hover { border-color: var(--terracota-cl); }
+.togglePill.on {
+    background: var(--rosa-bg);
+    border-color: var(--vinho);
+    color: var(--vinho);
+}
+.togglePill.on svg { color: var(--vinho); }
+
+/* bloco idade do bebe (anima ao abrir) */
+.bebeBox {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows var(--t);
+}
+.bebeBox.aberto { grid-template-rows: 1fr; }
+.bebeBoxInner {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 2px 0;
+}
+.bebeIdade { display: flex; align-items: center; gap: 12px; }
+.bebeIdade input[type='range'] { width: 150px; accent-color: var(--vinho); cursor: pointer; }
+.bebeIdade strong {
+    font-family: var(--f-disp);
+    font-weight: 700;
+    color: var(--vinho);
+    white-space: nowrap;
+}
+.bebeIdade strong small { font-family: var(--f-ui); font-weight: 500; color: var(--cafe-2); }
+
+/* ---- switch: considerar clima ---- */
+.climaSwitch {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    text-align: left;
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: var(--r-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.climaSwitch:hover { border-color: var(--terracota-cl); }
+.climaSwitch.on { background: var(--rosa-bg); border-color: var(--terracota); }
+
+.climaSwitchTrilho {
+    flex-shrink: 0;
+    width: 46px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--areia);
+    position: relative;
+    transition: var(--t);
+}
+.climaSwitch.on .climaSwitchTrilho { background: var(--grad-terracota); }
+.climaSwitchBola {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(59, 36, 25, .25);
+    transition: var(--t);
+}
+.climaSwitch.on .climaSwitchBola { left: 23px; }
+
+.climaSwitchTxt { display: flex; flex-direction: column; line-height: 1.25; flex: 1; }
+.climaSwitchTxt strong { font-family: var(--f-ui); font-weight: 700; font-size: .92rem; color: var(--cafe); }
+.climaSwitchTxt small { font-family: var(--f-ui); font-size: .8rem; color: var(--cafe-2); }
+.climaSwitchIcone { color: var(--cafe-3); flex-shrink: 0; }
+.climaSwitch.on .climaSwitchIcone { color: var(--terracota); }
+.climaSwitch.on.cat-chuva .climaSwitchIcone { color: var(--navy); }
+
+/* ---- chips de filtros ativos ---- */
+.filtroChips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chipAtivo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--vinho);
+    background: var(--rosa-bg);
+    border: 1px solid var(--rosa);
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.chipAtivo svg { color: var(--vinho); opacity: .7; }
+.chipAtivo:hover { background: var(--rosa); }
+.chipLimpar {
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--terracota);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 6px;
+    text-decoration: underline;
+}
+.chipLimpar:hover { color: var(--vinho); }
+
+/* ============================ MOBILE: bottom-sheet ============================ */
+.filtrosMobileBar {
+    position: sticky;
+    top: 56px;
+    z-index: 40;
+    background: var(--bege-card);
+    border-bottom: 1px solid var(--bege-borda);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--sh);
+}
+.abrirFiltros {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: .92rem;
+    color: #fff7ec;
+    background: var(--grad-vinho);
+    border: none;
+    border-radius: 999px;
+    padding: 11px 20px;
+    cursor: pointer;
+}
+.abrirFiltros svg { color: var(--terracota-cl); }
+.abrirFiltrosBadge {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--terracota);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 800;
+    border-radius: 999px;
+}
+
+.sheetOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(59, 36, 25, .5);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: flex-end;
+    animation: fadeOverlay var(--t);
+}
+@keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+.sheet {
+    width: 100%;
+    max-height: 88vh;
+    background: var(--bege-card);
+    border-radius: 22px 22px 0 0;
+    display: flex;
+    flex-direction: column;
+    animation: subirSheet .3s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes subirSheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.sheetTopo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--bege-borda);
+}
+.sheetPuxador {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--areia);
+}
+.sheetTopo h3 { font-family: var(--f-disp); font-weight: 700; font-size: 1.15rem; color: var(--cafe); margin-top: 4px; }
+.sheetFechar {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bege);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cafe-2);
+    cursor: pointer;
+}
+
+.sheetCorpo {
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.sheetRodape {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--bege-borda);
+    background: var(--bege-card);
+}
+.sheetLimpar {
+    flex: 1;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: .92rem;
+    color: var(--vinho);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 13px;
+    cursor: pointer;
+}
+.sheetLimpar:disabled { color: var(--cafe-3); cursor: not-allowed; }
+.sheetAplicar {
+    flex: 2;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: .95rem;
+    color: #fff7ec;
+    background: var(--grad-vinho);
+    border: none;
+    border-radius: 999px;
+    padding: 13px;
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .filtroLinha { gap: 13px; }
+    .selectWrap, .selectWrap select { width: 100%; min-width: 0; }
+    .filtroGrupo { width: 100%; }
+    .filtroPessoas { width: auto; }
+    .bebeIdade input[type='range'] { width: 110px; }
+}

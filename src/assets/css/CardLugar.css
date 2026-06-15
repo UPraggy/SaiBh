@@ -1,0 +1,267 @@
+/**
+ * CardLugar.css — Treatment A, paleta quente.
+ * Verde aparece SO no selo de match faixa "alto"; resto e vinho/terracota/bege.
+ */
+.cardLugar {
+    background: var(--bege-card);
+    border: 1px solid var(--bege-borda);
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: var(--sh);
+    transition: transform var(--t), box-shadow var(--t);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.cardLugar:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sh-h);
+}
+
+/* anel do "Me Surpreenda" */
+.cardSurpresa {
+    border-color: var(--terracota);
+    box-shadow: 0 0 0 3px var(--rosa), var(--sh-h);
+}
+
+/* ---------------- Capa ---------------- */
+.cardTopo {
+    position: relative;
+    height: 158px;
+    overflow: hidden;
+}
+.cardFoto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.cardFallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--rosa-bg), var(--areia));
+}
+
+/* selo de match */
+.cardSelo {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    padding: 7px 12px;
+    border-radius: 14px;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(59, 36, 25, .28);
+}
+.cardSelo b { font-family: var(--f-disp); font-weight: 800; font-size: 1.05rem; }
+.cardSelo small { font-family: var(--f-ui); font-weight: 600; font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; opacity: .92; margin-top: 2px; }
+.cardSelo.score-alto { background: var(--verde); }
+.cardSelo.score-medio { background: var(--grad-terracota); }
+.cardSelo.score-baixo { background: var(--cafe-2); }
+
+/* status */
+.cardStatus {
+    position: absolute;
+    bottom: 11px;
+    left: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .72rem;
+    font-weight: 700;
+    color: #fff7ec;
+    background: rgba(59, 36, 25, .62);
+    backdrop-filter: blur(3px);
+    padding: 5px 11px;
+    border-radius: 999px;
+}
+.cardStatus i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.cardStatus.aberto i { background: var(--verde-cl); box-shadow: 0 0 0 3px rgba(46, 204, 143, .3); }
+.cardStatus.fechado i { background: var(--alerta); box-shadow: 0 0 0 3px rgba(200, 64, 47, .3); }
+
+/* salvar (coracao) */
+.cardSalvar {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 250, 243, .9);
+    backdrop-filter: blur(3px);
+    color: var(--cafe-2);
+    cursor: pointer;
+    transition: var(--t);
+    box-shadow: 0 3px 10px rgba(59, 36, 25, .18);
+}
+.cardSalvar:hover { color: var(--vinho); transform: scale(1.1); }
+.cardSalvar.salvo { color: var(--vinho); background: var(--rosa); }
+.cardSalvar.salvo svg { fill: var(--vinho); }
+
+/* tag surpresa */
+.cardSurpresaTag {
+    position: absolute;
+    bottom: 11px;
+    right: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--f-ui);
+    font-size: .7rem;
+    font-weight: 800;
+    color: #fff7ec;
+    background: var(--grad-terracota);
+    padding: 5px 11px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(208, 106, 60, .35);
+}
+
+/* ---------------- Corpo ---------------- */
+.cardCorpo { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.cardCabecalho { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.cardCabecalho h3 {
+    font-family: var(--f-disp);
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: var(--cafe);
+    line-height: 1.22;
+    letter-spacing: -.01em;
+}
+.cardCusto {
+    font-family: var(--f-disp);
+    font-weight: 800;
+    color: var(--terracota);
+    font-size: .92rem;
+    white-space: nowrap;
+    margin-top: 2px;
+}
+
+/* meta: estrelas/OSM + categoria */
+.cardLinhaMeta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    color: var(--cafe-2);
+}
+.cardNota { display: inline-flex; align-items: center; gap: 5px; }
+.cardNota strong { color: var(--cafe); font-weight: 700; }
+.cardNota small { color: var(--cafe-3); }
+
+/* estrelas reais com preenchimento proporcional */
+.cardEstrelas { position: relative; display: inline-block; height: 14px; }
+.estBase, .estFill { display: inline-flex; gap: 1px; line-height: 0; }
+.estBase { color: var(--areia); }
+.estFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--estrela);
+}
+.cardEstrelas svg { fill: currentColor; }
+
+.cardSemNota {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--navy);
+    font-weight: 600;
+    font-size: .76rem;
+}
+.cardCat {
+    margin-left: auto;
+    color: var(--terracota);
+    font-weight: 700;
+    font-size: .78rem;
+}
+
+.cardRegiao {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--f-ui);
+    font-size: .8rem;
+    color: var(--cafe-3);
+}
+.cardRegiao svg { color: var(--terracota-cl); flex-shrink: 0; }
+
+.cardDescricao {
+    font-family: var(--f-ui);
+    font-size: .86rem;
+    color: var(--cafe-2);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* badges */
+.cardBadges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--f-ui);
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--cafe-2);
+    background: var(--bege);
+    border: 1px solid var(--bege-borda);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+.badge svg { color: var(--cafe-3); }
+.badgeGratis {
+    color: var(--vinho);
+    background: var(--rosa-bg);
+    border-color: var(--rosa);
+}
+.badgeGratis svg { color: var(--vinho); }
+.badgePeriodo { color: var(--navy); }
+
+/* checklist de motivos */
+.cardMotivos { margin-top: 4px; display: flex; flex-direction: column; gap: 4px; }
+.cardMotivos li {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-family: var(--f-ui);
+    font-size: .78rem;
+    color: var(--cafe-2);
+    line-height: 1.35;
+}
+.cardMotivos li svg { color: var(--verde); flex-shrink: 0; margin-top: 2px; }
+
+.cardBebeObs {
+    margin-top: 2px;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .76rem;
+    color: var(--cafe-3);
+    font-style: italic;
+}
+.cardBebeObs svg { color: var(--terracota-cl); flex-shrink: 0; margin-top: 2px; }
+
+@media (max-width: 767px) {
+    .cardTopo { height: 144px; }
+    .cardCabecalho h3 { font-size: 1.02rem; }
+}

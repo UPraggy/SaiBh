@@ -1,0 +1,26 @@
+# dependencias
+node_modules/
+
+# build
+dist/
+dist-ssr/
+
+# logs
+*.log
+npm-debug.log*
+
+# ambiente
+.env
+.env.local
+.env.*.local
+
+# editores / SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# saidas temporarias de scripts de dataset
+scripts/relatorio-expansao.json
+relatorio-expansao.json

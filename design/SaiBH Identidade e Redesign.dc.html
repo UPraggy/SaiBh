@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vinho:#8a1f3f; --vinho-d:#6b1530; --terracota:#d06a3c; --terracota-cl:#e8956a;
+  --rosa:#f2d7cd; --rosa-bg:#faeee7; --cafe:#3b2419; --cafe-2:#6b5345; --cafe-3:#9a8675;
+  --bege:#f7efe4; --bege-card:#fffaf3; --bege-borda:#ece0d2; --areia:#e9dccb;
+  --verde:#1f9d6e; --verde-cl:#2ecc8f; --navy:#15405c; --estrela:#f5a623; --alerta:#c8402f;
+  --r:18px; --r-sm:11px;
+  --sh:0 8px 26px rgba(59,36,25,0.09); --sh-h:0 18px 42px rgba(59,36,25,0.16);
+  --t:0.25s ease;
+  --f-disp:'Bricolage Grotesque',Poppins,sans-serif;
+  --f-ui:'Plus Jakarta Sans',Inter,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bege);font-family:var(--f-ui);color:var(--cafe);-webkit-font-smoothing:antialiased;}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pop{0%{transform:scale(.95);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+</style>
+</helmet>
+
+<div style="max-width:1240px;margin:0 auto;padding:0 28px 120px;">
+
+  <!-- ===================== BRAND HERO ===================== -->
+  <section data-screen-label="Capa da marca" style="position:relative;margin-top:40px;border-radius:30px;overflow:hidden;background:linear-gradient(135deg,#6b1530 0%,#8a1f3f 46%,#b8472f 100%);color:#fff;padding:56px 56px 50px;box-shadow:var(--sh-h);">
+    <div style="position:absolute;top:-90px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(245,166,35,.55),rgba(245,166,35,0) 70%);"></div>
+    <div style="position:absolute;bottom:-120px;left:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(208,106,60,.45),rgba(208,106,60,0) 70%);"></div>
+    <div style="position:relative;display:flex;align-items:center;gap:14px;">
+      <div style="width:54px;height:54px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);">{{ logoMarkHero }}</div>
+      <div style="font-family:var(--f-disp);font-weight:800;font-size:30px;letter-spacing:-.5px;">Sai<span style="color:#f5c46b;">BH</span></div>
+    </div>
+    <div style="position:relative;margin-top:34px;max-width:760px;">
+      <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:#f3c08f;">Sistema de marca · Redesign 2026</div>
+      <h1 style="font-family:var(--f-disp);font-weight:800;font-size:62px;line-height:1.02;letter-spacing:-1.5px;margin:14px 0 0;">Onde sair hoje<br>em Belo Horizonte.</h1>
+      <p style="font-size:18px;line-height:1.6;color:rgba(255,255,255,.85);margin:20px 0 0;max-width:600px;">Uma identidade quente, mineira e gastronômica para o app que ranqueia o lugar certo pro seu momento — clima, hora, companhia e bolso, num score só.</p>
+    </div>
+    <div style="position:relative;display:flex;gap:10px;flex-wrap:wrap;margin-top:30px;">
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);padding:9px 15px;border-radius:999px;font-weight:600;font-size:13.5px;">{{ icSun }} Considera o clima ao vivo</div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);padding:9px 15px;border-radius:999px;font-weight:600;font-size:13.5px;">{{ icDice }} Me Surpreenda</div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);padding:9px 15px;border-radius:999px;font-weight:600;font-size:13.5px;">{{ icCheck }} Colecione lugares</div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(46,204,143,.22);padding:9px 15px;border-radius:999px;font-weight:600;font-size:13.5px;color:#bdf3da;">2.126 lugares de BH e região</div>
+    </div>
+  </section>
+
+  <!-- ===================== LOGO OPTIONS ===================== -->
+  <div style="margin-top:64px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">01 · Logo — 3 caminhos</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Escolha o símbolo do SaiBH</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:680px;">Três direções modernas, todas vetoriais e reproduzíveis. Clique para ver cada uma aplicada no header do app.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px;">
+    <sc-for list="{{ logos }}" as="lg" hint-placeholder-count="3">
+      <div onClick="{{ lg.onClick }}" style="{{ lg.cardStyle }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:var(--f-disp);font-weight:700;font-size:15px;color:var(--cafe);">{{ lg.title }}</span>
+          <span style="{{ lg.tagStyle }}">{{ lg.tag }}</span>
+        </div>
+        <div style="margin:22px 0;display:flex;align-items:center;justify-content:center;min-height:120px;">{{ lg.markBig }}</div>
+        <div style="border-top:1px dashed var(--bege-borda);padding-top:14px;display:flex;align-items:center;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--rosa-bg);">{{ lg.markMono }}</div>
+          <span style="font-size:12.5px;color:var(--cafe-3);line-height:1.4;">{{ lg.note }}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- ===================== PALETTE ===================== -->
+  <div style="margin-top:70px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">02 · Paleta</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Quente, mineira, apetitosa</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:720px;">Vinho e terracota comandam; cremes e areia dão o respiro; navy entra só como contraste escuro. <b style="color:var(--verde);">O verde fica reservado ao score de match</b> — é a única cor fria, e por isso "salta" como sinal de positivo.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;">
+    <sc-for list="{{ swatches }}" as="sw" hint-placeholder-count="12">
+      <div style="border-radius:var(--r);overflow:hidden;background:var(--bege-card);border:1px solid var(--bege-borda);box-shadow:var(--sh);">
+        <div style="height:84px;{{ sw.bg }}"></div>
+        <div style="padding:12px 14px 14px;">
+          <div style="font-weight:700;font-size:14px;color:var(--cafe);">{{ sw.name }}</div>
+          <div style="font-family:var(--f-disp);font-size:12.5px;color:var(--cafe-3);margin-top:2px;">{{ sw.hex }}</div>
+          <div style="font-size:11.5px;color:var(--cafe-2);margin-top:6px;line-height:1.4;">{{ sw.use }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- ===================== TYPE ===================== -->
+  <div style="margin-top:70px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">03 · Tipografia</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Bricolage + Jakarta</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:22px;margin-top:24px;">
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:30px 32px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;"><span style="font-family:var(--f-disp);font-weight:800;font-size:22px;color:var(--vinho);">Bricolage Grotesque</span><span style="font-size:12px;color:var(--cafe-3);">Display · 600–800</span></div>
+      <div style="font-family:var(--f-disp);font-weight:800;font-size:54px;line-height:1;letter-spacing:-1.5px;color:var(--cafe);margin-top:16px;">Sábado, 13 de junho</div>
+      <div style="font-family:var(--f-disp);font-weight:600;font-size:30px;color:var(--cafe-2);margin-top:10px;">2.126 lugares recomendados</div>
+      <p style="font-size:13px;color:var(--cafe-3);margin:18px 0 0;">Voz da marca: títulos, números grandes, o wordmark. Caráter mineiro sem ser genérico.</p>
+    </div>
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:30px 32px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;"><span style="font-family:var(--f-ui);font-weight:800;font-size:20px;color:var(--terracota);">Plus Jakarta Sans</span><span style="font-size:12px;color:var(--cafe-3);">UI · 400–800</span></div>
+      <div style="font-weight:700;font-size:17px;color:var(--cafe);margin-top:16px;">Bar e Restaurante Parque das Águas</div>
+      <p style="font-size:14.5px;line-height:1.6;color:var(--cafe-2);margin:8px 0 0;">Restaurant em Barreiro. Nota 5★ no Google (4 avaliações). Coberto — seguro pra chuva de hoje.</p>
+      <div style="display:flex;gap:8px;margin-top:14px;"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--cafe-3);">QUANDO QUER FICAR?</span></div>
+      <p style="font-size:13px;color:var(--cafe-3);margin:14px 0 0;">Corpo, labels, microcopy em caixa-alta, badges. Legível em qualquer tamanho.</p>
+    </div>
+  </div>
+
+  <!-- ===================== ICONS ===================== -->
+  <div style="margin-top:70px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">04 · Iconografia</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Ícones próprios, vetoriais</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:720px;">Traço único de 1.8px, cantos arredondados. Categorias ganham um quadradinho de cor; UI usa o traço puro. Tudo SVG — escala sem perder nitidez e herda a cor do contexto.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px;">
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:26px 28px;">
+      <div style="font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cafe-3);margin-bottom:18px;">Categorias</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <sc-for list="{{ catIcons }}" as="ci" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:9px;">
+            <div style="width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#fff;{{ ci.bg }}">{{ ci.el }}</div>
+            <span style="font-size:12.5px;font-weight:600;color:var(--cafe-2);">{{ ci.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:26px 28px;">
+      <div style="font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cafe-3);margin-bottom:18px;">Interface</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px 10px;">
+        <sc-for list="{{ uiIcons }}" as="ui" hint-placeholder-count="12">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--vinho);">
+            <div style="width:46px;height:46px;border-radius:13px;background:var(--rosa-bg);display:flex;align-items:center;justify-content:center;">{{ ui.el }}</div>
+            <span style="font-size:11px;font-weight:600;color:var(--cafe-3);">{{ ui.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== INTERACTIVE HOME ===================== -->
+  <div style="margin-top:76px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">05 · Home redesenhada — interativa</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Mexa de verdade</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:760px;">Toque no <b style="color:var(--vinho);">"Considerar o clima de hoje"</b>, troque período, ligue o bebê ou peça <b style="color:var(--terracota);">Me Surpreenda</b> — o ranking, o texto e os motivos dos cards reagem ao vivo.</p>
+  </div>
+
+  <div data-screen-label="Home do app" style="margin-top:26px;border-radius:26px;overflow:hidden;border:1px solid var(--bege-borda);box-shadow:var(--sh-h);background:var(--bege);">
+    <!-- header -->
+    <div style="background:linear-gradient(120deg,#6b1530,#8a1f3f 60%,#a8392b);color:#fff;padding:18px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;">{{ logoMarkHero }}</div>
+        <div>
+          <div style="font-family:var(--f-disp);font-weight:800;font-size:22px;letter-spacing:-.5px;line-height:1;">Sai<span style="color:#f5c46b;">BH</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.72);margin-top:3px;">Onde sair em Belo Horizonte e região</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="text-align:right;font-size:13px;color:rgba(255,255,255,.8);font-weight:600;">Sábado, 23:10</div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.12);padding:9px 15px;border-radius:14px;">
+          <span style="color:#f5c46b;">{{ icSunBig }}</span>
+          <div style="line-height:1.1;"><div style="font-family:var(--f-disp);font-weight:800;font-size:19px;">17°C</div><div style="font-size:11px;color:rgba(255,255,255,.72);">Predomina sol</div></div>
+          <div style="border-left:1px solid rgba(255,255,255,.2);padding-left:11px;font-size:11px;color:rgba(255,255,255,.72);line-height:1.4;">máx 22° / mín 16°<br>💧 88% chuva</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- intro band -->
+    <div style="background:linear-gradient(180deg,#8a1f3f,#6b1530);color:#fff;padding:26px 26px 30px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,.4),transparent 70%);"></div>
+      <div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;">
+        <div style="flex:1;min-width:300px;">
+          <span style="display:inline-block;background:var(--verde);color:#fff;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border-radius:999px;">Hoje para você</span>
+          <div style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:14px 0 6px;">Sábado, 13 de junho</div>
+          <p style="font-size:15px;line-height:1.55;color:rgba(255,255,255,.85);margin:0;max-width:460px;">{{ narrativa }}</p>
+          <button onClick="{{ surpreenda }}" style="margin-top:18px;display:inline-flex;align-items:center;gap:10px;background:var(--terracota);color:#fff;border:none;font-family:var(--f-ui);font-weight:700;font-size:14.5px;padding:13px 22px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(208,106,60,.4);transition:var(--t);" style-hover="transform:translateY(-2px);box-shadow:0 12px 26px rgba(208,106,60,.5);">{{ icDice }} Me Surpreenda</button>
+        </div>
+        <div style="width:330px;background:rgba(255,255,255,.97);border-radius:18px;padding:16px 18px;box-shadow:0 14px 30px rgba(0,0,0,.22);">
+          <div style="display:flex;align-items:center;gap:8px;font-family:var(--f-disp);font-weight:700;font-size:15px;color:var(--cafe);margin-bottom:6px;"><span style="color:var(--estrela);">{{ icTrophy }}</span> Top de hoje</div>
+          <sc-for list="{{ topList }}" as="t" hint-placeholder-count="5">
+            <div style="{{ t.rowStyle }}">
+              <div style="width:24px;height:24px;border-radius:8px;background:var(--rosa-bg);color:var(--vinho);font-family:var(--f-disp);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ t.rank }}</div>
+              <div style="width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;{{ t.bg }}">{{ t.icon }}</div>
+              <div style="flex:1;min-width:0;font-weight:600;font-size:13px;color:var(--cafe);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.nome }}</div>
+              <div style="font-family:var(--f-disp);font-weight:800;font-size:13px;{{ t.matchColor }}">{{ t.match }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR (redesigned, live) -->
+    <div style="background:var(--bege-card);padding:24px 26px;border-bottom:1px solid var(--bege-borda);">
+      <!-- weather toggle row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:{{ climaBlocoBg }};border:1.5px solid {{ climaBorda }};border-radius:16px;padding:14px 18px;transition:var(--t);">
+        <div style="display:flex;align-items:center;gap:13px;">
+          <div style="width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;{{ climaIconBg }}">{{ climaIcon }}</div>
+          <div>
+            <div style="font-weight:700;font-size:14.5px;color:var(--cafe);">Considerar o clima de hoje</div>
+            <div style="font-size:12.5px;color:var(--cafe-2);margin-top:2px;">{{ climaSub }}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--cafe-2);">{{ icRainSm }} 17°C · 88% chuva</div>
+          <div onClick="{{ toggleClima }}" style="width:54px;height:30px;border-radius:999px;cursor:pointer;position:relative;transition:var(--t);background:{{ togBg }};">
+            <div style="position:absolute;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:var(--t);left:{{ togLeft }};"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- período -->
+      <div style="margin-top:20px;font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);">Quando quer ficar?</div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:9px;">
+        <sc-for list="{{ periodos }}" as="p" hint-placeholder-count="4">
+          <button onClick="{{ p.onClick }}" style="{{ p.style }}">{{ p.icon }} {{ p.label }}</button>
+        </sc-for>
+      </div>
+
+      <!-- custo -->
+      <div style="margin-top:18px;font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);">Quanto pode gastar?</div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:9px;">
+        <sc-for list="{{ custos }}" as="c" hint-placeholder-count="5">
+          <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+
+      <!-- selects + pessoas -->
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;align-items:flex-end;">
+        <div style="flex:1;min-width:150px;">
+          <div style="font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);margin-bottom:7px;">Comida</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1.5px solid var(--bege-borda);border-radius:12px;padding:11px 14px;font-weight:600;font-size:14px;color:var(--cafe);cursor:pointer;">Tanto faz {{ icChevron }}</div>
+        </div>
+        <div style="flex:1;min-width:150px;">
+          <div style="font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);margin-bottom:7px;">Categoria</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1.5px solid var(--bege-borda);border-radius:12px;padding:11px 14px;font-weight:600;font-size:14px;color:var(--cafe);cursor:pointer;">Todas {{ icChevron }}</div>
+        </div>
+        <div style="flex:1;min-width:150px;">
+          <div style="font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);margin-bottom:7px;">Região</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1.5px solid var(--bege-borda);border-radius:12px;padding:11px 14px;font-weight:600;font-size:14px;color:var(--cafe);cursor:pointer;">Todas {{ icChevron }}</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cafe-3);margin-bottom:7px;">Pessoas</div>
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--bege-borda);border-radius:12px;padding:7px 10px;">
+            <button onClick="{{ menosPessoa }}" style="width:34px;height:34px;border-radius:9px;border:none;background:var(--rosa-bg);color:var(--vinho);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+            <span style="font-family:var(--f-disp);font-weight:800;font-size:18px;min-width:22px;text-align:center;color:var(--cafe);">{{ pessoas }}</span>
+            <button onClick="{{ maisPessoa }}" style="width:34px;height:34px;border-radius:9px;border:none;background:var(--vinho);color:#fff;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- baby + aberto -->
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;align-items:flex-start;">
+        <div style="flex:1;min-width:260px;background:{{ bebeBg }};border:1.5px solid {{ bebeBorda }};border-radius:14px;padding:13px 16px;transition:var(--t);">
+          <div onClick="{{ toggleBebe }}" style="display:flex;align-items:center;gap:11px;cursor:pointer;">
+            <div style="width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;{{ bebeCheckBg }}">{{ bebeCheck }}</div>
+            <span style="color:var(--terracota);">{{ icBaby }}</span>
+            <span style="font-weight:700;font-size:14px;color:var(--cafe);">Vou com bebê</span>
+          </div>
+          <div style="overflow:hidden;transition:max-height .3s ease,opacity .3s ease,margin .3s ease;max-height:{{ bebeMax }};opacity:{{ bebeOp }};margin-top:{{ bebeMt }};">
+            <div style="font-weight:700;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--cafe-3);margin-bottom:6px;">Idade do bebê (meses)</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <input type="range" min="0" max="60" value="{{ idadeBebe }}" onInput="{{ setIdade }}" style="flex:1;accent-color:var(--terracota);">
+              <span style="font-family:var(--f-disp);font-weight:800;font-size:16px;color:var(--terracota);min-width:54px;">{{ idadeBebe }} m</span>
+            </div>
+          </div>
+        </div>
+        <div onClick="{{ toggleAberto }}" style="display:flex;align-items:center;gap:11px;background:#fff;border:1.5px solid var(--bege-borda);border-radius:14px;padding:15px 18px;cursor:pointer;">
+          <div style="width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;{{ abertoCheckBg }}">{{ abertoCheck }}</div>
+          <span style="color:var(--alerta);">{{ icClock }}</span>
+          <span style="font-weight:700;font-size:14px;color:var(--cafe);">Só o que está aberto agora (23:10)</span>
+        </div>
+      </div>
+
+      <!-- active chips -->
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:18px;border-top:1px dashed var(--bege-borda);padding-top:16px;">
+        <span style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--cafe-3);">Filtros ativos</span>
+        <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="3">
+          <span style="display:inline-flex;align-items:center;gap:7px;background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:999px;white-space:nowrap;">{{ ch.label }}</span>
+        </sc-for>
+        <button onClick="{{ limparTudo }}" style="margin-left:auto;background:none;border:none;color:var(--cafe-3);font-weight:600;font-size:12.5px;cursor:pointer;text-decoration:underline;">Limpar tudo</button>
+      </div>
+    </div>
+
+    <!-- result count -->
+    <div style="padding:22px 26px 6px;">
+      <div style="font-family:var(--f-disp);font-weight:800;font-size:26px;letter-spacing:-.5px;color:var(--cafe);">{{ totalLabel }}</div>
+      <div style="font-size:13.5px;color:var(--cafe-2);margin-top:2px;">{{ ordenadoLabel }}</div>
+    </div>
+
+    <!-- cards grid -->
+    <div style="padding:14px 26px 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+      <sc-for list="{{ cardList }}" as="c" hint-placeholder-count="6">
+        <div style="{{ c.cardStyle }}">
+          <div style="position:relative;height:118px;{{ c.coverBg }}">
+            <div style="position:absolute;top:12px;left:12px;{{ c.matchBadge }}">{{ c.match }}</div>
+            <div style="position:absolute;bottom:0;right:0;{{ c.statusBadge }}">{{ c.statusLabel }}</div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.92);">{{ c.bigIcon }}</div>
+            <div style="position:absolute;top:11px;right:12px;" onClick="{{ c.fav }}">{{ c.favEl }}</div>
+          </div>
+          <div style="padding:16px 17px 18px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+              <div style="font-family:var(--f-disp);font-weight:700;font-size:16.5px;line-height:1.2;color:var(--cafe);">{{ c.nome }}</div>
+              <div style="font-weight:800;font-size:15px;color:var(--verde);flex-shrink:0;">{{ c.priceMark }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:7px;">{{ c.starEl }}<span style="font-size:12.5px;color:var(--cafe-3);">{{ c.ratingLabel }}</span><span style="color:var(--terracota);font-weight:600;font-size:12.5px;">· {{ c.cat }}</span></div>
+            <div style="display:flex;align-items:center;gap:5px;margin-top:7px;color:var(--cafe-2);font-size:12.5px;">{{ icPinSm }} {{ c.regiao }}</div>
+            <p style="font-size:13px;line-height:1.5;color:var(--cafe-2);margin:9px 0 0;">{{ c.desc }}</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+              <sc-for list="{{ c.badges }}" as="b" hint-placeholder-count="3">
+                <span style="{{ b.style }}">{{ b.label }}</span>
+              </sc-for>
+            </div>
+            <div style="margin-top:12px;border-top:1px dashed var(--bege-borda);padding-top:11px;display:flex;flex-direction:column;gap:6px;">
+              <sc-for list="{{ c.reasons }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:{{ r.color }};">{{ r.icon }} {{ r.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===================== FILTER OPTIONS (3) ===================== -->
+  <div style="margin-top:76px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">06 · Barra de filtros — 3 tratamentos</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Como o filtro pode se vestir</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:740px;">Mesmos controles, três personalidades. A versão usada na home acima é a A.</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:22px;margin-top:26px;">
+
+    <!-- Option A: faixa cremosa -->
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:var(--rosa-bg);border-bottom:1px solid var(--bege-borda);"><span style="font-family:var(--f-disp);font-weight:800;font-size:16px;color:var(--vinho);">A · Faixa cremosa agrupada</span><span style="font-size:12.5px;color:var(--cafe-2);">Recomendada — clima em destaque, blocos arejados</span></div>
+      <div style="padding:22px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fbeee6;border:1.5px solid var(--terracota-cl);border-radius:14px;padding:13px 17px;">
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:11px;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;">{{ icSun }}</div><div><div style="font-weight:700;font-size:14px;color:var(--cafe);">Considerar o clima de hoje</div><div style="font-size:12px;color:var(--cafe-2);">Chuva hoje — priorizando lugares cobertos</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;font-weight:600;color:var(--cafe-2);">17°C · 88% chuva</span><div style="width:52px;height:29px;border-radius:999px;background:var(--vinho);position:relative;"><div style="position:absolute;top:3px;left:26px;width:23px;height:23px;border-radius:50%;background:#fff;"></div></div></div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;">
+          <span style="background:var(--vinho);color:#fff;font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">🌙 Noite</span>
+          <span style="background:#fff;border:1.5px solid var(--bege-borda);color:var(--cafe-2);font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">Tanto faz</span>
+          <span style="background:#fff;border:1.5px solid var(--bege-borda);color:var(--cafe-2);font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">☀️ Manhã</span>
+          <span style="background:#fff;border:1.5px solid var(--bege-borda);color:var(--cafe-2);font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">🌤️ Tarde</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option B: barra escura compacta -->
+    <div style="background:var(--cafe);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.08);"><span style="font-family:var(--f-disp);font-weight:800;font-size:16px;color:#f5c46b;">B · Barra escura "café noturno"</span><span style="font-size:12.5px;color:rgba(255,255,255,.6);">Contraste alto, sensação premium, ótimo no mobile</span></div>
+      <div style="padding:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(245,196,107,.14);border:1px solid rgba(245,196,107,.3);border-radius:12px;padding:10px 14px;"><span style="color:#f5c46b;">{{ icSun }}</span><span style="color:#fff;font-weight:600;font-size:13.5px;">Clima ligado</span><div style="width:44px;height:25px;border-radius:999px;background:var(--terracota);position:relative;"><div style="position:absolute;top:3px;left:22px;width:19px;height:19px;border-radius:50%;background:#fff;"></div></div></div>
+        <span style="background:var(--terracota);color:#fff;font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">🌙 Noite</span>
+        <span style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;">Até médio</span>
+        <span style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-weight:600;font-size:13.5px;padding:10px 16px;border-radius:12px;">Categoria ▾</span>
+        <span style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-weight:600;font-size:13.5px;padding:10px 16px;border-radius:12px;">Região ▾</span>
+        <span style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-weight:600;font-size:13.5px;padding:8px 12px;border-radius:12px;">− 2 +</span>
+      </div>
+    </div>
+
+    <!-- Option C: card flutuante / chips primeiro -->
+    <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:var(--areia);border-bottom:1px solid var(--bege-borda);"><span style="font-family:var(--f-disp);font-weight:800;font-size:16px;color:var(--vinho);">C · Resumo + "abrir filtros"</span><span style="font-size:12.5px;color:var(--cafe-2);">Mínimo na tela, chips resumem tudo — ideal pro bottom-sheet mobile</span></div>
+      <div style="padding:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <button style="display:flex;align-items:center;gap:9px;background:var(--vinho);color:#fff;border:none;font-family:var(--f-ui);font-weight:700;font-size:14px;padding:12px 20px;border-radius:13px;cursor:pointer;">{{ icSliders }} Filtros</button>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--verde);color:#fff;font-weight:600;font-size:13px;padding:9px 15px;border-radius:999px;">{{ icSunSm }} Clima ON</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:13px;padding:9px 15px;border-radius:999px;">🌙 Noite</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:13px;padding:9px 15px;border-radius:999px;">👶 Com bebê · 6m</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:13px;padding:9px 15px;border-radius:999px;">2 pessoas</span>
+        <span style="font-size:12.5px;color:var(--cafe-3);text-decoration:underline;cursor:pointer;">limpar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CARD OPTIONS (3) ===================== -->
+  <div style="margin-top:76px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">07 · Card de lugar — 3 tratamentos</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">O cartão de cada lugar</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:740px;">Foto grande quando existe; ícone elegante por categoria como fallback. A versão usada na home é a A.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px;align-items:start;">
+
+    <!-- Card A: foto + match + checklist -->
+    <div>
+      <div style="font-weight:700;font-size:13px;color:var(--cafe-2);margin-bottom:10px;">A · Foto, match e checklist</div>
+      <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);">
+        <div style="position:relative;height:118px;background:linear-gradient(135deg,#8a1f3f,#c4502f);">
+          <span style="position:absolute;top:12px;left:12px;background:var(--verde);color:#fff;font-family:var(--f-disp);font-weight:800;font-size:13px;padding:5px 11px;border-radius:999px;">98%</span>
+          <span style="position:absolute;bottom:0;right:0;background:var(--verde);color:#fff;font-weight:700;font-size:11px;padding:6px 12px;border-radius:12px 0 0 0;">Aberto agora</span>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.92);">{{ icWineBig }}</div>
+        </div>
+        <div style="padding:16px 17px 18px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-family:var(--f-disp);font-weight:700;font-size:16.5px;color:var(--cafe);">Adega Santa Cruz</span><span style="font-weight:800;color:var(--verde);">$$</span></div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">{{ stars5 }}<span style="font-size:12px;color:var(--cafe-3);">5.0 (2) · Bares e boemia</span></div>
+          <p style="font-size:13px;color:var(--cafe-2);line-height:1.5;margin:9px 0 0;">Wine store em Santa Cruz. Nota 5★ no Google.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;"><span style="background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;">Médio</span><span style="background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;">Tem comida</span><span style="background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;">👶 Pode ir</span></div>
+          <div style="margin-top:12px;border-top:1px dashed var(--bege-borda);padding-top:11px;display:flex;flex-direction:column;gap:6px;"><div style="display:flex;gap:8px;font-size:12.5px;color:var(--verde);">{{ icCheckSm }} Aberto agora</div><div style="display:flex;gap:8px;font-size:12.5px;color:var(--verde);">{{ icCheckSm }} Coberto — seguro pra chuva</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card B: horizontal compacto -->
+    <div>
+      <div style="font-weight:700;font-size:13px;color:var(--cafe-2);margin-bottom:10px;">B · Lista densa horizontal</div>
+      <div style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:14px;display:flex;gap:14px;">
+        <div style="width:86px;height:86px;border-radius:14px;background:linear-gradient(135deg,#c4502f,#e8956a);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;position:relative;">{{ icCoffeeBig }}<span style="position:absolute;-bottom:0;bottom:-9px;left:50%;transform:translateX(-50%);background:var(--verde);color:#fff;font-family:var(--f-disp);font-weight:800;font-size:11px;padding:3px 9px;border-radius:999px;white-space:nowrap;">96%</span></div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;"><span style="font-family:var(--f-disp);font-weight:700;font-size:15.5px;color:var(--cafe);">Canto da Esquina</span><span style="font-weight:800;color:var(--verde);font-size:13px;">$$</span></div>
+          <div style="display:flex;align-items:center;gap:5px;margin-top:4px;">{{ stars5sm }}<span style="font-size:11.5px;color:var(--cafe-3);">5.0 (43) · Cafés · Santa Tereza</span></div>
+          <p style="font-size:12.5px;color:var(--cafe-2);line-height:1.45;margin:7px 0 0;">Coffee shop em Santa Tereza, coberto e tranquilo.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;"><span style="background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11px;padding:4px 9px;border-radius:999px;">Tem comida</span><span style="background:#eaf7f0;color:var(--verde);font-weight:600;font-size:11px;padding:4px 9px;border-radius:999px;">Aberto</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card C: editorial, foto cheia -->
+    <div>
+      <div style="font-weight:700;font-size:13px;color:var(--cafe-2);margin-bottom:10px;">C · Editorial, foto cheia</div>
+      <div style="position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);height:300px;background:linear-gradient(180deg,rgba(59,36,25,0) 30%,rgba(59,36,25,.92) 100%),linear-gradient(135deg,#6b1530,#c4502f);">
+        <span style="position:absolute;top:14px;left:14px;background:rgba(255,255,255,.92);color:var(--verde);font-family:var(--f-disp);font-weight:800;font-size:13px;padding:6px 12px;border-radius:999px;">100%</span>
+        <span style="position:absolute;top:14px;right:14px;color:rgba(255,255,255,.9);">{{ icHeart }}</span>
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;color:#fff;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.85);">{{ icPinSmW }} Santa Tereza · Restaurantes</div>
+          <div style="font-family:var(--f-disp);font-weight:800;font-size:22px;line-height:1.1;margin-top:6px;">Ancestral Botequim</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:7px;">{{ stars5w }}<span style="font-size:12px;color:rgba(255,255,255,.85);">5.0 (68)</span></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:11px;"><span style="background:rgba(255,255,255,.18);color:#fff;font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;">R$40–100</span><span style="background:rgba(46,204,143,.9);color:#fff;font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;">Aberto agora</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MEUS LUGARES (interactive checklist) ===================== -->
+  <div style="margin-top:76px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">08 · Meus Lugares — checklist (feature estrela)</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Colecione experiências</h2>
+    <p style="font-size:16px;color:var(--cafe-2);margin:0;max-width:740px;">Marque os lugares que já visitou — vire um colecionador de BH. Clique nos itens abaixo e veja as estatísticas atualizarem.</p>
+  </div>
+  <div data-screen-label="Meus Lugares" style="margin-top:26px;display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start;">
+    <!-- stats -->
+    <div style="background:linear-gradient(160deg,#6b1530,#8a1f3f);border-radius:var(--r);box-shadow:var(--sh);padding:26px 24px;color:#fff;">
+      <div style="font-weight:600;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:#f3c08f;">Sua coleção</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px;"><span style="font-family:var(--f-disp);font-weight:800;font-size:56px;line-height:1;">{{ visitCount }}</span><span style="font-size:17px;color:rgba(255,255,255,.7);">/ {{ totalPlaces }}</span></div>
+      <div style="height:9px;border-radius:999px;background:rgba(255,255,255,.15);margin-top:16px;overflow:hidden;"><div style="height:100%;border-radius:999px;background:var(--verde);transition:width .3s ease;width:{{ visitPct }};"></div></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.78);margin-top:10px;">{{ visitMsg }}</div>
+      <div style="margin-top:22px;display:flex;flex-direction:column;gap:11px;">
+        <sc-for list="{{ catStats }}" as="cs" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;{{ cs.bg }}">{{ cs.icon }}</div><span style="flex:1;font-size:13px;color:rgba(255,255,255,.85);">{{ cs.label }}</span><span style="font-family:var(--f-disp);font-weight:800;font-size:14px;">{{ cs.count }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+    <!-- list -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <sc-for list="{{ checklist }}" as="it" hint-placeholder-count="6">
+        <div onClick="{{ it.onClick }}" style="{{ it.rowStyle }}">
+          <div style="width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;{{ it.bg }}">{{ it.icon }}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:var(--f-disp);font-weight:700;font-size:15.5px;color:var(--cafe);">{{ it.nome }}</div>
+            <div style="font-size:12.5px;color:var(--cafe-3);">{{ it.meta }}</div>
+          </div>
+          <div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;{{ it.checkBg }}">{{ it.checkEl }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===================== MORE SCREENS (Conquistas / Planejador / Família) ===================== -->
+  <div style="margin-top:76px;">
+    <div style="font-family:var(--f-ui);font-weight:700;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--terracota);">09 · Mais telas do sistema</div>
+    <h2 style="font-family:var(--f-disp);font-weight:800;font-size:38px;letter-spacing:-1px;margin:8px 0 6px;color:var(--cafe);">Conquistas, Planejador & Família</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px;align-items:start;">
+
+    <!-- Conquistas -->
+    <div data-screen-label="Conquistas" style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="color:var(--estrela);">{{ icTrophy }}</span><span style="font-family:var(--f-disp);font-weight:800;font-size:18px;color:var(--cafe);">Conquistas</span></div>
+      <div style="display:flex;flex-direction:column;gap:13px;margin-top:18px;">
+        <div style="display:flex;align-items:center;gap:13px;"><div style="width:46px;height:46px;border-radius:13px;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;">{{ icCoffee }}</div><div style="flex:1;"><div style="font-weight:700;font-size:14px;color:var(--cafe);">Rato de Café</div><div style="height:7px;border-radius:999px;background:var(--areia);margin-top:6px;overflow:hidden;"><div style="height:100%;width:70%;background:var(--terracota);border-radius:999px;"></div></div></div><span style="font-family:var(--f-disp);font-weight:800;font-size:13px;color:var(--terracota);">7/10</span></div>
+        <div style="display:flex;align-items:center;gap:13px;"><div style="width:46px;height:46px;border-radius:13px;background:var(--vinho);color:#fff;display:flex;align-items:center;justify-content:center;">{{ icWine }}</div><div style="flex:1;"><div style="font-weight:700;font-size:14px;color:var(--cafe);">Boêmio de BH</div><div style="height:7px;border-radius:999px;background:var(--areia);margin-top:6px;overflow:hidden;"><div style="height:100%;width:40%;background:var(--vinho);border-radius:999px;"></div></div></div><span style="font-family:var(--f-disp);font-weight:800;font-size:13px;color:var(--vinho);">4/10</span></div>
+        <div style="display:flex;align-items:center;gap:13px;opacity:.55;"><div style="width:46px;height:46px;border-radius:13px;background:var(--areia);color:var(--cafe-2);display:flex;align-items:center;justify-content:center;">{{ icTree }}</div><div style="flex:1;"><div style="font-weight:700;font-size:14px;color:var(--cafe);">Caçador de Parques</div><div style="height:7px;border-radius:999px;background:var(--areia);margin-top:6px;overflow:hidden;"><div style="height:100%;width:15%;background:var(--verde);border-radius:999px;"></div></div></div><span style="font-family:var(--f-disp);font-weight:800;font-size:13px;color:var(--cafe-3);">1/8</span></div>
+      </div>
+    </div>
+
+    <!-- Planejador -->
+    <div data-screen-label="Planejador de Encontros" style="background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);box-shadow:var(--sh);padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="color:var(--terracota);">{{ icCalendar }}</span><span style="font-family:var(--f-disp);font-weight:800;font-size:18px;color:var(--cafe);">Planejador de Encontros</span></div>
+      <div style="font-size:13px;color:var(--cafe-2);margin-top:6px;">Roteiro de sábado à noite · 2 pessoas</div>
+      <div style="margin-top:18px;position:relative;padding-left:22px;">
+        <div style="position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--areia);"></div>
+        <div style="position:relative;margin-bottom:18px;"><div style="position:absolute;left:-22px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--terracota);border:3px solid var(--bege-card);"></div><div style="font-weight:700;font-size:14px;color:var(--cafe);">19h · Canto da Esquina</div><div style="font-size:12.5px;color:var(--cafe-3);">Café pra começar · Santa Tereza</div></div>
+        <div style="position:relative;margin-bottom:18px;"><div style="position:absolute;left:-22px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--vinho);border:3px solid var(--bege-card);"></div><div style="font-weight:700;font-size:14px;color:var(--cafe);">21h · Ancestral Botequim</div><div style="font-size:12.5px;color:var(--cafe-3);">Jantar mineiro · 5★</div></div>
+        <div style="position:relative;"><div style="position:absolute;left:-22px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--navy);border:3px solid var(--bege-card);"></div><div style="font-weight:700;font-size:14px;color:var(--cafe);">23h · Adega Santa Cruz</div><div style="font-size:12.5px;color:var(--cafe-3);">Drink pra fechar · coberto</div></div>
+      </div>
+      <button style="margin-top:18px;width:100%;background:var(--terracota);color:#fff;border:none;font-family:var(--f-ui);font-weight:700;font-size:13.5px;padding:12px;border-radius:12px;cursor:pointer;">Salvar roteiro</button>
+    </div>
+
+    <!-- Família & Bebê -->
+    <div data-screen-label="Modo Família e Bebê" style="background:linear-gradient(160deg,#fbeee6,#f6e3dc);border:1px solid var(--terracota-cl);border-radius:var(--r);box-shadow:var(--sh);padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="color:var(--terracota);">{{ icBaby }}</span><span style="font-family:var(--f-disp);font-weight:800;font-size:18px;color:var(--cafe);">Modo Família & Bebê</span></div>
+      <p style="font-size:13.5px;color:var(--cafe-2);line-height:1.5;margin:10px 0 0;">Ative e o SaiBH prioriza lugares baby-friendly e ajusta as dicas pela idade.</p>
+      <div style="background:#fff;border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 4px 14px rgba(59,36,25,.06);">
+        <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;font-size:13.5px;color:var(--cafe);">Bebê de 6 meses</span><div style="width:48px;height:27px;border-radius:999px;background:var(--terracota);position:relative;"><div style="position:absolute;top:3px;left:24px;width:21px;height:21px;border-radius:50%;background:#fff;"></div></div></div>
+        <input type="range" min="0" max="60" value="6" disabled style="width:100%;margin-top:12px;accent-color:var(--terracota);">
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;">
+          <div style="display:flex;gap:8px;font-size:12.5px;color:var(--verde);">{{ icCheckSm }} Trocador disponível</div>
+          <div style="display:flex;gap:8px;font-size:12.5px;color:var(--verde);">{{ icCheckSm }} Cardápio infantil</div>
+          <div style="display:flex;gap:8px;font-size:12.5px;color:var(--verde);">{{ icCheckSm }} Ambiente tranquilo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div style="margin-top:70px;text-align:center;color:var(--cafe-3);font-size:13px;">
+    <div style="font-family:var(--f-disp);font-weight:800;font-size:20px;color:var(--vinho);">Sai<span style="color:var(--terracota);">BH</span></div>
+    <div style="margin-top:6px;">Sistema de identidade + redesign · 2026 — tokens, logo, ícones e telas reproduzíveis em CSS</div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    periodo: 'noite', custo: 'qualquer', pessoas: 2,
+    comBebe: true, idadeBebe: 6, soAberto: false,
+    considerarClima: true, surpresaId: null,
+    visited: ['canto','ancestral'], logoSel: 'pin'
+  };
+
+  e = React.createElement;
+
+  // ---------- icon factory ----------
+  ic(name, size, color, sw) {
+    const e = React.createElement;
+    size = size || 22; sw = sw || 1.8;
+    const st = { fill:'none', stroke:'currentColor', strokeWidth:sw, strokeLinecap:'round', strokeLinejoin:'round' };
+    const P = (d,ex) => e('path', Object.assign({ d }, st, ex||{}));
+    const C = (cx,cy,r,ex) => e('circle', Object.assign({ cx,cy,r }, st, ex||{}));
+    const F = (d) => e('path', { d, fill:'currentColor', stroke:'none' });
+    const dot = (cx,cy,r) => e('circle', { cx, cy, r:r||1.15, fill:'currentColor', stroke:'none' });
+    const M = {
+      sun: () => [C(12,12,3.7), P('M12 3v2.4M12 18.6V21M3 12h2.4M18.6 12H21M5.4 5.4l1.7 1.7M16.9 16.9l1.7 1.7M18.6 5.4l-1.7 1.7M7.1 16.9l-1.7 1.7')],
+      rain: () => [P('M7.2 15.2a3.7 3.7 0 01.3-7.4 5 5 0 019.4-1A3.4 3.4 0 0117 15.2H7.2z'), P('M8.5 18l-.8 2M12 18l-.8 2M15.5 18l-.8 2')],
+      cloud: () => [P('M7 17a4 4 0 01.4-8 5.2 5.2 0 0110-1.2A3.7 3.7 0 0117.5 17H7z')],
+      pin: () => [P('M12 21.5s6.5-5.4 6.5-10.5a6.5 6.5 0 10-13 0c0 5.1 6.5 10.5 6.5 10.5z'), C(12,11,2.4)],
+      star: () => [F('M12 2.3l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.96 6.1 20.47l1.13-6.57L2.45 9.24l6.6-.96z')],
+      clock: () => [C(12,12,8.6), P('M12 7.2V12l3.4 2')],
+      baby: () => [C(12,12,8.4), dot(9.4,10.8,1), dot(14.6,10.8,1), P('M9 14.5a3.2 3.2 0 006 0'), P('M12 3.6c1.8-1.4 3.6.2 2 1.8')],
+      people: () => [C(9,8,3), P('M3.5 20a5.5 5.5 0 0111 0'), C(16.5,8.5,2.3), P('M16 13.5a4.6 4.6 0 014.5 5.5')],
+      check: () => [P('M5 12.5l4.4 4.5L19 7.2')],
+      dice: () => [e('rect',Object.assign({x:4,y:4,width:16,height:16,rx:4},st)), dot(9,9,1.25), dot(15,9,1.25), dot(12,12,1.25), dot(9,15,1.25), dot(15,15,1.25)],
+      heart: () => [P('M12 20.5S4.5 15.5 4.5 9.8A3.8 3.8 0 0112 8a3.8 3.8 0 017.5 1.8c0 5.7-7.5 10.7-7.5 10.7z')],
+      heartF: () => [e('path',{d:'M12 20.5S4.5 15.5 4.5 9.8A3.8 3.8 0 0112 8a3.8 3.8 0 017.5 1.8c0 5.7-7.5 10.7-7.5 10.7z',fill:'currentColor',stroke:'none'})],
+      trophy: () => [P('M7 4h10v3.5a5 5 0 01-10 0V4z'), P('M7 5.5H4.5a2.5 2.5 0 002.7 2.5'), P('M17 5.5h2.5a2.5 2.5 0 01-2.7 2.5'), P('M12 12.5v3.5M9 20h6M10 20l.5-4M14 20l-.5-4')],
+      calendar: () => [e('rect',Object.assign({x:3.5,y:5,width:17,height:15.5,rx:2.6},st)), P('M3.5 9.5h17M8 3.2v3.6M16 3.2v3.6'), dot(8.5,13,.9), dot(12,13,.9), dot(15.5,13,.9)],
+      sliders: () => [P('M4 8h9M19 8h1.5'), C(15.5,8,2.4), P('M4 16h1.5M11 16h9.5'), C(8,16,2.4)],
+      chevron: () => [P('M6 9.5l6 6 6-6')],
+      coffee: () => [P('M5 9h11v3.5a5 5 0 01-10 0V9z'), P('M16 10h2a2.2 2.2 0 010 4.4h-1'), P('M8 5.5c0-1 1-1 1-2M11.5 5.5c0-1 1-1 1-2M4 19.5h13')],
+      wine: () => [P('M8 4h8l-.9 5.4a3.1 3.1 0 01-6.2 0L8 4z'), P('M12 14v5.5M9 20h6')],
+      fork: () => [P('M8 3v8M6 3v3.4M10 3v3.4M8 11v10'), P('M16 3c-1.7.6-2.4 4-2.4 6.6 0 1.7.9 2.4 2.4 2.4v9')],
+      tree: () => [P('M12 3.5l4.2 6H7.8L12 3.5zM9 9.5l3 4.5 3-4.5M12 14v6.5M9 20.5h6')],
+      ticket: () => [P('M4 8.5A1.8 1.8 0 015.8 6.7h12.4A1.8 1.8 0 0120 8.5v1.8a1.7 1.7 0 000 3.4v1.8a1.8 1.8 0 01-1.8 1.8H5.8A1.8 1.8 0 014 15.5v-1.8a1.7 1.7 0 000-3.4V8.5z'), P('M13.5 6.7v10.6',{strokeDasharray:'2 2'})],
+      basket: () => [P('M5 9.5h14l-1.4 9a2 2 0 01-2 1.7H8.4a2 2 0 01-2-1.7L5 9.5z'), P('M9 9.5V6.5a3 3 0 016 0v3')]
+    };
+    const fn = M[name] || M.pin;
+    return e('svg', { width:size, height:size, viewBox:'0 0 24 24', style:{ color: color||'currentColor', display:'block' } }, fn());
+  }
+
+  // logo marks
+  logoSol(size, v) {
+    const e = React.createElement, s = size||60, mono = v==='mono', light = v==='light', sfx = v||'c';
+    const sun = light ? '#f5c46b' : (mono ? '#8a1f3f' : '#f5a623');
+    const hill = light ? '#ffffff' : '#8a1f3f';
+    const hill2 = light ? 'rgba(255,255,255,.55)' : (mono ? '#8a1f3f' : '#d06a3c');
+    return e('svg',{width:s,height:s,viewBox:'0 0 64 64'},[
+      e('clipPath',{id:'csol'+sfx},e('circle',{cx:32,cy:32,r:30})),
+      e('circle',{cx:32,cy:32,r:30,fill:(mono||light)?'none':'#fdf3e2', stroke: mono?'#8a1f3f':(light?'rgba(255,255,255,.85)':'none'), strokeWidth:(mono||light)?3:0}),
+      e('g',{clipPath:'url(#csol'+sfx+')'},[
+        e('circle',{cx:32,cy:30,r:11,fill:sun}),
+        ...((mono||light)?[]:[8,16,24].map((y,i)=>e('rect',{key:i,x:14,y:14+i*5,width:36,height:2.4,rx:1.2,fill:'#f5a623',opacity:.8 - i*.15}))),
+        e('path',{d:'M-2 50 L16 38 L28 46 L40 34 L54 45 L66 39 L66 64 L-2 64 Z',fill:hill2,opacity:mono?1:.9}),
+        e('path',{d:'M-2 56 L14 47 L26 53 L38 45 L52 53 L66 48 L66 64 L-2 64 Z',fill:hill})
+      ])
+    ]);
+  }
+  logoTaca(size, v) {
+    const e = React.createElement, s = size||60, mono = v==='mono', light = v==='light';
+    const c1 = light ? '#ffffff' : '#8a1f3f';
+    const c2 = light ? 'rgba(255,255,255,.8)' : (mono ? '#8a1f3f' : '#d06a3c');
+    return e('svg',{width:s,height:s,viewBox:'0 0 64 64'},[
+      e('circle',{cx:32,cy:32,r:30,fill:(mono||light)?'none':'#fdf3e2'}),
+      e('path',{d:'M20 16h12l-1.4 9a4.6 4.6 0 01-9.2 0L20 16z',fill:c1}),
+      e('rect',{x:25,y:33,width:2,height:11,rx:1,fill:c1}),
+      e('rect',{x:20,y:45,width:12,height:2.6,rx:1.3,fill:c1}),
+      e('path',{d:'M34 30h12v5a6 6 0 01-12 0v-5z',fill:c2}),
+      e('path',{d:'M46 31.5h2.4a2.4 2.4 0 010 4.8H47',fill:'none',stroke:c2,strokeWidth:2.4}),
+      e('rect',{x:33,y:45,width:14,height:2.6,rx:1.3,fill:c2}),
+      e('circle',{cx:40,cy:20,r:3,fill: light?'#f5c46b':(mono?'#8a1f3f':'#f5a623')})
+    ]);
+  }
+  logoPin(size, v) {
+    const e = React.createElement, s = size||60, mono = v==='mono', light = v==='light', sfx = v||'c';
+    const outline = light ? '#ffffff' : '#8a1f3f';
+    const sun = light ? '#f5c46b' : (mono ? '#8a1f3f' : '#f5a623');
+    const hill2 = light ? 'rgba(255,255,255,.5)' : (mono ? '#8a1f3f' : '#d06a3c');
+    const hill = light ? '#ffffff' : '#8a1f3f';
+    return e('svg',{width:s,height:s,viewBox:'0 0 64 64'},[
+      e('clipPath',{id:'cpin'+sfx},e('path',{d:'M32 4c-11 0-19 8-19 19 0 14 19 33 19 33s19-19 19-33C51 12 43 4 32 4z'})),
+      e('path',{d:'M32 4c-11 0-19 8-19 19 0 14 19 33 19 33s19-19 19-33C51 12 43 4 32 4z',fill:(mono||light)?'none':'#fdf3e2',stroke:outline,strokeWidth:3}),
+      e('g',{clipPath:'url(#cpin'+sfx+')'},[
+        e('circle',{cx:32,cy:21,r:8,fill:sun}),
+        e('path',{d:'M8 40 L20 32 L30 38 L40 30 L56 40 L56 60 L8 60 Z',fill:hill2}),
+        e('path',{d:'M8 46 L22 40 L32 45 L44 39 L56 46 L56 60 L8 60 Z',fill:hill})
+      ])
+    ]);
+  }
+  logoFor(key, size, v) {
+    if (v===true) v='mono';
+    if (key==='taca') return this.logoTaca(size,v);
+    if (key==='pin') return this.logoPin(size,v);
+    return this.logoSol(size,v);
+  }
+
+  places() {
+    return [
+      { id:'adega', nome:'Adega Santa Cruz', cat:'Bares e boemia', catKey:'bar', regiao:'Santa Cruz', rating:5.0, reviews:2, price:'$$', priceLabel:'Médio', food:true, baby:true, periods:['tarde','noite'], covered:true, open:true, desc:'Wine store em Santa Cruz, coberta e aconchegante.' },
+      { id:'tiqwim', nome:'Tiqwim de Cada', cat:'Restaurantes', catKey:'rest', regiao:'Barreiro', rating:5.0, reviews:24, price:'$$', priceLabel:'R$40–60', food:true, baby:true, periods:['tarde','noite'], covered:true, open:true, desc:'Restaurante em Barreiro, 5★ no Google (24 avaliações).' },
+      { id:'baramigos', nome:'Bar dos Amigos', cat:'Bares e boemia', catKey:'bar', regiao:'Barreiro', rating:5.0, reviews:24, price:'$$', priceLabel:'Médio', food:true, baby:true, periods:['noite'], covered:true, open:true, desc:'Bar em Barreiro, clima de boteco, coberto.' },
+      { id:'parqueaguas', nome:'Parque das Águas', cat:'Restaurantes', catKey:'rest', regiao:'Barreiro', rating:5.0, reviews:4, price:'$$', priceLabel:'Médio', food:true, baby:true, periods:['tarde','noite'], covered:false, open:true, desc:'Restaurante ao ar livre, lindo num dia de sol.' },
+      { id:'ancestral', nome:'Ancestral Botequim', cat:'Restaurantes', catKey:'rest', regiao:'Santa Tereza', rating:5.0, reviews:68, price:'$$', priceLabel:'R$40–100', food:true, baby:false, periods:['noite'], covered:true, open:true, desc:'Comida mineira em Santa Tereza, 5★ (68 avaliações).' },
+      { id:'canto', nome:'Canto da Esquina', cat:'Cafés', catKey:'cafe', regiao:'Santa Tereza', rating:5.0, reviews:43, price:'$$', priceLabel:'R$20–40', food:true, baby:true, periods:['manha','tarde'], covered:true, open:false, desc:'Coffee shop em Santa Tereza, tranquilo e coberto.' },
+      { id:'mirante', nome:'Mirante das Mangabeiras', cat:'Parques', catKey:'parque', regiao:'Mangabeiras', rating:4.8, reviews:120, price:'$', priceLabel:'Grátis', food:false, baby:true, periods:['manha','tarde'], covered:false, open:true, desc:'Vista da cidade ao ar livre, perfeito num dia limpo.' },
+      { id:'palacio', nome:'Palácio das Artes', cat:'Cultura', catKey:'cultura', regiao:'Centro', rating:4.9, reviews:300, price:'$', priceLabel:'Até barato', food:false, baby:false, periods:['tarde','noite'], covered:true, open:true, desc:'Centro cultural coberto, exposições e teatro.' }
+    ];
+  }
+
+  score(p) {
+    let s = 50;
+    s += p.rating >= 4.9 ? 12 : 6;
+    s += Math.min(p.reviews,60)/60*8;
+    s += p.open ? 14 : -12;
+    if (this.state.periodo !== 'tanto') s += p.periods.includes(this.state.periodo) ? 10 : -8;
+    if (this.state.comBebe) s += p.baby ? 9 : -16;
+    if (this.state.considerarClima) s += p.covered ? 14 : -11; // chuva hoje
+    return Math.max(8, Math.min(100, Math.round(s)));
+  }
+
+  periodoLabel() { return { tanto:'qualquer período', manha:'manhã', tarde:'tarde', noite:'noite' }[this.state.periodo]; }
+
+  catBg(key) {
+    const m = { rest:'background:linear-gradient(135deg,#c4502f,#e8956a);', bar:'background:linear-gradient(135deg,#8a1f3f,#b8472f);', cafe:'background:linear-gradient(135deg,#a05a2c,#d08a4a);', parque:'background:linear-gradient(135deg,#1f9d6e,#34b98a);', cultura:'background:linear-gradient(135deg,#15405c,#3a6e8c);', mercado:'background:linear-gradient(135deg,#b8472f,#d06a3c);' };
+    return m[key] || m.rest;
+  }
+  catIcon(key, size) {
+    const map = { rest:'fork', bar:'wine', cafe:'coffee', parque:'tree', cultura:'ticket', mercado:'basket' };
+    return this.ic(map[key]||'fork', size||24, '#fff');
+  }
+
+  starsRow(n, color, size) {
+    const e = React.createElement;
+    return e('span',{style:{display:'inline-flex',gap:'1px',color:color||'#f5a623'}}, Array.from({length:n}).map((_,i)=>this.ic('star',size||14,color||'#f5a623')));
+  }
+
+  renderVals() {
+    const S = this.state, e = React.createElement;
+    const all = this.places();
+    const scored = all.map(p => ({ ...p, m: this.score(p) }))
+      .filter(p => !(S.soAberto && !p.open))
+      .sort((a,b)=> b.m - a.m);
+
+    const matchColorCss = (m) => m>=90 ? 'color:var(--verde);' : m>=70 ? 'color:var(--terracota);' : 'color:var(--cafe-3);';
+    const matchBadgeCss = (m) => m>=90 ? 'background:var(--verde);color:#fff;font-family:var(--f-disp);font-weight:800;font-size:13px;padding:5px 11px;border-radius:999px;' : m>=70 ? 'background:var(--terracota);color:#fff;font-family:var(--f-disp);font-weight:800;font-size:13px;padding:5px 11px;border-radius:999px;' : 'background:var(--cafe-2);color:#fff;font-family:var(--f-disp);font-weight:800;font-size:13px;padding:5px 11px;border-radius:999px;';
+
+    // top list
+    const topList = scored.slice(0,5).map((p,i)=>({
+      rank: i+1, nome: p.nome, match: p.m+'%', icon: this.catIcon(p.catKey,18), bg: this.catBg(p.catKey),
+      matchColor: matchColorCss(p.m),
+      rowStyle: 'display:flex;align-items:center;gap:10px;padding:8px 4px;'+(i< scored.slice(0,5).length-1?'border-bottom:1px solid var(--bege-borda);':'')
+    }));
+
+    // cards
+    const cardList = scored.slice(0,6).map(p => {
+      const badges = [];
+      badges.push({ label:p.priceLabel, style:'background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;white-space:nowrap;' });
+      if (p.food) badges.push({ label:'Tem comida', style:'background:var(--rosa-bg);color:var(--vinho);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;white-space:nowrap;' });
+      if (p.baby) badges.push({ label:'Pode ir com bebê', style:'background:#fbeee6;color:var(--terracota);font-weight:600;font-size:11.5px;padding:5px 11px;border-radius:999px;white-space:nowrap;' });
+      const reasons = [];
+      reasons.push(p.open ? { label:'Aberto agora', color:'var(--verde)', icon:this.ic('check',15,'var(--verde)') } : { label:'Fechado agora', color:'var(--alerta)', icon:this.ic('clock',15,'var(--alerta)') });
+      if (S.periodo!=='tanto' && p.periods.includes(S.periodo)) reasons.push({ label:'Funciona no período de '+this.periodoLabel(), color:'var(--verde)', icon:this.ic('check',15,'var(--verde)') });
+      if (S.considerarClima) reasons.push(p.covered ? { label:'Coberto — seguro pra chuva de hoje', color:'var(--verde)', icon:this.ic('check',15,'var(--verde)') } : { label:'Ao ar livre — exposto à chuva', color:'var(--alerta)', icon:this.ic('rain',15,'var(--alerta)') });
+      if (S.comBebe) reasons.push(p.baby ? { label:'Tranquilo pra ir com bebê', color:'var(--verde)', icon:this.ic('check',15,'var(--verde)') } : { label:'Hoje melhor sem o bebê', color:'var(--alerta)', icon:this.ic('baby',15,'var(--alerta)') });
+      const isSurpresa = S.surpresaId===p.id;
+      const isFav = S.visited.includes(p.id);
+      return {
+        id:p.id, nome:p.nome, cat:p.cat, regiao:p.regiao, desc:p.desc, priceMark:p.price,
+        match:p.m+'%', matchBadge: matchBadgeCss(p.m),
+        ratingLabel: p.rating.toFixed(1)+' ('+p.reviews+')',
+        starEl: this.starsRow(5,'#f5a623',14),
+        bigIcon: this.catIcon(p.catKey,40),
+        coverBg: this.catBg(p.catKey),
+        statusBadge: p.open ? 'background:var(--verde);color:#fff;font-weight:700;font-size:11px;padding:6px 12px;border-radius:12px 0 0 0;' : 'background:var(--alerta);color:#fff;font-weight:700;font-size:11px;padding:6px 12px;border-radius:12px 0 0 0;',
+        statusLabel: p.open ? 'Aberto agora' : 'Fechado agora',
+        favEl: e('span',{style:{color: isFav?'#f5a623':'rgba(255,255,255,.9)',cursor:'pointer'}}, this.ic(isFav?'heartF':'heart',20)),
+        fav: () => this.toggleVisit(p.id),
+        badges, reasons,
+        cardStyle: 'background:var(--bege-card);border:1px solid var(--bege-borda);border-radius:var(--r);overflow:hidden;box-shadow:'+(isSurpresa?'0 0 0 3px var(--terracota),var(--sh-h)':'var(--sh)')+';transition:var(--t);'
+      };
+    });
+
+    // segment controls
+    const mkPeriodo = (key,label,icon) => ({ key,label, icon: icon, onClick: ()=>this.setState({periodo:key}),
+      style: S.periodo===key
+        ? 'display:inline-flex;align-items:center;gap:7px;background:var(--vinho);color:#fff;border:none;font-family:var(--f-ui);font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;box-shadow:0 4px 12px rgba(138,31,63,.3);transition:var(--t);'
+        : 'display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--cafe-2);border:1.5px solid var(--bege-borda);font-family:var(--f-ui);font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;transition:var(--t);' });
+    const periodos = [ mkPeriodo('tanto','Tanto faz',''), mkPeriodo('manha','Manhã','☀️'), mkPeriodo('tarde','Tarde','🌤️'), mkPeriodo('noite','Noite','🌙') ];
+
+    const mkCusto = (key,label) => ({ key,label, onClick:()=>this.setState({custo:key}),
+      style: S.custo===key
+        ? 'background:var(--vinho);color:#fff;border:none;font-family:var(--f-ui);font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;box-shadow:0 4px 12px rgba(138,31,63,.3);transition:var(--t);'
+        : 'background:#fff;color:var(--cafe-2);border:1.5px solid var(--bege-borda);font-family:var(--f-ui);font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;transition:var(--t);' });
+    const custos = [ mkCusto('qualquer','Qualquer'), mkCusto('gratis','Grátis'), mkCusto('barato','Até barato'), mkCusto('medio','Até médio'), mkCusto('tudo','Tudo') ];
+
+    // chips
+    const chips = [];
+    if (S.periodo!=='tanto') chips.push({ label: this.periodoLabel() });
+    if (S.considerarClima) chips.push({ label:'Clima ON' });
+    if (S.comBebe) chips.push({ label:'Com bebê · '+S.idadeBebe+'m' });
+    chips.push({ label: S.pessoas+(S.pessoas>1?' pessoas':' pessoa') });
+    if (S.soAberto) chips.push({ label:'Aberto agora' });
+
+    // meus lugares
+    const visitCount = S.visited.length, totalPlaces = all.length;
+    const checklist = all.map(p => {
+      const v = S.visited.includes(p.id);
+      return { id:p.id, nome:p.nome, meta: p.cat+' · '+p.regiao, icon:this.catIcon(p.catKey,20), bg:this.catBg(p.catKey),
+        onClick: ()=>this.toggleVisit(p.id),
+        rowStyle: 'display:flex;align-items:center;gap:14px;background:'+(v?'#eef8f2':'var(--bege-card)')+';border:1.5px solid '+(v?'var(--verde-cl)':'var(--bege-borda)')+';border-radius:14px;padding:13px 16px;cursor:pointer;transition:var(--t);',
+        checkBg: v ? 'background:var(--verde);' : 'background:#fff;border:2px solid var(--bege-borda);',
+        checkEl: v ? this.ic('check',16,'#fff',2.4) : null };
+    });
+    const catGroups = {};
+    all.forEach(p=>{ if(S.visited.includes(p.id)){ catGroups[p.catKey]=(catGroups[p.catKey]||0)+1; }});
+    const catNames = { rest:'Restaurantes', bar:'Bares', cafe:'Cafés', parque:'Parques', cultura:'Cultura' };
+    const catStats = Object.keys(catNames).map(k=>({ label:catNames[k], count: catGroups[k]||0, icon:this.catIcon(k,16), bg:this.catBg(k) }));
+
+    return {
+      // brand icons
+      logoMarkHero: this.logoFor(S.logoSel, 34, 'light'),
+      icSun: this.ic('sun',18,'currentColor'), icSunSm: this.ic('sun',15,'currentColor'), icSunBig: this.ic('sun',26,'currentColor'),
+      icDice: this.ic('dice',18,'currentColor'), icCheck: this.ic('check',18,'currentColor'),
+      icTrophy: this.ic('trophy',18,'currentColor'), icCalendar: this.ic('calendar',18,'currentColor'),
+      icBaby: this.ic('baby',18,'currentColor'), icClock: this.ic('clock',18,'currentColor'),
+      icChevron: this.ic('chevron',16,'var(--cafe-3)'), icSliders: this.ic('sliders',18,'#fff'),
+      icRainSm: this.ic('rain',16,'var(--navy)'), icPinSm: this.ic('pin',15,'var(--cafe-3)'),
+      icPinSmW: this.ic('pin',14,'rgba(255,255,255,.85)'),
+      icCheckSm: this.ic('check',15,'var(--verde)'),
+      icCoffee: this.ic('coffee',22,'#fff'), icWine: this.ic('wine',22,'#fff'), icTree: this.ic('tree',22,'currentColor'),
+      icWineBig: this.ic('wine',40,'#fff'), icCoffeeBig: this.ic('coffee',34,'#fff'),
+      icHeart: this.ic('heart',22,'currentColor'),
+      stars5: this.starsRow(5,'#f5a623',15), stars5sm: this.starsRow(5,'#f5a623',12),
+      stars5w: this.starsRow(5,'#f5c46b',13),
+
+      // logos showcase
+      logos: [
+        { key:'sol', title:'Sol da Serra', tag:'Clima + acolhimento', note:'Pôr do sol mineiro sobre as montanhas. Conecta direto com o fator clima.',
+          markBig: this.logoSol(110,false), markMono: this.logoSol(24,true),
+          onClick: ()=>this.setState({logoSel:'sol'}),
+          tagStyle: 'background:#fbeee6;color:var(--terracota);font-weight:700;font-size:10.5px;padding:4px 10px;border-radius:999px;',
+          cardStyle: 'background:var(--bege-card);border:2px solid '+(S.logoSel==='sol'?'var(--vinho)':'var(--bege-borda)')+';border-radius:var(--r);box-shadow:var(--sh);padding:20px;cursor:pointer;transition:var(--t);' },
+        { key:'taca', title:'Boa Mesa', tag:'Gastronomia', note:'Taça + xícara: a alma gastronômica de BH num símbolo só.',
+          markBig: this.logoTaca(110,false), markMono: this.logoTaca(24,true),
+          onClick: ()=>this.setState({logoSel:'taca'}),
+          tagStyle: 'background:#fbeee6;color:var(--terracota);font-weight:700;font-size:10.5px;padding:4px 10px;border-radius:999px;',
+          cardStyle: 'background:var(--bege-card);border:2px solid '+(S.logoSel==='taca'?'var(--vinho)':'var(--bege-borda)')+';border-radius:var(--r);box-shadow:var(--sh);padding:20px;cursor:pointer;transition:var(--t);' },
+        { key:'pin', title:'Pin do Pôr do Sol', tag:'Híbrido', note:'Pin de mapa com um pôr do sol dentro. Local + momento.',
+          markBig: this.logoPin(110,false), markMono: this.logoPin(24,true),
+          onClick: ()=>this.setState({logoSel:'pin'}),
+          tagStyle: 'background:#fbeee6;color:var(--terracota);font-weight:700;font-size:10.5px;padding:4px 10px;border-radius:999px;',
+          cardStyle: 'background:var(--bege-card);border:2px solid '+(S.logoSel==='pin'?'var(--vinho)':'var(--bege-borda)')+';border-radius:var(--r);box-shadow:var(--sh);padding:20px;cursor:pointer;transition:var(--t);' }
+      ],
+
+      // palette
+      swatches: [
+        { name:'Vinho', hex:'#8a1f3f', use:'Primária — comando, header, ativo', bg:'background:#8a1f3f;' },
+        { name:'Vinho escuro', hex:'#6b1530', use:'Hover, gradientes', bg:'background:#6b1530;' },
+        { name:'Terracota', hex:'#d06a3c', use:'Secundária quente — ações, ícones', bg:'background:#d06a3c;' },
+        { name:'Terracota claro', hex:'#e8956a', use:'Realces suaves', bg:'background:#e8956a;' },
+        { name:'Rosa suave', hex:'#f2d7cd', use:'Chips, blocos, fundos', bg:'background:#f2d7cd;' },
+        { name:'Bege quente', hex:'#f7efe4', use:'Fundo da página', bg:'background:#f7efe4;border-bottom:1px solid #ece0d2;' },
+        { name:'Creme', hex:'#fffaf3', use:'Superfície de card', bg:'background:#fffaf3;border-bottom:1px solid #ece0d2;' },
+        { name:'Café', hex:'#3b2419', use:'Texto forte / dark', bg:'background:#3b2419;' },
+        { name:'Navy (toque)', hex:'#15405c', use:'Contraste / info', bg:'background:#15405c;' },
+        { name:'Verde match', hex:'#1f9d6e', use:'SÓ score de match positivo', bg:'background:#1f9d6e;' },
+        { name:'Estrela', hex:'#f5a623', use:'Notas / avaliações', bg:'background:#f5a623;' },
+        { name:'Alerta', hex:'#c8402f', use:'Fechado / erro', bg:'background:#c8402f;' }
+      ],
+
+      catIcons: [
+        { label:'Restaurantes', el:this.catIcon('rest',26), bg:this.catBg('rest') },
+        { label:'Bares & boemia', el:this.catIcon('bar',26), bg:this.catBg('bar') },
+        { label:'Cafés', el:this.catIcon('cafe',26), bg:this.catBg('cafe') },
+        { label:'Parques', el:this.catIcon('parque',26), bg:this.catBg('parque') },
+        { label:'Cultura', el:this.catIcon('cultura',26), bg:this.catBg('cultura') },
+        { label:'Mercados', el:this.catIcon('mercado',26), bg:this.catBg('mercado') }
+      ],
+      uiIcons: [
+        { label:'Sol', el:this.ic('sun',22) }, { label:'Chuva', el:this.ic('rain',22) },
+        { label:'Local', el:this.ic('pin',22) }, { label:'Nota', el:this.ic('star',22,'var(--estrela)') },
+        { label:'Horário', el:this.ic('clock',22) }, { label:'Bebê', el:this.ic('baby',22) },
+        { label:'Pessoas', el:this.ic('people',22) }, { label:'Surpresa', el:this.ic('dice',22) },
+        { label:'Favorito', el:this.ic('heart',22) }, { label:'Conquista', el:this.ic('trophy',22) },
+        { label:'Agenda', el:this.ic('calendar',22) }, { label:'Filtros', el:this.ic('sliders',22) }
+      ],
+
+      // home state
+      considerarClima: S.considerarClima,
+      narrativa: S.considerarClima
+        ? 'Tempo de chuva (17°C): priorizei lugares cobertos, cafés e bares pra curtir a noite sem se preocupar com o tempo.'
+        : 'Clima desligado — ranking puro pelos seus filtros. Lugares ao ar livre voltam pra disputa.',
+      toggleClima: () => this.setState(s=>({considerarClima:!s.considerarClima})),
+      togBg: S.considerarClima ? 'var(--verde)' : 'var(--cafe-3)',
+      togLeft: S.considerarClima ? '27px' : '3px',
+      climaBlocoBg: S.considerarClima ? '#fbeee6' : '#f1ece4',
+      climaBorda: S.considerarClima ? 'var(--terracota-cl)' : 'var(--bege-borda)',
+      climaIconBg: S.considerarClima ? 'background:var(--terracota);' : 'background:var(--cafe-3);',
+      climaIcon: S.considerarClima ? this.ic('sun',22,'#fff') : this.ic('cloud',22,'#fff'),
+      climaSub: S.considerarClima ? 'Chuva hoje — favorecendo lugares cobertos' : 'O tempo não influencia o ranking agora',
+
+      periodos, custos,
+      pessoas: S.pessoas,
+      menosPessoa: ()=>this.setState(s=>({pessoas:Math.max(1,s.pessoas-1)})),
+      maisPessoa: ()=>this.setState(s=>({pessoas:Math.min(20,s.pessoas+1)})),
+
+      comBebe: S.comBebe, idadeBebe: S.idadeBebe,
+      toggleBebe: ()=>this.setState(s=>({comBebe:!s.comBebe})),
+      setIdade: (ev)=>this.setState({idadeBebe: parseInt(ev.target.value,10)}),
+      bebeBg: S.comBebe ? '#fbeee6' : '#fff',
+      bebeBorda: S.comBebe ? 'var(--terracota-cl)' : 'var(--bege-borda)',
+      bebeCheckBg: S.comBebe ? 'background:var(--terracota);' : 'background:#fff;border:2px solid var(--bege-borda);',
+      bebeCheck: S.comBebe ? this.ic('check',15,'#fff',2.4) : null,
+      bebeMax: S.comBebe ? '90px' : '0px',
+      bebeOp: S.comBebe ? '1' : '0',
+      bebeMt: S.comBebe ? '14px' : '0px',
+
+      soAberto: S.soAberto,
+      toggleAberto: ()=>this.setState(s=>({soAberto:!s.soAberto})),
+      abertoCheckBg: S.soAberto ? 'background:var(--alerta);' : 'background:#fff;border:2px solid var(--bege-borda);',
+      abertoCheck: S.soAberto ? this.ic('check',15,'#fff',2.4) : null,
+
+      chips, limparTudo: ()=>this.setState({periodo:'tanto',custo:'qualquer',comBebe:false,soAberto:false,pessoas:2}),
+
+      topList, cardList,
+      surpreenda: ()=>{ const pick = scored[Math.floor(Math.random()*Math.min(scored.length,6))]; this.setState({surpresaId: pick?pick.id:null}); },
+      totalLabel: scored.length + ' lugares recomendados',
+      ordenadoLabel: S.considerarClima ? 'Ordenados pela combinação dos seus filtros + o clima de agora.' : 'Ordenados só pelos seus filtros — clima ignorado.',
+
+      // meus lugares
+      visitCount, totalPlaces, visitPct: Math.round(visitCount/totalPlaces*100)+'%',
+      visitMsg: visitCount===0 ? 'Comece marcando o primeiro!' : (visitCount<3 ? 'Bom começo — continue explorando.' : 'Você está virando expert em BH! 🔥'),
+      checklist, catStats
+    };
+  }
+
+  toggleVisit(id) {
+    this.setState(s => ({ visited: s.visited.includes(id) ? s.visited.filter(x=>x!==id) : [...s.visited, id] }));
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/**
+ * ClimaWidget.css — pilula de clima.
+ *  - inline (no header vinho): vidro claro sobre fundo escuro.
+ *  - .bloco (hero DestaqueHoje): card claro maior, sobre fundo bege.
+ */
+.climaWidget {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .2);
+    padding: 7px 13px;
+    border-radius: 999px;
+    color: #fff7ec;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+}
+
+.climaWidget.carregando,
+.climaWidget.erro {
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    gap: 7px;
+    color: rgba(255, 255, 255, .82);
+}
+
+.climaIcone { display: inline-flex; line-height: 0; color: #fff7ec; }
+.climaWidget.cat-limpo .climaIcone { color: var(--estrela); }
+.climaWidget.cat-chuva .climaIcone { color: var(--rosa); }
+
+.climaInfo { display: flex; flex-direction: column; line-height: 1.1; }
+.climaTemp { font-family: var(--f-disp); font-weight: 700; font-size: 1.18rem; }
+.climaDesc {
+    font-family: var(--f-ui);
+    font-size: .74rem;
+    font-weight: 500;
+    opacity: .9;
+    text-transform: capitalize;
+}
+
+.climaExtra {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-left: 4px;
+    padding-left: 11px;
+    border-left: 1px solid rgba(255, 255, 255, .26);
+    font-family: var(--f-ui);
+    font-size: .72rem;
+    font-weight: 500;
+    opacity: .92;
+}
+.climaChuva { display: inline-flex; align-items: center; gap: 4px; }
+
+/* ---- variante BLOCO (hero, fundo claro) ---- */
+.climaWidget.bloco {
+    background: var(--bege-card);
+    border: 1px solid var(--bege-borda);
+    color: var(--cafe);
+    padding: 13px 18px;
+    border-radius: var(--r-sm);
+    box-shadow: var(--sh);
+    backdrop-filter: none;
+    gap: 14px;
+}
+.climaWidget.bloco .climaIcone { color: var(--terracota); }
+.climaWidget.bloco.cat-limpo .climaIcone { color: var(--estrela); }
+.climaWidget.bloco.cat-chuva .climaIcone { color: var(--navy); }
+.climaWidget.bloco .climaTemp { font-size: 1.5rem; color: var(--cafe); }
+.climaWidget.bloco .climaDesc { color: var(--cafe-2); }
+.climaWidget.bloco .climaExtra {
+    border-left-color: var(--bege-borda);
+    color: var(--cafe-2);
+}
+
+@media (max-width: 767px) {
+    .climaWidget { padding: 6px 11px; gap: 8px; }
+    .climaTemp { font-size: 1.05rem; }
+}

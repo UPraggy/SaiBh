@@ -1,0 +1,193 @@
+/* DestaqueHoje.css — Hero "Hoje para você" (Identidade Visual quente)
+   Gradiente café -> vinho -> vinho escuro, com brilho terracota (pôr do sol).
+   Regra de ouro: o ÚNICO verde aqui é o score positivo (rankScore / 1º lugar). */
+
+.destaqueHoje {
+    background: linear-gradient(135deg, var(--cafe) 0%, var(--vinho) 55%, var(--vinho-d) 100%);
+    color: var(--bege);
+    position: relative;
+    overflow: hidden;
+}
+/* brilho de pôr do sol (terracota) no canto superior direito */
+.destaqueHoje::after {
+    content: '';
+    position: absolute;
+    right: -90px;
+    top: -110px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(208, 106, 60, .45), transparent 70%);
+    pointer-events: none;
+}
+
+.destaqueInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding-top: 44px;
+    padding-bottom: 44px;
+    position: relative;
+    z-index: 1;
+}
+
+.destaqueTexto { max-width: 640px; }
+
+.destaqueTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--vinho-d);
+    background: var(--grad-terracota);
+    padding: 5px 13px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+}
+.destaqueTag .icone { color: var(--vinho-d); }
+
+.destaqueTexto h1 {
+    font-family: var(--f-disp);
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1.08;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+    color: #fff;
+}
+.destaqueFrase {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .92);
+}
+
+/* ações (Me surpreenda) */
+.destaqueAcoes { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btnSurpresa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: .92rem;
+    color: #fff;
+    background: var(--grad-terracota);
+    border: none;
+    padding: 11px 20px;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(208, 106, 60, .35);
+    transition: transform var(--t), box-shadow var(--t), filter var(--t);
+}
+.btnSurpresa:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(208, 106, 60, .45); filter: brightness(1.04); }
+.btnSurpresa:active { transform: translateY(0); }
+.btnSurpresa .icone { color: #fff; }
+
+/* faixa de clima ao vivo */
+.destaqueClima {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: var(--r);
+    padding: 14px 18px;
+    backdrop-filter: blur(6px);
+    width: fit-content;
+    max-width: 100%;
+}
+.climaIcone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(245, 196, 107, .22);
+    color: var(--estrela);
+    flex-shrink: 0;
+}
+.climaInfo { display: flex; flex-direction: column; line-height: 1.25; }
+.climaInfo strong { font-size: 1.35rem; font-weight: 800; color: #fff; }
+.climaDesc { font-size: .9rem; color: rgba(255, 255, 255, .9); text-transform: capitalize; }
+.climaInfo small { font-size: .78rem; color: rgba(255, 255, 255, .72); margin-top: 2px; }
+
+/* card branco "Top de hoje" */
+.destaqueTopo {
+    background: var(--bege-card);
+    border-radius: var(--r);
+    padding: 18px 20px;
+    min-width: 300px;
+    box-shadow: var(--sh);
+    border: 1px solid var(--bege-borda);
+}
+.destaqueTopoTitulo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--f-disp);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--vinho);
+    margin-bottom: 12px;
+}
+.destaqueTopoTitulo .icone { color: var(--estrela); }
+
+.destaqueRank { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; }
+.destaqueRank li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--bege-borda);
+}
+.destaqueRank li:last-child { border-bottom: none; }
+
+.rankPos {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--cafe-2);
+    color: #fff;
+    font-size: .76rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--f-ui);
+}
+/* 1º lugar = sinal positivo -> verde permitido */
+.destaqueRank li:first-child .rankPos { background: var(--verde); }
+
+/* miniatura: ícone de categoria + foto por cima (some no onError) */
+.rankThumb {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rankThumbIcone { width: 100%; height: 100%; border-radius: 10px; }
+.rankThumbFoto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.rankNome { flex: 1; font-size: .9rem; color: var(--cafe); font-weight: 600; }
+.rankScore { font-size: .84rem; font-weight: 800; color: var(--verde); flex-shrink: 0; }
+
+@media (max-width: 767px) {
+    .destaqueInner { flex-direction: column; align-items: stretch; gap: 22px; padding-top: 26px; padding-bottom: 26px; }
+    .destaqueTexto { max-width: 100%; }
+    .destaqueTexto h1 { font-size: 1.65rem; }
+    .destaqueFrase { font-size: .96rem; }
+    .destaqueClima { width: 100%; }
+    .destaqueTopo { min-width: 0; }
+}

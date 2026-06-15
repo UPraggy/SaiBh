@@ -1,0 +1,20 @@
+/**
+ * fonts.css
+ * -----------------------------------------------------------------------------
+ * Tipografia do redesign — voz propria, fugindo do "AI slop" de Inter/Roboto:
+ *  - Bricolage Grotesque (display 600-800): wordmark, titulos, numeros grandes.
+ *  - Plus Jakarta Sans (UI/corpo 400-800): todo o resto.
+ * Poppins/Inter ficam como fallback (paridade com o projeto antigo).
+ * (O <link preconnect> tambem esta no index.html para carregar antes do CSS.)
+ */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --f-disp: 'Bricolage Grotesque', 'Poppins', sans-serif;
+    --f-ui: 'Plus Jakarta Sans', 'Inter', sans-serif;
+
+    /* aliases legados */
+    --font-titulo: var(--f-disp);
+    --font-texto: var(--f-ui);
+    --font-destaque: var(--f-disp);
+}

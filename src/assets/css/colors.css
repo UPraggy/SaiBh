@@ -1,0 +1,81 @@
+/**
+ * colors.css
+ * -----------------------------------------------------------------------------
+ * Sistema de cor do SaiBH — REDESIGN "quente e mineiro" (jun/2026).
+ * Paleta warm-dominante (vinho/terracota/bege) + um toque de navy.
+ * REGRA DE OURO: o VERDE e exclusivo do score de match — por ser a unica cor
+ * fria numa tela 100% quente, ele "salta" e vira sinal inequivoco de positivo.
+ * Tokens conforme PROMPT_IA_DEV_SaiBH.md / RACIOCINIO_DESIGN_SaiBH.md.
+ */
+:root {
+    /* ---- PRIMARIA: vinho (header, botoes ativos, comando) ---- */
+    --vinho: #8a1f3f;
+    --vinho-d: #6b1530;
+
+    /* ---- SECUNDARIA: terracota (acoes, icones, "Me Surpreenda") ---- */
+    --terracota: #d06a3c;
+    --terracota-cl: #e8956a;
+
+    /* ---- rosa/creme: chips, blocos do bebe, fundos suaves ---- */
+    --rosa: #f2d7cd;
+    --rosa-bg: #faeee7;
+
+    /* ---- textos (forte / secundario / terciario) ---- */
+    --cafe: #3b2419;
+    --cafe-2: #6b5345;
+    --cafe-3: #9a8675;
+
+    /* ---- superficies e bordas ---- */
+    --bege: #f7efe4;            /* fundo da pagina */
+    --bege-card: #fffaf3;       /* superficie dos cards */
+    --bege-borda: #ece0d2;
+    --areia: #e9dccb;
+
+    /* ---- VERDE: SO score de match positivo ---- */
+    --verde: #1f9d6e;
+    --verde-cl: #2ecc8f;
+
+    /* ---- navy: toque de contraste / info / categoria Cultura ---- */
+    --navy: #15405c;
+
+    /* ---- semanticos ---- */
+    --estrela: #f5a623;         /* notas / avaliacoes */
+    --alerta: #c8402f;          /* fechado agora / erro */
+
+    /* ---- forma / sombra / tempo ---- */
+    --r: 18px;
+    --r-sm: 11px;
+    --sh: 0 8px 26px rgba(59, 36, 25, .09);
+    --sh-h: 0 18px 42px rgba(59, 36, 25, .16);
+    --t: .25s ease;
+
+    /* ---- gradientes quentes reutilizaveis ---- */
+    --grad-vinho: linear-gradient(135deg, #8a1f3f, #6b1530);
+    --grad-terracota: linear-gradient(135deg, #e8956a, #d06a3c);
+    --grad-por-do-sol: linear-gradient(135deg, #f5c46b 0%, #e8956a 45%, #d06a3c 100%);
+
+    /* =====================================================================
+     * ALIASES de compatibilidade — mapeiam os nomes antigos (navy/verde) para
+     * a paleta quente, garantindo que nada quebre caso reste alguma referencia
+     * legada. O sistema "oficial" sao os tokens acima.
+     * ===================================================================== */
+    --white-color: #ffffff;
+    --black-color: var(--cafe);
+    --escuro-azul-color: var(--vinho);
+    --escuro-azul2-color: var(--vinho-d);
+    --claro-verde-color: var(--verde-cl);
+    --azul-claro-color: var(--navy);
+    --verde-escuro-color: var(--verde);
+    --cinza-bg-color: var(--bege);
+    --cinza-card-color: var(--bege-card);
+    --cinza-borda-color: var(--bege-borda);
+    --cinza-texto-color: var(--cafe-2);
+    --cinza-texto2-color: var(--cafe-3);
+    --amarelo-nota-color: var(--estrela);
+    --vermelho-color: var(--alerta);
+    --sombra-card: var(--sh);
+    --sombra-card-hover: var(--sh-h);
+    --raio: var(--r);
+    --raio-pequeno: var(--r-sm);
+    --transicao: var(--t);
+}

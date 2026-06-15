@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="72" viewBox="0 0 260 72">
+  <defs><clipPath id="lc"><path d="M36 8c-11 0-19 8-19 19 0 14 19 33 19 33s19-19 19-33C55 16 47 8 36 8z"></path></clipPath></defs>
+  <path d="M36 8c-11 0-19 8-19 19 0 14 19 33 19 33s19-19 19-33C55 16 47 8 36 8z" fill="#fdf3e2" stroke="#8a1f3f" stroke-width="3"></path>
+  <g clip-path="url(#lc)"><circle cx="36" cy="25" r="8" fill="#f5a623"></circle><path d="M12 44 L24 36 L34 42 L44 34 L60 44 L60 64 L12 64 Z" fill="#d06a3c"></path><path d="M12 50 L26 44 L36 49 L48 43 L60 50 L60 64 L12 64 Z" fill="#8a1f3f"></path></g>
+  <text x="78" y="46" font-family="Bricolage Grotesque, Poppins, sans-serif" font-weight="800" font-size="38" letter-spacing="-1" fill="#8a1f3f">Sai<tspan fill="#d06a3c">BH</tspan></text>
+</svg>

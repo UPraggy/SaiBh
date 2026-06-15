@@ -1,0 +1,49 @@
+/**
+ * Logo.css — wordmark "SaiBH" + pin. As cores do pin sao no proprio SVG;
+ * aqui cuidamos do texto e do alinhamento.
+ */
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logoPin { display: block; flex-shrink: 0; }
+
+.logoTextoWrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.08;
+}
+
+.logoTexto {
+    font-family: var(--f-disp);
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+}
+.logoTexto b { font-weight: 800; }
+
+/* variante colorida (fundo claro) */
+.logo-colorida .logoTexto { color: var(--vinho); }
+.logo-colorida .logoTexto b { color: var(--terracota); }
+
+/* variante clara (fundo escuro, ex. header vinho) */
+.logo-clara .logoTexto { color: #fff7ec; }
+.logo-clara .logoTexto b { color: var(--terracota-cl); }
+
+.logoSub {
+    font-family: var(--f-ui);
+    font-weight: 500;
+    font-size: .72rem;
+    letter-spacing: .01em;
+    margin-top: 3px;
+    opacity: .82;
+}
+.logo-clara .logoSub { color: var(--rosa); }
+.logo-colorida .logoSub { color: var(--cafe-2); }
+
+@media (max-width: 767px) {
+    .logoTexto { font-size: 1.28rem; }
+}

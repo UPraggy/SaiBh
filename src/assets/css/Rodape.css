@@ -1,0 +1,61 @@
+/**
+ * Rodape.css — faixa cafe escuro com a marca (variante clara) e creditos.
+ */
+.rodape {
+    width: 100%;
+    margin-top: 56px;
+    background: var(--cafe);
+    color: var(--rosa);
+}
+
+.rodapeInner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.rodapeMarca {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 360px;
+}
+.rodapeMarca small {
+    font-family: var(--f-ui);
+    font-size: .85rem;
+    line-height: 1.5;
+    color: var(--cafe-3);
+}
+
+.rodapeInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: right;
+    align-items: flex-end;
+}
+.rodapeFonte {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    font-weight: 500;
+    color: var(--rosa);
+}
+.rodapeFonte svg { color: var(--terracota-cl); flex-shrink: 0; }
+.rodapeInfo small {
+    margin-top: 4px;
+    font-family: var(--f-ui);
+    font-size: .76rem;
+    color: var(--cafe-3);
+}
+
+@media (max-width: 767px) {
+    .rodapeInner { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .rodapeInfo { text-align: left; align-items: flex-start; }
+}

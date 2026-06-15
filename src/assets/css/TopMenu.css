@@ -1,0 +1,92 @@
+/**
+ * TopMenu.css — cabecalho fixo, faixa vinho (--grad-vinho), texto claro.
+ * Marca a esquerda; clima + relogio + "Meus lugares" a direita.
+ */
+.topMenu {
+    width: 100%;
+    background: var(--grad-vinho);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 6px 22px rgba(59, 36, 25, .22);
+}
+
+.topMenuInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.topDireita {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* chip dia/hora */
+.topAgora {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--rosa);
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    padding: 7px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.topAgora svg { color: var(--terracota-cl); }
+
+/* botao Meus lugares */
+.topSalvos {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: .88rem;
+    color: #fff7ec;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+    padding: 9px 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.topSalvos:hover {
+    background: var(--grad-terracota);
+    border-color: transparent;
+    transform: translateY(-1px);
+}
+.topSalvos svg { color: var(--terracota-cl); transition: var(--t); }
+.topSalvos:hover svg { color: #fff7ec; }
+
+.topSalvosBadge {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--terracota);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 800;
+    border-radius: 999px;
+    line-height: 1;
+}
+.topSalvos:hover .topSalvosBadge { background: var(--vinho-d); }
+
+@media (max-width: 767px) {
+    .topMenuInner { gap: 10px; padding-top: 11px; padding-bottom: 11px; }
+    .topDireita { gap: 8px; }
+    .topSalvos { padding: 9px 11px; }
+}

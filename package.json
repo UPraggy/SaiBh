@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "expandir": "node scripts/expandirDataset.mjs",
-    "deploy": "vite build && gh-pages -d dist -b gh-pages"
+    "deploy": "vite build && node -e \"require('fs').copyFileSync('dist/index.html','dist/404.html')\" && gh-pages -d dist -b gh-pages"
   },
   "dependencies": {
     "react": "^18.3.1",

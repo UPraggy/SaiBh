@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 
 // Permite usar JSX dentro de arquivos .js (padrao do DevProfile do Rafael)
 export default defineConfig({
-  // repositorio: github.com/UPraggy/SaiBh -> site servido em /SaiBh/ (gh-pages)
-  base: '/SaiBh/',
+  // dominio proprio (saibh.rafaelmr.com.br) serve na raiz, entao base = '/'
+  base: '/',
   plugins: [react()],
   esbuild: {
     loader: 'jsx',

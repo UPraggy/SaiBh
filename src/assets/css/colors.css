@@ -88,3 +88,32 @@
        botao salvos; o offset sticky do filtro mobile depende deste valor bater. */
     :root { --menu-h: 56px; }
 }
+
+/* -----------------------------------------------------------------------------
+ * BASE DE ICONES (global) — fiel ao kit "04 · ICONOGRAFIA".
+ * Antes nao existia regra base: o <svg> inline caia no baseline do texto e
+ * ficava "deslocado" (parecia descer em relacao ao label). Aqui travamos o
+ * alinhamento e impedimos que o flex esmague/distorca o icone.
+ * --------------------------------------------------------------------------- */
+.icone {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    overflow: visible;       /* o desenho ja vem centrado no viewBox 24 */
+}
+
+/* Quadrado de categoria: glifo branco PERFEITAMENTE centrado no gradiente,
+ * como no kit (rect rx16 + grupo translate(16,16) centralizado). */
+.categoriaIcone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 0;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08),
+                0 4px 12px rgba(59, 36, 25, .14);
+}
+.categoriaIcone .icone {
+    display: block;          /* remove o gap de baseline dentro do quadrado */
+    vertical-align: top;
+}

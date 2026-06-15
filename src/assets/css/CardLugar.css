@@ -87,11 +87,15 @@
 .cardStatus.aberto i { background: var(--verde-cl); box-shadow: 0 0 0 3px rgba(46, 204, 143, .3); }
 .cardStatus.fechado i { background: var(--alerta); box-shadow: 0 0 0 3px rgba(200, 64, 47, .3); }
 
-/* salvar (coracao) */
-.cardSalvar {
+/* grupo de acoes no topo da capa (ja fui + salvar) */
+.cardAcoesTopo {
     position: absolute;
     top: 11px;
     right: 11px;
+    display: flex;
+    gap: 8px;
+}
+.cardAcaoBtn {
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -106,9 +110,13 @@
     transition: var(--t);
     box-shadow: 0 3px 10px rgba(59, 36, 25, .18);
 }
-.cardSalvar:hover { color: var(--vinho); transform: scale(1.1); }
+.cardAcaoBtn:hover { transform: scale(1.1); }
+.cardSalvar:hover { color: var(--vinho); }
 .cardSalvar.salvo { color: var(--vinho); background: var(--rosa); }
 .cardSalvar.salvo svg { fill: var(--vinho); }
+/* "Ja fui": fica verde quando ativo (visitado) */
+.cardJaFui:hover { color: var(--verde); }
+.cardJaFui.ativo { color: #fff; background: var(--verde); box-shadow: 0 4px 12px rgba(31, 157, 110, .4); }
 
 /* tag surpresa */
 .cardSurpresaTag {

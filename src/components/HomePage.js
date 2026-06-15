@@ -14,9 +14,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-import { getClimaBH } from './funcionalidades/clima.js'
+import { getClimaBH, climaDoDia } from './funcionalidades/clima.js'
 import bancoGet from './funcionalidades/bancoGet.js'
 import { recomendar } from './funcionalidades/recomendar.js'
+import { montarLinkPlano, lerPlanoDaUrl, limparPlanoDaUrl } from './funcionalidades/planoUtil.js'
 import GlobalVar from './subComponents/GlobalVar.jsx'
 
 import TopMenu from './subComponents/TopMenu.jsx'
@@ -29,6 +30,7 @@ import { Icone } from './subComponents/Icones.jsx'
 import '../assets/css/HomePage.css'
 
 const CHAVE_SALVOS = 'saibh-meus-lugares'
+const CHAVE_VISITADOS = 'saibh-visitados'
 
 // quantos cards renderizar por "página" (lazy-load: a base tem milhares de lugares,
 // renderizar tudo de uma vez trava o navegador e estoura a altura da rolagem)
@@ -38,6 +40,7 @@ const POR_PAGINA = 24
 const FILTROS_INICIAIS = () => ({
     dia: GlobalVar.diaAtual(),
     hora: GlobalVar.horaAtual(),
+    diaOffset: 0,          // 0 = hoje; 1..6 = dias à frente (previsão do tempo)
     periodo: 'qualquer',
     comBebe: false,
     idadeBebe: 6,
@@ -90,16 +93,45 @@ function HomePage({ ativaResp }) {
     }, [])
     const estaSalvo = useCallback((id) => salvos.includes(id), [salvos])
 
+    // ---- "Já fui": lugares que o usuario marcou como visitados (persiste) ----
+    const [visitados, setVisitados] = useState(() => GlobalVar.getLocal(CHAVE_VISITADOS) || [])
+    const toggleVisitado = useCallback((id) => {
+        setVisitados((prev) => {
+            const novo = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+            GlobalVar.setLocal(CHAVE_VISITADOS, novo)
+            return novo
+        })
+    }, [])
+    const estaVisitado = useCallback((id) => visitados.includes(id), [visitados])
+
     // regioes unicas (para o select), em ordem alfabetica
     const regioes = useMemo(
         () => [...new Set(lugares.map((l) => l.regiao).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
         [lugares],
     )
 
+    // clima do dia escolhido no seletor (offset 0 = agora; 1..6 = previsão)
+    const climaSelecionado = useMemo(
+        () => climaDoDia(clima, filtros.diaOffset || 0),
+        [clima, filtros.diaOffset],
+    )
+
+    // filtros realmente aplicados: ajusta o "dia da semana" pro dia escolhido e,
+    // quando não é hoje, desliga o "só aberto agora" (não faz sentido em outro dia)
+    const filtrosEfetivos = useMemo(() => {
+        const off = filtros.diaOffset || 0
+        if (!off) return filtros
+        return {
+            ...filtros,
+            dia: (GlobalVar.diaAtual() + off) % 7,
+            soAbertoAgora: false,
+        }
+    }, [filtros])
+
     // recomendacao filtrada (reage aos filtros do usuario, inclusive considerarClima)
     const recomendados = useMemo(
-        () => recomendar(lugares, clima, filtros),
-        [lugares, clima, filtros],
+        () => recomendar(lugares, climaSelecionado, filtrosEfetivos),
+        [lugares, climaSelecionado, filtrosEfetivos],
     )
 
     // ranking estavel do dia para o hero (ignora os filtros do usuario, mas respeita o clima)
@@ -160,6 +192,94 @@ function HomePage({ ativaResp }) {
         setTimeout(() => setDestacarId((atual) => (atual === escolha.id ? null : atual)), 5000)
     }, [recomendados])
 
+    // ---- Sugerir pelo histórico: olha os lugares "Já fui" e infere o gosto ----
+    // pega a categoria, a região e o teto de custo predominantes entre os visitados
+    // e aplica como filtros, pra recomendar mais do mesmo estilo.
+    const sugerirPeloHistorico = useCallback(() => {
+        const visitadosObj = visitados
+            .map((id) => lugares.find((l) => l.id === id))
+            .filter(Boolean)
+        if (!visitadosObj.length) return
+
+        const maisFrequente = (chave) => {
+            const cont = {}
+            visitadosObj.forEach((l) => {
+                const v = l[chave]
+                if (v) cont[v] = (cont[v] || 0) + 1
+            })
+            const ordenado = Object.entries(cont).sort((a, b) => b[1] - a[1])
+            return ordenado.length ? ordenado[0][0] : ''
+        }
+
+        const cat = maisFrequente('categoria')
+        const reg = maisFrequente('regiao')
+        // teto de custo = o mais "caro" entre os visitados (pra não excluir o gosto)
+        const ordemCusto = ['gratis', 'barato', 'medio', 'caro']
+        const tetoCusto = visitadosObj.reduce((max, l) => {
+            const i = ordemCusto.indexOf(l.custo)
+            return i > max ? i : max
+        }, -1)
+
+        setFiltros((p) => ({
+            ...p,
+            categoria: cat || '',
+            regiao: reg || '',
+            custoMax: tetoCusto >= 0 ? ordemCusto[tetoCusto] : '',
+        }))
+        setPainelSalvos(false)
+        // rola pro topo dos resultados pra mostrar a nova lista
+        setTimeout(() => {
+            const el = document.querySelector('.resultados')
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 80)
+    }, [visitados, lugares])
+
+    // ---- Compartilhar plano: gera link portátil e usa share nativo / clipboard ----
+    const [planoCopiado, setPlanoCopiado] = useState(false)
+    const compartilharPlano = useCallback(async () => {
+        if (!salvos.length) return
+        const link = montarLinkPlano({ ids: salvos, filtros })
+        const dados = {
+            title: 'Meu plano no SaiBH',
+            text: `Montei um roteiro com ${salvos.length} ${salvos.length === 1 ? 'lugar' : 'lugares'} em BH. Abre no SaiBH:`,
+            url: link,
+        }
+        try {
+            if (navigator.share) {
+                await navigator.share(dados)
+                return
+            }
+        } catch {
+            // usuario cancelou o share nativo — cai pro clipboard
+        }
+        try {
+            await navigator.clipboard.writeText(link)
+            setPlanoCopiado(true)
+            setTimeout(() => setPlanoCopiado(false), 2200)
+        } catch {
+            // ultimo recurso: prompt pra copiar manualmente
+            window.prompt('Copie o link do seu plano:', link)
+        }
+    }, [salvos, filtros])
+
+    // ---- Abrir um plano recebido por link (?plano=...) ao montar a página ----
+    useEffect(() => {
+        const plano = lerPlanoDaUrl()
+        if (!plano) return
+        if (Array.isArray(plano.ids) && plano.ids.length) {
+            setSalvos((prev) => {
+                const merge = [...new Set([...prev, ...plano.ids])]
+                GlobalVar.setLocal(CHAVE_SALVOS, merge)
+                return merge
+            })
+        }
+        if (plano.filtros && Object.keys(plano.filtros).length) {
+            setFiltros((p) => ({ ...p, ...plano.filtros }))
+        }
+        setPainelSalvos(true)
+        limparPlanoDaUrl()
+    }, [])
+
     return (
         <div className="homePage">
             <TopMenu
@@ -184,6 +304,8 @@ function HomePage({ ativaResp }) {
                 regioes={regioes}
                 clima={clima}
                 ativaResp={ativaResp}
+                onSugerir={sugerirPeloHistorico}
+                temVisitados={visitados.length > 0}
             />
 
             <main className="conteudoWrapper resultados">
@@ -219,6 +341,8 @@ function HomePage({ ativaResp }) {
                                         lugar={l}
                                         salvo={estaSalvo(l.id)}
                                         onToggleSalvo={toggleSalvo}
+                                        visitado={estaVisitado(l.id)}
+                                        onToggleVisitado={toggleVisitado}
                                         surpresa={destacarId === l.id}
                                         destaque={l.destaqueHoje}
                                     />
@@ -252,14 +376,27 @@ function HomePage({ ativaResp }) {
                                 <Icone nome="coracaoCheio" size={19} /> Meus lugares
                                 <small>{lugaresSalvos.length}</small>
                             </span>
-                            <button
-                                type="button"
-                                className="salvosFechar"
-                                onClick={() => setPainelSalvos(false)}
-                                aria-label="Fechar"
-                            >
-                                <Icone nome="x" size={20} />
-                            </button>
+                            <div className="salvosTopoAcoes">
+                                {lugaresSalvos.length > 0 && (
+                                    <button
+                                        type="button"
+                                        className={`salvosCompartilhar ${planoCopiado ? 'copiado' : ''}`}
+                                        onClick={compartilharPlano}
+                                        title="Compartilhar este plano"
+                                    >
+                                        <Icone nome="compartilhar" size={17} />
+                                        {planoCopiado ? 'Link copiado!' : 'Compartilhar'}
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    className="salvosFechar"
+                                    onClick={() => setPainelSalvos(false)}
+                                    aria-label="Fechar"
+                                >
+                                    <Icone nome="x" size={20} />
+                                </button>
+                            </div>
                         </header>
 
                         <div className="salvosCorpo">
@@ -277,6 +414,8 @@ function HomePage({ ativaResp }) {
                                             lugar={l}
                                             salvo
                                             onToggleSalvo={toggleSalvo}
+                                            visitado={estaVisitado(l.id)}
+                                            onToggleVisitado={toggleVisitado}
                                         />
                                     ))}
                                 </div>

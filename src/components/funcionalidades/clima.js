@@ -37,7 +37,7 @@ export async function getClimaBH() {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${GlobalVar.BH_LAT}&longitude=${GlobalVar.BH_LNG}`
         + `&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,is_day`
         + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset`
-        + `&timezone=America%2FSao_Paulo&forecast_days=3`
+        + `&timezone=America%2FSao_Paulo&forecast_days=7`
 
     const resp = await fetchFunc.fetchGet(url)
     if (!resp || resp['ERROR SERVER'] || !resp.current) {
@@ -64,12 +64,48 @@ export async function getClimaBH() {
         minHoje: Math.round(d?.temperature_2m_min?.[0]),
         nascerSol: d?.sunrise?.[0]?.slice(11),
         porSol: d?.sunset?.[0]?.slice(11),
-        proximosDias: (d?.time || []).slice(1).map((dia, i) => ({
-            data: dia,
-            max: Math.round(d.temperature_2m_max[i + 1]),
-            min: Math.round(d.temperature_2m_min[i + 1]),
-            probChuva: d.precipitation_probability_max[i + 1],
-            descricao: (WMO[d.weather_code[i + 1]] || {}).txt || '-',
-        })),
+        proximosDias: (d?.time || []).slice(1).map((dia, i) => {
+            const code = d.weather_code[i + 1]
+            const prob = d.precipitation_probability_max[i + 1]
+            const wmo = WMO[code] || { txt: '-', icone: 'nublado' }
+            return {
+                data: dia,
+                max: Math.round(d.temperature_2m_max[i + 1]),
+                min: Math.round(d.temperature_2m_min[i + 1]),
+                probChuva: prob,
+                descricao: wmo.txt,
+                icone: wmo.icone,
+                categoria: categoriaClima(code, prob),
+            }
+        }),
+    }
+}
+
+/**
+ * climaDoDia(clima, offset)
+ * -----------------------------------------------------------------------------
+ * Devolve um objeto de clima compatível com o recomendador (precisa de
+ * `ok`, `categoria`, `temp`, `probChuva`) para o dia `offset` à frente:
+ *  - offset 0  → o clima de AGORA (objeto original);
+ *  - offset>0  → o dia correspondente de `proximosDias` (previsão diária).
+ * Assim o ranking pode considerar o tempo do dia escolhido, não só o de hoje.
+ * `confiavel:false` sinaliza previsão além de ~5 dias (precisão cai).
+ */
+export function climaDoDia(clima, offset = 0) {
+    if (!clima?.ok) return clima || { ok: false }
+    if (!offset) return clima
+    const dia = clima.proximosDias?.[offset - 1]
+    if (!dia) return { ...clima, confiavel: offset <= 5 }
+    return {
+        ok: true,
+        categoria: dia.categoria,
+        temp: Math.round((dia.max + dia.min) / 2),
+        probChuva: dia.probChuva,
+        descricao: dia.descricao,
+        icone: dia.icone,
+        maxHoje: dia.max,
+        minHoje: dia.min,
+        confiavel: offset <= 5,
+        previsao: true,
     }
 }

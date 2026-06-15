@@ -21,7 +21,70 @@ import GlobalVar from '../subComponents/GlobalVar.jsx'
  * Fonte OSM sob licenca ODbL — atribuicao no Rodape.
  */
 const CURADOS = LugaresBH.lista.map((l) => ({ ...l, curado: true, fonte: 'curado' }))
-const TODOS = [...CURADOS, ...lugaresOSM, ...lugaresGoogle]
+
+/**
+ * normalizarPerfil(lugar)
+ * -----------------------------------------------------------------------------
+ * As bases OSM/Google vieram com `bebe:true` em quase tudo (2952/3378) e
+ * `idealPessoas` genérico — então os filtros de Bebê e de Pessoas não
+ * discriminavam nada (todo card mostrava "Com bebê"). Aqui re-derivamos esses
+ * dois campos a partir de sinais reais do lugar (categoria/ambiente/períodos),
+ * de forma centralizada e testável, sem reescrever milhares de linhas de JSON.
+ * Curados NÃO passam por aqui — foram ajustados à mão.
+ *
+ * Regra de bebê (realista p/ BH):
+ *  - lugar que SÓ abre à noite (balada/bar noturno) → não indicado p/ bebê;
+ *  - bar (foco em bebida/ruído) → por padrão não indicado;
+ *  - parque, praça, mirante, espaço família, café, feira, shopping → indicado;
+ *  - restaurante → indicado (almoço/jantar em família), com ressalva à noite;
+ *  - cultura (museu/centro cultural) → indicado (ambiente calmo).
+ */
+function normalizarPerfil(l) {
+    const cat = l.categoria
+    const periodos = Array.isArray(l.periodos) ? l.periodos : []
+    const soNoite = periodos.length === 1 && periodos[0] === 'noite'
+
+    let bebe
+    let bebeObs = l.bebeObs || ''
+    if (soNoite) {
+        bebe = false
+    } else if (cat === 'bar') {
+        bebe = false
+    } else if (['parque', 'praca', 'mirante', 'familia', 'feira'].includes(cat)) {
+        bebe = true
+        bebeObs = bebeObs || 'Espaço aberto, tranquilo pra ir com criança'
+    } else if (cat === 'cafe' || cat === 'shopping') {
+        bebe = true
+        bebeObs = bebeObs || 'Ambiente calmo, dá pra ir com bebê'
+    } else if (cat === 'cultura') {
+        bebe = true
+    } else if (cat === 'restaurante') {
+        bebe = true
+        if (periodos.includes('noite') && !periodos.includes('manha')) {
+            bebeObs = bebeObs || 'Melhor levar bebê no horário do almoço'
+        }
+    } else {
+        bebe = false
+    }
+
+    // tamanho ideal de grupo coerente com a categoria (quando não veio bom)
+    let ideal = l.idealPessoas
+    if (!ideal || typeof ideal.max !== 'number') {
+        const PORCAT = {
+            bar: { min: 2, max: 8 }, cafe: { min: 1, max: 6 }, restaurante: { min: 1, max: 8 },
+            parque: { min: 1, max: 20 }, praca: { min: 1, max: 20 }, mirante: { min: 1, max: 12 },
+            familia: { min: 2, max: 16 }, feira: { min: 1, max: 12 }, shopping: { min: 1, max: 12 },
+            cultura: { min: 1, max: 10 },
+        }
+        ideal = PORCAT[cat] || { min: 1, max: 8 }
+    }
+
+    return { ...l, bebe, bebeObs, idealPessoas: ideal }
+}
+
+const OSM_NORM = lugaresOSM.map(normalizarPerfil)
+const GOOGLE_NORM = lugaresGoogle.map(normalizarPerfil)
+const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM]
 
 /** Retorna a lista completa de lugares (curados + OSM + Google). */
 function getLugares() {

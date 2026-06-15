@@ -172,6 +172,14 @@ const TRACOS = {
             <path d="M10 19a2 2 0 0 0 4 0" />
         </>
     ),
+    // info / aviso (circulo com i) — mesmo peso de traco do kit
+    info: (
+        <>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5" />
+            <path d="M12 8h.01" />
+        </>
+    ),
 
     // ---- categorias (traços fieis ao kit) ----
     // restaurante -> garfo.svg
@@ -212,6 +220,15 @@ const TRACOS = {
         <>
             <path d="M5 9.5h14l-1.4 9a2 2 0 01-2 1.7H8.4a2 2 0 01-2-1.7L5 9.5z" />
             <path d="M9 9.5V6.5a3 3 0 016 0v3" />
+        </>
+    ),
+    // compartilhar (tres nos ligados) — mesmo peso de traco do kit
+    compartilhar: (
+        <>
+            <circle cx="6" cy="12" r="2.4" />
+            <circle cx="17" cy="6" r="2.4" />
+            <circle cx="17" cy="18" r="2.4" />
+            <path d="M8.2 10.9l6.7-3.7M8.2 13.1l6.7 3.7" />
         </>
     ),
 }

@@ -47,7 +47,7 @@ function Estrelas({ nota }) {
     )
 }
 
-function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, destaque = false }) {
+function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, destaque = false, visitado = false, onToggleVisitado }) {
     const [imgErro, setImgErro] = useState(false)
     const realce = surpresa || destaque
 
@@ -88,16 +88,30 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                     <i /> {lugar.abertoAgora ? 'Aberto agora' : 'Fechado agora'}
                 </span>
 
-                {/* salvar */}
-                <button
-                    type="button"
-                    className={`cardSalvar ${salvo ? 'salvo' : ''}`}
-                    aria-pressed={salvo}
-                    aria-label={salvo ? 'Remover dos meus lugares' : 'Salvar nos meus lugares'}
-                    onClick={() => onToggleSalvo && onToggleSalvo(lugar.id)}
-                >
-                    <Icone nome={salvo ? 'coracaoCheio' : 'coracao'} size={19} />
-                </button>
+                {/* acoes do topo: ja fui + salvar */}
+                <div className="cardAcoesTopo">
+                    {onToggleVisitado && (
+                        <button
+                            type="button"
+                            className={`cardAcaoBtn cardJaFui ${visitado ? 'ativo' : ''}`}
+                            aria-pressed={visitado}
+                            aria-label={visitado ? 'Marcar que ainda não foi' : 'Marcar que já foi aqui'}
+                            title={visitado ? 'Você já foi aqui' : 'Marcar “Já fui”'}
+                            onClick={() => onToggleVisitado(lugar.id)}
+                        >
+                            <Icone nome="check" size={18} />
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        className={`cardAcaoBtn cardSalvar ${salvo ? 'salvo' : ''}`}
+                        aria-pressed={salvo}
+                        aria-label={salvo ? 'Remover dos meus lugares' : 'Salvar nos meus lugares'}
+                        onClick={() => onToggleSalvo && onToggleSalvo(lugar.id)}
+                    >
+                        <Icone nome={salvo ? 'coracaoCheio' : 'coracao'} size={19} />
+                    </button>
+                </div>
 
                 {realce && (
                     <span className="cardSurpresaTag">

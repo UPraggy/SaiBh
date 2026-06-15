@@ -174,6 +174,96 @@
 }
 .bebeIdade strong small { font-family: var(--f-ui); font-weight: 500; color: var(--cafe-2); }
 
+/* dica abaixo do slider de idade */
+.bebeDica {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .76rem;
+    color: var(--cafe-3);
+    line-height: 1.35;
+}
+.bebeDica svg { color: var(--terracota-cl); flex-shrink: 0; margin-top: 2px; }
+
+/* ---- seletor de dia (hoje + previsão) ---- */
+.diasFita {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+.diaPill {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 62px;
+    font-family: var(--f-ui);
+    color: var(--cafe);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: var(--r-sm);
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: var(--t);
+    line-height: 1.1;
+}
+.diaPill:hover { border-color: var(--terracota-cl); }
+.diaPill strong { font-weight: 700; font-size: .82rem; }
+.diaPill span { font-size: .68rem; color: var(--cafe-3); font-weight: 600; }
+.diaPill em {
+    margin-top: 3px;
+    font-size: .72rem;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--terracota);
+}
+.diaPill.ativo {
+    background: var(--grad-vinho);
+    border-color: transparent;
+    color: #fff7ec;
+    box-shadow: 0 4px 12px rgba(138, 31, 63, .25);
+}
+.diaPill.ativo span,
+.diaPill.ativo em { color: var(--rosa); }
+
+.diasAviso {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-family: var(--f-ui);
+    font-size: .76rem;
+    color: var(--navy);
+    line-height: 1.35;
+}
+.diasAviso svg { color: var(--navy); flex-shrink: 0; margin-top: 2px; }
+
+/* ---- botão: sugerir pelo histórico ---- */
+.sugerirBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    text-align: left;
+    font-family: var(--f-ui);
+    color: var(--vinho);
+    background: var(--rosa-bg);
+    border: 1.5px solid var(--rosa);
+    border-radius: var(--r-sm);
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.sugerirBtn svg { color: var(--terracota); flex-shrink: 0; }
+.sugerirBtn strong { font-weight: 700; font-size: .9rem; }
+.sugerirBtn small { display: block; font-size: .74rem; color: var(--cafe-2); font-weight: 500; }
+.sugerirBtn:hover:not(:disabled) { background: var(--rosa); border-color: var(--terracota); }
+.sugerirBtn:disabled { opacity: .55; cursor: not-allowed; }
+
 /* ---- switch: considerar clima ---- */
 .climaSwitch {
     display: flex;

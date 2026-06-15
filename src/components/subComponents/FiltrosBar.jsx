@@ -46,10 +46,35 @@ const PADRAO = {
     pessoas: 2,
     comBebe: false,
     soAbertoAgora: false,
+    diaOffset: 0,
 }
 
-function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativaResp }) {
+// idade da criança em texto curto: "8 meses", "1 ano", "2a 3m", "10 anos"
+function formatIdade(m) {
+    const meses = Number(m) || 0
+    if (meses < 24) return `${meses} ${meses === 1 ? 'mês' : 'meses'}`
+    const anos = Math.floor(meses / 12)
+    const resto = meses % 12
+    if (resto === 0) return `${anos} ${anos === 1 ? 'ano' : 'anos'}`
+    return `${anos}a ${resto}m`
+}
+
+// rótulo curto de um dia à frente: "Hoje", "Amanhã" ou "Qua 18" etc.
+function rotuloDia(offset, isoData) {
+    if (offset === 0) return { topo: 'Hoje', base: 'agora' }
+    if (offset === 1) return { topo: 'Amanhã', base: '' }
+    const d = isoData ? new Date(isoData + 'T12:00:00') : new Date(Date.now() + offset * 864e5)
+    const semana = GlobalVar.diasSemanaCurto[d.getDay()]
+    return { topo: semana.charAt(0) + semana.slice(1).toLowerCase(), base: String(d.getDate()) }
+}
+
+function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativaResp, onSugerir, temVisitados = false }) {
     const [aberto, setAberto] = useState(false)
+
+    const diaOffset = filtros.diaOffset || 0
+    // monta a lista de dias selecionáveis: Hoje + os próximos da previsão (clima)
+    const diasClima = clima?.ok && Array.isArray(clima.proximosDias) ? clima.proximosDias : []
+    const dias = [{ offset: 0, dia: null }, ...diasClima.map((d, i) => ({ offset: i + 1, dia: d.data, info: d }))]
 
     // ---- chips ativos -------------------------------------------------------
     const chips = []
@@ -65,7 +90,7 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
     if (filtros.pessoas !== PADRAO.pessoas)
         chips.push({ k: 'pessoas', t: `${filtros.pessoas} ${filtros.pessoas === 1 ? 'pessoa' : 'pessoas'}`, reset: PADRAO.pessoas })
     if (filtros.comBebe)
-        chips.push({ k: 'comBebe', t: `Com bebê (${filtros.idadeBebe}m)`, reset: PADRAO.comBebe })
+        chips.push({ k: 'comBebe', t: `Com criança (${formatIdade(filtros.idadeBebe)})`, reset: PADRAO.comBebe })
     if (filtros.soAbertoAgora) chips.push({ k: 'soAbertoAgora', t: 'Aberto agora', reset: PADRAO.soAbertoAgora })
 
     const totalAtivos = chips.length
@@ -80,6 +105,54 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
     // ---- conteudo dos grupos (reaproveitado em desktop e no sheet) ----------
     const grupos = (
         <>
+            {/* Qual dia? — Hoje + previsão do tempo (até 7 dias) */}
+            <div className="filtroGrupo">
+                <label className="filtroLabel">
+                    <Icone nome="relogio" size={16} /> Qual dia você quer sair?
+                </label>
+                <div className="diasFita" role="group" aria-label="Escolha o dia">
+                    {dias.map((d) => {
+                        const r = rotuloDia(d.offset, d.dia)
+                        const ativo = diaOffset === d.offset
+                        return (
+                            <button
+                                key={d.offset}
+                                type="button"
+                                className={`diaPill ${ativo ? 'ativo' : ''}`}
+                                onClick={() => setFiltro('diaOffset', d.offset)}
+                                title={d.info ? `${d.info.descricao} · ${d.info.min}°–${d.info.max}° · ${d.info.probChuva}% chuva` : 'Agora'}
+                            >
+                                <strong>{r.topo}</strong>
+                                {r.base ? <span>{r.base}</span> : null}
+                                {d.info ? <em>{Math.round(d.info.max)}°</em> : null}
+                            </button>
+                        )
+                    })}
+                </div>
+                {diaOffset > 5 && (
+                    <p className="diasAviso">
+                        <Icone nome="info" size={14} /> A previsão do tempo perde precisão depois de 5 dias — use como estimativa.
+                    </p>
+                )}
+            </div>
+
+            {/* Sugestão a partir dos lugares já visitados */}
+            {onSugerir && (
+                <button
+                    type="button"
+                    className="sugerirBtn"
+                    onClick={onSugerir}
+                    disabled={!temVisitados}
+                    title={temVisitados ? 'Monta filtros com base nos lugares que você marcou como “Já fui”' : 'Marque alguns lugares como “Já fui” para liberar a sugestão'}
+                >
+                    <Icone nome="dado" size={17} />
+                    <span>
+                        <strong>Sugerir pelo que já curti</strong>
+                        <small>{temVisitados ? 'Usa seus lugares visitados' : 'Marque lugares como “Já fui” primeiro'}</small>
+                    </span>
+                </button>
+            )}
+
             {/* Periodo */}
             <div className="filtroGrupo">
                 <label className="filtroLabel">
@@ -191,20 +264,23 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
                     aria-pressed={filtros.comBebe}
                     onClick={() => setFiltro('comBebe', !filtros.comBebe)}
                 >
-                    <Icone nome="bebe" size={17} /> Vou com bebê
+                    <Icone nome="bebe" size={17} /> Vou com criança
                 </button>
 
                 <div className={`bebeBox ${filtros.comBebe ? 'aberto' : ''}`}>
                     <div className="bebeBoxInner">
-                        <label className="filtroLabel">Idade do bebê</label>
+                        <label className="filtroLabel">Idade da criança</label>
                         <div className="bebeIdade">
                             <input
-                                type="range" min="0" max="48" step="1"
+                                type="range" min="0" max="120" step="1"
                                 value={filtros.idadeBebe}
                                 onChange={(e) => setFiltro('idadeBebe', Number(e.target.value))}
                             />
-                            <strong>{filtros.idadeBebe} <small>meses</small></strong>
+                            <strong>{formatIdade(filtros.idadeBebe)}</strong>
                         </div>
+                        <p className="bebeDica">
+                            <Icone nome="info" size={13} /> Filtramos só lugares tranquilos pra criança e adaptamos o ranking à idade.
+                        </p>
                     </div>
                 </div>
 

@@ -25,6 +25,31 @@ import bancoGet from './bancoGet.js'
 // ordem de custo p/ comparar com o teto escolhido
 const ORDEM_CUSTO = { gratis: 0, barato: 1, medio: 2, caro: 3 }
 
+// categorias que, no "chute", costumam acomodar bem crianças
+const CATS_CRIANCA = new Set([
+    'parque', 'praca', 'mirante', 'familia', 'feira',
+    'cafe', 'shopping', 'cultura', 'restaurante', 'mercado',
+])
+
+/**
+ * indicadoParaCrianca(lugar, idadeMeses)
+ * -----------------------------------------------------------------------------
+ * Decide se um lugar entra quando "Vou com criança" está ligado. Além do campo
+ * `bebe` curado, fazemos um "chute" educado a partir da categoria/ambiente —
+ * assim cobrimos os milhares de pontos do OSM que não têm o campo preenchido.
+ * É sensível à idade (0–120 meses): bebê pequeno evita lugar só-de-noite.
+ */
+function indicadoParaCrianca(l, idadeMeses) {
+    if (l.categoria === 'bar') return false
+    if (l.bebe) return true
+    const soNoite = Array.isArray(l.periodos) && l.periodos.length === 1 && l.periodos[0] === 'noite'
+    if (idadeMeses < 18 && soNoite) return false
+    if (CATS_CRIANCA.has(l.categoria)) return true
+    // espaço aberto costuma acomodar criança mesmo sem categoria "óbvia"
+    if (l.ambiente === 'aberto') return true
+    return false
+}
+
 /**
  * Calcula o score de UM lugar dado o clima e os filtros.
  * Retorna { score, motivos[], abertoAgora, abreNoPeriodo }.
@@ -66,31 +91,54 @@ function pontuar(lugar, clima, f) {
         if (clima.temp >= 30 && lugar.ambiente === 'fechado') { score += 4 }
     }
 
-    // ---- 3) Bebe (peso alto quando marcado) ----
+    // ---- 3) Criança (quando marcado) ----
+    // O DROP de lugares nao-indicados acontece no filtro duro (recomendar()).
+    // Aqui afinamos o ranking entre os lugares que JA passaram, cuidando da
+    // idade (0–120 meses): bebê pede calmo; criança maior pede espaço/atividade.
     if (f.comBebe) {
-        if (lugar.bebe) {
-            score += 16
-            motivos.push('Tranquilo pra ir com o bebê')
+        const idade = f.idadeBebe || 0
+        // base: lugar curado como tranquilo pra criança vale mais que o "chute"
+        if (lugar.bebe) { score += 12; motivos.push('Tranquilo pra ir com criança') }
+        else { score += 6; motivos.push('Costuma receber bem quem vai com criança') }
+
+        const soNoite = lugar.periodos?.length === 1 && lugar.periodos[0] === 'noite'
+
+        if (idade < 18) {
+            // bebê: ambiente calmo/coberto, longe da noite e da muvuca
+            if (lugar.ambiente === 'fechado') { score += 5; motivos.push('Ambiente calmo pra bebê') }
+            else if (lugar.ambiente === 'misto') { score += 2 }
+            if (f.periodo === 'noite' || soNoite) { score -= 8; motivos.push('Bebê + noite pede atenção') }
+        } else if (idade < 48) {
+            // 1–4 anos: começa a andar/correr — espaço aberto ajuda muito
+            if (lugar.ambiente === 'aberto') { score += 5; motivos.push('Espaço aberto pra criança gastar energia') }
+            if (['parque', 'praca', 'familia'].includes(lugar.categoria)) { score += 4 }
+            if (soNoite) score -= 4
         } else {
-            score -= 30
-            motivos.push('Pouco indicado pra bebê neste horário')
-        }
-        // bebe pequeno (< 12 meses) prefere ambiente calmo/fechado e periodo dia
-        if (f.idadeBebe && f.idadeBebe < 12) {
-            if (lugar.ambiente === 'fechado') score += 4
-            if (f.periodo === 'noite') { score -= 6; motivos.push('Bebê pequeno + noite pede atenção') }
+            // 4–10 anos: parque, cultura e atividade rendem mais
+            if (lugar.ambiente === 'aberto') { score += 4; motivos.push('Lugar pra criança brincar à vontade') }
+            if (['parque', 'praca', 'mirante', 'cultura', 'familia', 'feira'].includes(lugar.categoria)) {
+                score += 5; motivos.push('Programa que prende a atenção da criançada')
+            }
         }
     }
 
-    // ---- 4) Pessoas vs tamanho ideal ----
+    // ---- 4) Pessoas vs tamanho ideal (discrimina de verdade) ----
     if (f.pessoas) {
-        const { min, max } = lugar.idealPessoas || { min: 1, max: 99 }
-        if (f.pessoas >= min && f.pessoas <= max) {
+        const { min = 1, max = 99 } = lugar.idealPessoas || {}
+        if (f.pessoas > max) {
+            // quanto mais estoura a capacidade, maior a penalidade
+            score -= Math.min(24, 10 + (f.pessoas - max) * 3)
+            motivos.push('Pode ficar apertado pro tamanho do grupo')
+        } else if (f.pessoas < min) {
+            score -= 6
+            motivos.push('Rende mais com um grupo um pouco maior')
+        } else {
             score += 8
             motivos.push(`Bom pra grupo de ${f.pessoas}`)
-        } else if (f.pessoas > max) {
-            score -= 8
-            motivos.push('Pode ficar apertado pro tamanho do grupo')
+            // encaixe forte: grupo grande num lugar que comporta grupos grandes
+            if (f.pessoas >= 6 && max >= 12) score += 4
+            // casal/solo num lugar intimista
+            if (f.pessoas <= 2 && max <= 6) score += 3
         }
     }
 
@@ -98,7 +146,7 @@ function pontuar(lugar, clima, f) {
     if (f.custoMax) {
         if (ORDEM_CUSTO[lugar.custo] <= ORDEM_CUSTO[f.custoMax]) {
             score += 10
-            if (lugar.custo === 'gratis') motivos.push('De graça 🎉')
+            if (lugar.custo === 'gratis') motivos.push('De graça')
             else motivos.push(`Cabe no orçamento (${labelCusto(lugar.custo)})`)
         } else {
             score -= 16
@@ -152,6 +200,9 @@ function recomendar(lugares, clima, filtros = {}) {
         .filter((l) => !f.regiao || l.regiao === f.regiao)
         .filter((l) => (f.comida === 'com' ? l.temComida : f.comida === 'sem' ? !l.temComida : true))
         .filter((l) => !f.custoMax || ORDEM_CUSTO[l.custo] <= ORDEM_CUSTO[f.custoMax])
+        // levar criança é filtro DURO, mas "chutamos" além do campo `bebe`:
+        // categoria/ambiente típicos de criança entram, sensível à idade.
+        .filter((l) => !f.comBebe || indicadoParaCrianca(l, f.idadeBebe))
         // score
         .map((l) => ({ ...l, ...pontuar(l, clima, f) }))
         // se pediu so aberto agora, remove fechados

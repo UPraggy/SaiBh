@@ -149,9 +149,22 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                     <span className="cardCat">{cat?.label || lugar.categoria}</span>
                 </div>
 
-                <p className="cardRegiao">
-                    <Icone nome="pin" size={13} /> {lugar.regiao}
-                </p>
+                {/* localização → abre o lugar no Google Maps (rota, endereço e fotos reais) */}
+                <a
+                    className="cardLocal"
+                    href={GlobalVar.mapsUrl(lugar)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir no Google Maps — rota, endereço e mais fotos"
+                >
+                    <span className="cardLocalTexto">
+                        <Icone nome="pin" size={13} /> {lugar.regiao}
+                        {lugar.endereco && <small className="cardEndereco">{lugar.endereco}</small>}
+                    </span>
+                    <span className="cardLocalMaps">
+                        <Icone nome="mapa" size={13} /> Ver no mapa
+                    </span>
+                </a>
 
                 {lugar.descricao && <p className="cardDescricao">{lugar.descricao}</p>}
 

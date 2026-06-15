@@ -199,15 +199,60 @@
     font-size: .78rem;
 }
 
-.cardRegiao {
-    display: inline-flex;
+/* localização clicável → Google Maps (endereço + rota + fotos) */
+.cardLocal {
+    display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: space-between;
+    gap: 8px;
+    text-decoration: none;
+    border: 1px solid var(--bege-borda);
+    background: var(--bege);
+    border-radius: 12px;
+    padding: 7px 10px;
+    transition: var(--t);
+}
+.cardLocal:hover {
+    border-color: var(--terracota-cl);
+    background: var(--rosa-bg);
+}
+.cardLocalTexto {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px 5px;
     font-family: var(--f-ui);
     font-size: .8rem;
-    color: var(--cafe-3);
+    font-weight: 600;
+    color: var(--cafe-2);
+    min-width: 0;
 }
-.cardRegiao svg { color: var(--terracota-cl); flex-shrink: 0; }
+.cardLocalTexto > svg { color: var(--terracota-cl); flex-shrink: 0; }
+.cardEndereco {
+    flex-basis: 100%;
+    padding-left: 18px;
+    font-weight: 500;
+    font-size: .73rem;
+    color: var(--cafe-3);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.cardLocalMaps {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    font-family: var(--f-ui);
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--terracota);
+    white-space: nowrap;
+}
+.cardLocal:hover .cardLocalMaps { color: var(--vinho); }
+.cardLocalMaps svg { color: currentColor; }
 
 .cardDescricao {
     font-family: var(--f-ui);

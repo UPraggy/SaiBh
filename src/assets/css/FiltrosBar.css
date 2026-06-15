@@ -11,15 +11,17 @@
     position: relative;
     z-index: 1;
 }
-.filtrosBarInner {
+/* especificidade extra p/ vencer o `.conteudoWrapper { padding:0 24px }`
+   carregado depois — senão o padding vertical da faixa não aplica. */
+.filtrosBar .filtrosBarInner {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    gap: 24px;
+    padding-top: 26px;
+    padding-bottom: 26px;
 }
 
-.filtroGrupo { display: flex; flex-direction: column; gap: 7px; }
+.filtroGrupo { display: flex; flex-direction: column; gap: 10px; }
 .filtroLabel {
     display: inline-flex;
     align-items: center;
@@ -122,7 +124,7 @@
 }
 
 /* ---- linha de baixo: toggles + bebe ---- */
-.filtroLinhaBaixo { gap: 14px; align-items: center; }
+.filtroLinhaBaixo { gap: 16px; align-items: center; padding-top: 2px; }
 .togglePill {
     display: inline-flex;
     align-items: center;

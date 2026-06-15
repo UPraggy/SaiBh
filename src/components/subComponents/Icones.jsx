@@ -241,6 +241,11 @@ TRACOS.regiao = TRACOS.pin
 export function Icone({ nome, size = 20, traco = 1.8, className = '', style }) {
     const conteudo = TRACOS[nome]
     if (!conteudo) return null
+    // O kit é desenhado em viewBox 24 com traço 1.8 → a ~1.1px a 15px o
+    // traço fica fino e "spindly". Compensamos o peso aparente em tamanhos
+    // pequenos para manter a espessura na tela perto de ~1.4px (sem mexer na
+    // geometria dos paths, então continua fiel ao kit).
+    const tracoEfetivo = size < 22 ? Math.min(traco + (22 - size) * 0.055, 2.6) : traco
     return (
         <svg
             className={`icone ${className}`}
@@ -249,7 +254,7 @@ export function Icone({ nome, size = 20, traco = 1.8, className = '', style }) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth={traco}
+            strokeWidth={tracoEfetivo}
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"

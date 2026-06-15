@@ -83,7 +83,7 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
             {/* Periodo */}
             <div className="filtroGrupo">
                 <label className="filtroLabel">
-                    <Icone nome="relogio" size={15} /> Quando quer ficar?
+                    <Icone nome="relogio" size={16} /> Quando quer ficar?
                 </label>
                 <div className="segmentos">
                     {PERIODOS.map((p) => (
@@ -102,7 +102,7 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
             {/* Custo */}
             <div className="filtroGrupo">
                 <label className="filtroLabel">
-                    <Icone nome="dinheiro" size={15} /> Quanto pode gastar?
+                    <Icone nome="dinheiro" size={16} /> Quanto pode gastar?
                 </label>
                 <div className="segmentos">
                     {CUSTOS.map((c) => (
@@ -160,7 +160,7 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
 
                 <div className="filtroGrupo filtroPessoas">
                     <label className="filtroLabel">
-                        <Icone nome="pessoas" size={15} /> Pessoas
+                        <Icone nome="pessoas" size={16} /> Pessoas
                     </label>
                     <div className="contador">
                         <button

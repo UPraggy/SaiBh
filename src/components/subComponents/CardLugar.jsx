@@ -57,6 +57,11 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
     const faixa = faixaScore(lugar.score)
     const motivos = Array.isArray(lugar.motivos) ? lugar.motivos.slice(0, 3) : []
 
+    // status contextual (dia/período escolhido). Fallback p/ cards que não
+    // passam pelo motor (ex.: DestaqueHoje) — mantém o "agora" clássico.
+    const statusTipo = lugar.statusTipo || (lugar.abertoAgora ? 'aberto' : 'fechado')
+    const statusLabel = lugar.statusLabel || (lugar.abertoAgora ? 'Aberto agora' : 'Fechado agora')
+
     return (
         <article className={`cardLugar ${realce ? 'cardSurpresa' : ''}`} data-cat={lugar.categoria}>
             {/* ---------------- Capa ---------------- */}
@@ -83,9 +88,9 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                     </span>
                 )}
 
-                {/* status */}
-                <span className={`cardStatus ${lugar.abertoAgora ? 'aberto' : 'fechado'}`}>
-                    <i /> {lugar.abertoAgora ? 'Aberto agora' : 'Fechado agora'}
+                {/* status: respeita o dia/período escolhido (não só a hora atual) */}
+                <span className={`cardStatus ${statusTipo}`}>
+                    <i /> {statusLabel}
                 </span>
 
                 {/* acoes do topo: ja fui + salvar */}

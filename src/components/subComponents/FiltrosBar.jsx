@@ -59,6 +59,19 @@ function formatIdade(m) {
     return `${anos}a ${resto}m`
 }
 
+// atalhos de idade mais comuns (em meses) p/ ajustar com 1 toque
+const IDADE_PRESETS = [
+    { m: 6, t: 'Bebê' },
+    { m: 12, t: '1 ano' },
+    { m: 24, t: '2 anos' },
+    { m: 60, t: '5 anos' },
+    { m: 96, t: '8 anos' },
+    { m: 120, t: '10 anos' },
+]
+// passo do stepper: granularidade fina (mês) p/ bebês, anual depois dos 2 anos
+function passoIdade(m) { return m < 24 ? 1 : 12 }
+const IDADE_MAX = 120
+
 // rótulo curto de um dia à frente: "Hoje", "Amanhã" ou "Qua 18" etc.
 function rotuloDia(offset, isoData) {
     if (offset === 0) return { topo: 'Hoje', base: 'agora' }
@@ -271,12 +284,37 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
                     <div className="bebeBoxInner">
                         <label className="filtroLabel">Idade da criança</label>
                         <div className="bebeIdade">
-                            <input
-                                type="range" min="0" max="120" step="1"
-                                value={filtros.idadeBebe}
-                                onChange={(e) => setFiltro('idadeBebe', Number(e.target.value))}
-                            />
-                            <strong>{formatIdade(filtros.idadeBebe)}</strong>
+                            <div className="contador contadorIdade">
+                                <button
+                                    type="button"
+                                    aria-label="Diminuir idade"
+                                    disabled={filtros.idadeBebe <= 0}
+                                    onClick={() => setFiltro('idadeBebe', Math.max(0, filtros.idadeBebe - passoIdade(filtros.idadeBebe)))}
+                                >
+                                    −
+                                </button>
+                                <strong className="idadeValor">{formatIdade(filtros.idadeBebe)}</strong>
+                                <button
+                                    type="button"
+                                    aria-label="Aumentar idade"
+                                    disabled={filtros.idadeBebe >= IDADE_MAX}
+                                    onClick={() => setFiltro('idadeBebe', Math.min(IDADE_MAX, filtros.idadeBebe + passoIdade(filtros.idadeBebe)))}
+                                >
+                                    +
+                                </button>
+                            </div>
+                            <div className="idadePresets" role="group" aria-label="Idades comuns">
+                                {IDADE_PRESETS.map((p) => (
+                                    <button
+                                        key={p.m}
+                                        type="button"
+                                        className={`idadeChip ${filtros.idadeBebe === p.m ? 'ativo' : ''}`}
+                                        onClick={() => setFiltro('idadeBebe', p.m)}
+                                    >
+                                        {p.t}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                         <p className="bebeDica">
                             <Icone nome="info" size={13} /> Filtramos só lugares tranquilos pra criança e adaptamos o ranking à idade.

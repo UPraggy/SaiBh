@@ -55,4 +55,22 @@ export default class GlobalVar {
     static labelPeriodo(p) {
         return ({ manha: 'Manha', tarde: 'Tarde', noite: 'Noite', qualquer: 'Qualquer horario' })[p] || p;
     }
+
+    // ---- Google Maps ----
+    /**
+     * mapsUrl(lugar) — link p/ abrir o lugar no Google Maps (onde estão a rota,
+     * o endereço completo e a galeria de fotos reais). Busca por nome+endereço+
+     * região + "Belo Horizonte, MG", que cai direto na ficha do lugar. Quando há
+     * coordenadas (OSM), elas entram como âncora extra de precisão.
+     */
+    static mapsUrl(lugar) {
+        if (!lugar) return 'https://www.google.com/maps'
+        const partes = [lugar.nome, lugar.endereco, lugar.regiao, 'Belo Horizonte, MG']
+            .filter((p) => p && String(p).trim())
+        const temCoord = typeof lugar.lat === 'number' && typeof lugar.lng === 'number'
+        const query = temCoord
+            ? `${partes.join(', ')} @${lugar.lat},${lugar.lng}`
+            : partes.join(', ')
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+    }
 }

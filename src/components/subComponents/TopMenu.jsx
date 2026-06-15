@@ -9,7 +9,7 @@ import { Icone } from './Icones.jsx'
 import GlobalVar from './GlobalVar.jsx'
 import '../../assets/css/TopMenu.css'
 
-function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos }) {
+function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos, visitadosCount = 0, onAbrirVisitados }) {
     const hoje = GlobalVar.diasSemana[GlobalVar.diaAtual()]
     const agora = GlobalVar.horaAgoraTexto()
 
@@ -40,6 +40,17 @@ function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos }) {
                         <Icone nome={salvosCount > 0 ? 'coracaoCheio' : 'coracao'} size={19} />
                         {!ativaResp && <span>Meus lugares</span>}
                         {salvosCount > 0 && <span className="topSalvosBadge">{salvosCount}</span>}
+                    </button>
+
+                    <button
+                        type="button"
+                        className="topSalvos topVisitados"
+                        onClick={onAbrirVisitados}
+                        aria-label={`Lugares que já fui (${visitadosCount})`}
+                    >
+                        <Icone nome="check" size={19} />
+                        {!ativaResp && <span>Já fui</span>}
+                        {visitadosCount > 0 && <span className="topSalvosBadge">{visitadosCount}</span>}
                     </button>
                 </div>
             </div>

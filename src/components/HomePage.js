@@ -63,6 +63,7 @@ function HomePage({ ativaResp }) {
     // "Meus Lugares" (persiste entre sessoes)
     const [salvos, setSalvos] = useState(() => GlobalVar.getLocal(CHAVE_SALVOS) || [])
     const [painelSalvos, setPainelSalvos] = useState(false)
+    const [painelVisitados, setPainelVisitados] = useState(false)
 
     // "Me Surpreenda": id do lugar realcado
     const [destacarId, setDestacarId] = useState(null)
@@ -151,6 +152,11 @@ function HomePage({ ativaResp }) {
     const lugaresSalvos = useMemo(
         () => salvos.map((id) => mapaHoje.get(id) || lugares.find((l) => l.id === id)).filter(Boolean),
         [salvos, mapaHoje, lugares],
+    )
+    // mesma lógica para a lista "Já fui" (gerenciar/administrar os visitados)
+    const lugaresVisitados = useMemo(
+        () => visitados.map((id) => mapaHoje.get(id) || lugares.find((l) => l.id === id)).filter(Boolean),
+        [visitados, mapaHoje, lugares],
     )
 
     // toda vez que os filtros mudam, a lista recomeça do topo
@@ -286,7 +292,9 @@ function HomePage({ ativaResp }) {
                 clima={clima}
                 ativaResp={ativaResp}
                 salvosCount={salvos.length}
-                onAbrirSalvos={() => setPainelSalvos(true)}
+                onAbrirSalvos={() => { setPainelVisitados(false); setPainelSalvos(true) }}
+                visitadosCount={visitados.length}
+                onAbrirVisitados={() => { setPainelSalvos(false); setPainelVisitados(true) }}
             />
 
             <DestaqueHoje
@@ -415,6 +423,69 @@ function HomePage({ ativaResp }) {
                                             salvo
                                             onToggleSalvo={toggleSalvo}
                                             visitado={estaVisitado(l.id)}
+                                            onToggleVisitado={toggleVisitado}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </aside>
+                </div>
+            )}
+
+            {/* ---------------- Painel "Já fui" (gerenciar visitados) ---------------- */}
+            {painelVisitados && (
+                <div className="salvosOverlay" onClick={() => setPainelVisitados(false)}>
+                    <aside
+                        className="salvosPainel"
+                        onClick={(e) => e.stopPropagation()}
+                        role="dialog"
+                        aria-label="Lugares que já fui"
+                    >
+                        <header className="salvosTopo">
+                            <span className="salvosTopoTitulo">
+                                <Icone nome="check" size={19} /> Já fui
+                                <small>{lugaresVisitados.length}</small>
+                            </span>
+                            <div className="salvosTopoAcoes">
+                                {lugaresVisitados.length > 0 && (
+                                    <button
+                                        type="button"
+                                        className="salvosCompartilhar"
+                                        onClick={() => { setPainelVisitados(false); sugerirPeloHistorico() }}
+                                        title="Sugerir lugares parecidos com os que você já foi"
+                                    >
+                                        <Icone nome="dado" size={17} />
+                                        Sugerir parecidos
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    className="salvosFechar"
+                                    onClick={() => setPainelVisitados(false)}
+                                    aria-label="Fechar"
+                                >
+                                    <Icone nome="x" size={20} />
+                                </button>
+                            </div>
+                        </header>
+
+                        <div className="salvosCorpo">
+                            {lugaresVisitados.length === 0 ? (
+                                <div className="salvosVazio">
+                                    <span className="salvosVazioIcone"><Icone nome="check" size={32} /></span>
+                                    <p>Você ainda não marcou nenhum lugar como “Já fui”.</p>
+                                    <small>Toque no ✓ de um card para registrar aqui — depois eu sugiro lugares parecidos.</small>
+                                </div>
+                            ) : (
+                                <div className="salvosGrade">
+                                    {lugaresVisitados.map((l) => (
+                                        <CardLugar
+                                            key={l.id}
+                                            lugar={l}
+                                            salvo={estaSalvo(l.id)}
+                                            onToggleSalvo={toggleSalvo}
+                                            visitado
                                             onToggleVisitado={toggleVisitado}
                                         />
                                     ))}

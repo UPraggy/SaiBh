@@ -61,6 +61,28 @@ function pontuar(lugar, clima, f) {
     const abertoAgora = bancoGet.estaAberto(lugar, f.dia, f.hora)
     const okPeriodo = bancoGet.abreNoPeriodo(lugar, f.dia, f.periodo || 'qualquer')
 
+    // ---- Status de funcionamento RELATIVO ao que o usuario escolheu ----
+    // O card mostrava sempre "Aberto/Fechado agora" (hora atual), ignorando o dia
+    // e o período escolhidos. Aqui derivamos um rótulo coerente com o contexto:
+    //  - hoje + qualquer horário  -> "Aberto agora" / "Fechado agora" (hora real)
+    //  - período específico        -> "Abre · <Período>" / "Fechado · <Período>"
+    //  - dia futuro + qualquer     -> "Abre nesse dia" / "Fechado nesse dia"
+    const ehHoje = (f.diaOffset || 0) === 0
+    const periodoEsp = f.periodo && f.periodo !== 'qualquer'
+    let statusTipo, statusLabel
+    if (ehHoje && !periodoEsp) {
+        statusTipo = abertoAgora ? 'aberto' : 'fechado'
+        statusLabel = abertoAgora ? 'Aberto agora' : 'Fechado agora'
+    } else if (periodoEsp) {
+        const lp = labelPeriodoCap(f.periodo)
+        statusTipo = okPeriodo ? 'aberto' : 'fechado'
+        statusLabel = okPeriodo ? `Abre · ${lp}` : `Fechado · ${lp}`
+    } else {
+        const abreNoDia = !!lugar.horarios?.[f.dia]
+        statusTipo = abreNoDia ? 'aberto' : 'fechado'
+        statusLabel = abreNoDia ? 'Abre nesse dia' : 'Fechado nesse dia'
+    }
+
     // ---- 1) Funcionamento (peso alto) ----
     if (okPeriodo) {
         score += 16
@@ -168,7 +190,7 @@ function pontuar(lugar, clima, f) {
     if (f.considerarClima && lugar.destaqueHoje && clima?.ok && clima.categoria !== 'chuva') score += 4
 
     score = Math.max(0, Math.min(100, Math.round(score)))
-    return { score, motivos, abertoAgora, okPeriodo }
+    return { score, motivos, abertoAgora, okPeriodo, statusTipo, statusLabel }
 }
 
 /**
@@ -181,6 +203,7 @@ function pontuar(lugar, clima, f) {
 function recomendar(lugares, clima, filtros = {}) {
     const f = {
         dia: filtros.dia, hora: filtros.hora,
+        diaOffset: Number(filtros.diaOffset) || 0,
         periodo: filtros.periodo || 'qualquer',
         comBebe: !!filtros.comBebe,
         idadeBebe: Number(filtros.idadeBebe) || 0,
@@ -218,6 +241,9 @@ function rankQualidade(l) {
 
 function labelPeriodo(p) {
     return ({ manha: 'manhã', tarde: 'tarde', noite: 'noite', qualquer: 'qualquer horário' })[p] || p
+}
+function labelPeriodoCap(p) {
+    return ({ manha: 'Manhã', tarde: 'Tarde', noite: 'Noite' })[p] || p
 }
 function labelCusto(c) {
     return ({ gratis: 'Grátis', barato: 'Barato', medio: 'Médio', caro: 'Caro' })[c] || c

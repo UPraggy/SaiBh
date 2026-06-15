@@ -164,15 +164,66 @@
     gap: 8px;
     padding: 2px 0;
 }
-.bebeIdade { display: flex; align-items: center; gap: 12px; }
-.bebeIdade input[type='range'] { width: 150px; accent-color: var(--vinho); cursor: pointer; }
-.bebeIdade strong {
+.bebeIdade { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+
+/* stepper de idade (mesma linguagem do contador de pessoas) */
+.contadorIdade {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: 1.5px solid var(--bege-borda);
+    background: var(--bege-card);
+    border-radius: 999px;
+    padding: 5px 8px;
+}
+.contadorIdade button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--vinho);
+    color: #fff7ec;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--t);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.contadorIdade button:hover:not(:disabled) { background: var(--terracota); transform: scale(1.06); }
+.contadorIdade button:disabled { background: var(--areia); color: var(--cafe-3); cursor: not-allowed; }
+.contadorIdade .idadeValor {
     font-family: var(--f-disp);
     font-weight: 700;
+    font-size: 1.02rem;
     color: var(--vinho);
+    min-width: 78px;
+    text-align: center;
     white-space: nowrap;
 }
-.bebeIdade strong small { font-family: var(--f-ui); font-weight: 500; color: var(--cafe-2); }
+
+/* atalhos rápidos de idade */
+.idadePresets { display: flex; flex-wrap: wrap; gap: 6px; }
+.idadeChip {
+    font-family: var(--f-ui);
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--cafe-2);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.idadeChip:hover { border-color: var(--terracota-cl); color: var(--cafe); }
+.idadeChip.ativo {
+    background: var(--rosa-bg);
+    border-color: var(--vinho);
+    color: var(--vinho);
+}
 
 /* dica abaixo do slider de idade */
 .bebeDica {
@@ -490,5 +541,4 @@
     .selectWrap, .selectWrap select { width: 100%; min-width: 0; }
     .filtroGrupo { width: 100%; }
     .filtroPessoas { width: auto; }
-    .bebeIdade input[type='range'] { width: 110px; }
 }

@@ -38,7 +38,13 @@ input, select { font-family: inherit; }
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 0 24px;
+    /* SOMENTE padding horizontal. Usar o atalho `padding: 0 24px` aqui zera
+       o padding vertical de qualquer componente que tambem use .conteudoWrapper
+       (ex.: .resultados, .filtrosBarInner), porque o atalho carrega depois e
+       vence por ordem de cascata. Manter left/right separados preserva o
+       espacamento vertical de cada secao. */
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
 .centerView {
@@ -99,6 +105,6 @@ input, select { font-family: inherit; }
 }
 
 @media (max-width: 767px) {
-    .conteudoWrapper { padding: 0 16px; }
+    .conteudoWrapper { padding-left: 16px; padding-right: 16px; }
     .tituloSecao { font-size: 1.28rem; }
 }

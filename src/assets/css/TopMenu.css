@@ -16,8 +16,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding-top: 13px;
-    padding-bottom: 13px;
+    min-height: var(--menu-h);
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .topDireita {
@@ -86,7 +88,7 @@
 .topSalvos:hover .topSalvosBadge { background: var(--vinho-d); }
 
 @media (max-width: 767px) {
-    .topMenuInner { gap: 10px; padding-top: 11px; padding-bottom: 11px; }
+    .topMenuInner { gap: 10px; padding-top: 8px; padding-bottom: 8px; }
     .topDireita { gap: 8px; }
-    .topSalvos { padding: 9px 11px; }
+    .topSalvos { padding: 8px 11px; }
 }

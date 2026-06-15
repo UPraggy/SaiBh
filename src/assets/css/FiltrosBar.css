@@ -254,7 +254,7 @@
 /* ============================ MOBILE: bottom-sheet ============================ */
 .filtrosMobileBar {
     position: sticky;
-    top: 56px;
+    top: var(--menu-h);
     z-index: 40;
     background: var(--bege-card);
     border-bottom: 1px solid var(--bege-borda);

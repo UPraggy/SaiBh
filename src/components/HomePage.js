@@ -12,6 +12,7 @@
  * O `ativaResp` (mobile) chega de routes.js e e repassado aos filhos.
  */
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { getClimaBH } from './funcionalidades/clima.js'
 import bancoGet from './funcionalidades/bancoGet.js'
@@ -28,6 +29,10 @@ import { Icone } from './subComponents/Icones.jsx'
 import '../assets/css/HomePage.css'
 
 const CHAVE_SALVOS = 'saibh-meus-lugares'
+
+// quantos cards renderizar por "página" (lazy-load: a base tem milhares de lugares,
+// renderizar tudo de uma vez trava o navegador e estoura a altura da rolagem)
+const POR_PAGINA = 24
 
 // estado inicial dos filtros: o "agora" (hoje, hora atual, periodo atual) + clima ligado
 const FILTROS_INICIAIS = () => ({
@@ -58,6 +63,10 @@ function HomePage({ ativaResp }) {
 
     // "Me Surpreenda": id do lugar realcado
     const [destacarId, setDestacarId] = useState(null)
+
+    // paginação infinita da grade (sentinela no fim aciona o "ver mais")
+    const [visiveis, setVisiveis] = useState(POR_PAGINA)
+    const { ref: sentinelaRef, inView: pertoDoFim } = useInView({ rootMargin: '700px 0px' })
 
     // carrega dados uma vez
     useEffect(() => {
@@ -112,17 +121,42 @@ function HomePage({ ativaResp }) {
         [salvos, mapaHoje, lugares],
     )
 
+    // toda vez que os filtros mudam, a lista recomeça do topo
+    useEffect(() => { setVisiveis(POR_PAGINA) }, [filtros])
+
+    // sentinela visível perto do fim → revela mais um lote.
+    // depende também de `visiveis`: enquanto a sentinela seguir dentro da margem
+    // (pertoDoFim continua true), cada incremento re-dispara o efeito e revela o
+    // próximo lote, até a sentinela ser empurrada para fora da margem ou acabar a lista.
+    useEffect(() => {
+        if (pertoDoFim && visiveis < recomendados.length) {
+            setVisiveis((v) => Math.min(v + POR_PAGINA, recomendados.length))
+        }
+    }, [pertoDoFim, visiveis, recomendados.length])
+
+    // lote atualmente visível na grade
+    const recomendadosVisiveis = useMemo(
+        () => recomendados.slice(0, visiveis),
+        [recomendados, visiveis],
+    )
+
     // ---- Me Surpreenda: sorteia entre os melhores, realca e rola ate o card ----
     const meSurpreenda = useCallback(() => {
         if (!recomendados.length) return
-        const topo = recomendados.slice(0, Math.min(25, recomendados.length))
+        // prioriza lugares abertos agora; se nenhum estiver aberto, cai pra lista toda
+        const abertos = recomendados.filter((l) => l.abertoAgora)
+        const base = abertos.length ? abertos : recomendados
+        const topo = base.slice(0, Math.min(25, base.length))
         const escolha = topo[Math.floor(Math.random() * topo.length)]
+        // garante que o card sorteado esteja renderizado antes de rolar até ele
+        const idx = recomendados.findIndex((l) => l.id === escolha.id)
+        if (idx >= 0) setVisiveis((v) => Math.max(v, idx + 1))
         setPainelSalvos(false)
         setDestacarId(escolha.id)
         setTimeout(() => {
             const el = document.getElementById(`lugar-${escolha.id}`)
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }, 60)
+        }, 80)
         setTimeout(() => setDestacarId((atual) => (atual === escolha.id ? null : atual)), 5000)
     }, [recomendados])
 
@@ -177,19 +211,28 @@ function HomePage({ ativaResp }) {
                         </button>
                     </div>
                 ) : (
-                    <div className="grade">
-                        {recomendados.map((l) => (
-                            <div id={`lugar-${l.id}`} key={l.id}>
-                                <CardLugar
-                                    lugar={l}
-                                    salvo={estaSalvo(l.id)}
-                                    onToggleSalvo={toggleSalvo}
-                                    surpresa={destacarId === l.id}
-                                    destaque={l.destaqueHoje}
-                                />
+                    <>
+                        <div className="grade">
+                            {recomendadosVisiveis.map((l) => (
+                                <div id={`lugar-${l.id}`} key={l.id}>
+                                    <CardLugar
+                                        lugar={l}
+                                        salvo={estaSalvo(l.id)}
+                                        onToggleSalvo={toggleSalvo}
+                                        surpresa={destacarId === l.id}
+                                        destaque={l.destaqueHoje}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {visiveis < recomendados.length && (
+                            <div ref={sentinelaRef} className="gradeSentinela" aria-hidden="true">
+                                <span className="gradeSpinner" />
+                                Carregando mais lugares…
                             </div>
-                        ))}
-                    </div>
+                        )}
+                    </>
                 )}
             </main>
 

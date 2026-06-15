@@ -42,6 +42,9 @@
     --estrela: #f5a623;         /* notas / avaliacoes */
     --alerta: #c8402f;          /* fechado agora / erro */
 
+    /* ---- altura do header fixo (usada pelo offset sticky do filtro mobile) ---- */
+    --menu-h: 62px;
+
     /* ---- forma / sombra / tempo ---- */
     --r: 18px;
     --r-sm: 11px;
@@ -78,4 +81,10 @@
     --raio: var(--r);
     --raio-pequeno: var(--r-sm);
     --transicao: var(--t);
+}
+
+@media (max-width: 767px) {
+    /* altura real do header mobile com a pilula de clima compacta (icone+temp) +
+       botao salvos; o offset sticky do filtro mobile depende deste valor bater. */
+    :root { --menu-h: 56px; }
 }

@@ -74,6 +74,10 @@
 }
 
 @media (max-width: 767px) {
-    .climaWidget { padding: 6px 11px; gap: 8px; }
+    /* no header mobile a pilula vira compacta: so icone + temperatura numa linha
+       (o icone SVG ja comunica a condicao, entao a descricao some pra caber). */
+    .climaWidget { padding: 6px 11px; gap: 7px; }
+    .climaWidget:not(.bloco) .climaInfo { flex-direction: row; align-items: baseline; gap: 5px; }
+    .climaWidget:not(.bloco) .climaDesc { display: none; }
     .climaTemp { font-size: 1.05rem; }
 }

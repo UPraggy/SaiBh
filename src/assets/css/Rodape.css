@@ -56,6 +56,7 @@
 }
 
 @media (max-width: 767px) {
-    .rodapeInner { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .rodape { margin-top: 36px; }
+    .rodapeInner { flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 26px; padding-bottom: 26px; }
     .rodapeInfo { text-align: left; align-items: flex-start; }
 }

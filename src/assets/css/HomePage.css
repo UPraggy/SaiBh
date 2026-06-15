@@ -36,6 +36,28 @@
 .grade > div { display: flex; }
 .grade > div > .cardLugar { flex: 1; }
 
+/* sentinela do lazy-load (aparece enquanto há mais lugares a carregar) */
+.gradeSentinela {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 0 8px;
+    font-family: var(--f-ui);
+    font-size: .86rem;
+    font-weight: 600;
+    color: var(--cafe-3);
+}
+.gradeSpinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2.5px solid var(--rosa);
+    border-top-color: var(--terracota);
+    animation: gradeGira .7s linear infinite;
+}
+@keyframes gradeGira { to { transform: rotate(360deg); } }
+
 /* ---------------- estado vazio ---------------- */
 .semResultado {
     text-align: center;

@@ -144,23 +144,34 @@ function pontuar(lugar, clima, f) {
         }
     }
 
-    // ---- 4) Pessoas vs tamanho ideal (discrimina de verdade) ----
+    // ---- 4) Pessoas vs tamanho ideal (discrimina de verdade + ranqueia o melhor) ----
+    // Peso forte (comparável ao clima) com gradiente de ENCAIXE: o lugar cujo
+    // tamanho ideal mais "abraça" o grupo sobe pro topo. Antes era um +8 fixo,
+    // então o melhor encaixe não se destacava dos demais.
     if (f.pessoas) {
         const { min = 1, max = 99 } = lugar.idealPessoas || {}
-        if (f.pessoas > max) {
+        const p = f.pessoas
+        if (p > max) {
             // quanto mais estoura a capacidade, maior a penalidade
-            score -= Math.min(24, 10 + (f.pessoas - max) * 3)
+            score -= Math.min(28, 12 + (p - max) * 4)
             motivos.push('Pode ficar apertado pro tamanho do grupo')
-        } else if (f.pessoas < min) {
-            score -= 6
+        } else if (p < min) {
+            score -= Math.min(16, 6 + (min - p) * 3)
             motivos.push('Rende mais com um grupo um pouco maior')
         } else {
-            score += 8
-            motivos.push(`Bom pra grupo de ${f.pessoas}`)
+            // dentro da faixa ideal: bônus base + gradiente de encaixe (até +10).
+            // O "ponto ideal" fica a ~60% da faixa (lugares respiram melhor com
+            // um pouco de folga); quanto mais perto dele, maior o bônus.
+            score += 14
+            const span = Math.max(1, max - min)
+            const pos = (p - min) / span          // 0 = no mínimo, 1 = no máximo
+            const encaixe = 1 - Math.abs(pos - 0.6)
+            score += Math.round(Math.max(0, encaixe) * 10)
+            motivos.push(`Tamanho de grupo ideal pra esse lugar (${p})`)
             // encaixe forte: grupo grande num lugar que comporta grupos grandes
-            if (f.pessoas >= 6 && max >= 12) score += 4
+            if (p >= 6 && max >= 12) score += 3
             // casal/solo num lugar intimista
-            if (f.pessoas <= 2 && max <= 6) score += 3
+            if (p <= 2 && max <= 6) score += 3
         }
     }
 
@@ -210,22 +221,33 @@ function recomendar(lugares, clima, filtros = {}) {
         pessoas: Number(filtros.pessoas) || 0,
         custoMax: filtros.custoMax || '',
         categoria: filtros.categoria || '',
-        regiao: filtros.regiao || '',
+        cidade: filtros.cidade || '',
+        bairro: filtros.bairro || '',
         comida: filtros.comida || 'tanto',
         soAbertoAgora: !!filtros.soAbertoAgora,
         // default true: se nao vier no objeto de filtros, o clima conta.
         considerarClima: filtros.considerarClima !== false,
     }
 
+    // dia escolhido (0-6). Quando válido, vira filtro duro de "abre nesse dia".
+    const diaValido = typeof f.dia === 'number' && f.dia >= 0 && f.dia <= 6
+
     return lugares
         // filtros duros
         .filter((l) => !f.categoria || l.categoria === f.categoria)
-        .filter((l) => !f.regiao || l.regiao === f.regiao)
+        .filter((l) => !f.cidade || l.cidade === f.cidade)
+        .filter((l) => !f.bairro || l.bairro === f.bairro)
         .filter((l) => (f.comida === 'com' ? l.temComida : f.comida === 'sem' ? !l.temComida : true))
         .filter((l) => !f.custoMax || ORDEM_CUSTO[l.custo] <= ORDEM_CUSTO[f.custoMax])
         // levar criança é filtro DURO, mas "chutamos" além do campo `bebe`:
         // categoria/ambiente típicos de criança entram, sensível à idade.
         .filter((l) => !f.comBebe || indicadoParaCrianca(l, f.idadeBebe))
+        // DIA: se há um dia escolhido, mantém só o que realmente abre nesse dia
+        // (antes o dia da semana não filtrava nada — sábado/domingo mostravam tudo).
+        .filter((l) => !diaValido || !!l.horarios?.[f.dia])
+        // PERÍODO: manhã/tarde/noite vira filtro duro de verdade (antes só pontuava,
+        // então a lista não mudava ao trocar o período).
+        .filter((l) => f.periodo === 'qualquer' || bancoGet.abreNoPeriodo(l, f.dia, f.periodo))
         // score
         .map((l) => ({ ...l, ...pontuar(l, clima, f) }))
         // se pediu so aberto agora, remove fechados

@@ -47,7 +47,8 @@ const FILTROS_INICIAIS = () => ({
     pessoas: 2,
     custoMax: '',
     categoria: '',
-    regiao: '',
+    cidade: '',            // filtro de cidade (município da RMBH)
+    bairro: '',            // filtro de bairro (em cascata com a cidade)
     comida: 'tanto',
     soAbertoAgora: false,
     considerarClima: true,
@@ -81,7 +82,11 @@ function HomePage({ ativaResp }) {
             .finally(() => setCarregandoClima(false))
     }, [])
 
-    const setFiltro = useCallback((campo, valor) => setFiltros((p) => ({ ...p, [campo]: valor })), [])
+    // troca um filtro. Caso especial: ao mudar a CIDADE, zera o BAIRRO (a lista de
+    // bairros é em cascata com a cidade, então o bairro antigo não faz mais sentido).
+    const setFiltro = useCallback((campo, valor) => setFiltros((p) => (
+        campo === 'cidade' ? { ...p, cidade: valor, bairro: '' } : { ...p, [campo]: valor }
+    )), [])
     const limparTudo = useCallback(() => setFiltros(FILTROS_INICIAIS), [])
 
     // ---- Meus Lugares: salvar / remover ----
@@ -105,11 +110,20 @@ function HomePage({ ativaResp }) {
     }, [])
     const estaVisitado = useCallback((id) => visitados.includes(id), [visitados])
 
-    // regioes unicas (para o select), em ordem alfabetica
-    const regioes = useMemo(
-        () => [...new Set(lugares.map((l) => l.regiao).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    // cidades únicas (município) p/ o primeiro select, em ordem alfabética
+    const cidades = useMemo(
+        () => [...new Set(lugares.map((l) => l.cidade).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
         [lugares],
     )
+
+    // bairros p/ o segundo select, EM CASCATA: só os bairros da cidade escolhida.
+    // Sem cidade escolhida, mostra todos os bairros conhecidos (a maioria é de BH).
+    const bairros = useMemo(() => {
+        const base = filtros.cidade
+            ? lugares.filter((l) => l.cidade === filtros.cidade)
+            : lugares
+        return [...new Set(base.map((l) => l.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+    }, [lugares, filtros.cidade])
 
     // clima do dia escolhido no seletor (offset 0 = agora; 1..6 = previsão)
     const climaSelecionado = useMemo(
@@ -199,8 +213,8 @@ function HomePage({ ativaResp }) {
     }, [recomendados])
 
     // ---- Sugerir pelo histórico: olha os lugares "Já fui" e infere o gosto ----
-    // pega a categoria, a região e o teto de custo predominantes entre os visitados
-    // e aplica como filtros, pra recomendar mais do mesmo estilo.
+    // pega a categoria, a cidade/bairro e o teto de custo predominantes entre os
+    // visitados e aplica como filtros, pra recomendar mais do mesmo estilo.
     const sugerirPeloHistorico = useCallback(() => {
         const visitadosObj = visitados
             .map((id) => lugares.find((l) => l.id === id))
@@ -218,7 +232,8 @@ function HomePage({ ativaResp }) {
         }
 
         const cat = maisFrequente('categoria')
-        const reg = maisFrequente('regiao')
+        const cid = maisFrequente('cidade')
+        const bai = maisFrequente('bairro')
         // teto de custo = o mais "caro" entre os visitados (pra não excluir o gosto)
         const ordemCusto = ['gratis', 'barato', 'medio', 'caro']
         const tetoCusto = visitadosObj.reduce((max, l) => {
@@ -229,7 +244,8 @@ function HomePage({ ativaResp }) {
         setFiltros((p) => ({
             ...p,
             categoria: cat || '',
-            regiao: reg || '',
+            cidade: cid || '',
+            bairro: bai || '',
             custoMax: tetoCusto >= 0 ? ordemCusto[tetoCusto] : '',
         }))
         setPainelSalvos(false)
@@ -309,7 +325,8 @@ function HomePage({ ativaResp }) {
                 filtros={filtros}
                 setFiltro={setFiltro}
                 limparTudo={limparTudo}
-                regioes={regioes}
+                cidades={cidades}
+                bairros={bairros}
                 clima={clima}
                 ativaResp={ativaResp}
                 onSugerir={sugerirPeloHistorico}

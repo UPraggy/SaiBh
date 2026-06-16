@@ -42,7 +42,8 @@ const PADRAO = {
     custoMax: '',
     comida: 'tanto',
     categoria: '',
-    regiao: '',
+    cidade: '',
+    bairro: '',
     pessoas: 2,
     comBebe: false,
     soAbertoAgora: false,
@@ -81,7 +82,7 @@ function rotuloDia(offset, isoData) {
     return { topo: semana.charAt(0) + semana.slice(1).toLowerCase(), base: String(d.getDate()) }
 }
 
-function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativaResp, onSugerir, temVisitados = false }) {
+function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = [], clima, ativaResp, onSugerir, temVisitados = false }) {
     const [aberto, setAberto] = useState(false)
 
     const diaOffset = filtros.diaOffset || 0
@@ -99,7 +100,8 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
         chips.push({ k: 'comida', t: LugaresBH.comidaOpcoes[filtros.comida], reset: PADRAO.comida })
     if (filtros.categoria)
         chips.push({ k: 'categoria', t: LugaresBH.categorias[filtros.categoria]?.label, reset: PADRAO.categoria })
-    if (filtros.regiao) chips.push({ k: 'regiao', t: filtros.regiao, reset: PADRAO.regiao })
+    if (filtros.cidade) chips.push({ k: 'cidade', t: filtros.cidade, reset: PADRAO.cidade })
+    if (filtros.bairro) chips.push({ k: 'bairro', t: filtros.bairro, reset: PADRAO.bairro })
     if (filtros.pessoas !== PADRAO.pessoas)
         chips.push({ k: 'pessoas', t: `${filtros.pessoas} ${filtros.pessoas === 1 ? 'pessoa' : 'pessoas'}`, reset: PADRAO.pessoas })
     if (filtros.comBebe)
@@ -232,12 +234,29 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, regioes = [], clima, ativa
                 </div>
 
                 <div className="filtroGrupo">
-                    <label className="filtroLabel">Região</label>
+                    <label className="filtroLabel">Cidade</label>
                     <div className="selectWrap">
-                        <select value={filtros.regiao} onChange={(e) => setFiltro('regiao', e.target.value)}>
+                        <select value={filtros.cidade} onChange={(e) => setFiltro('cidade', e.target.value)}>
                             <option value="">Toda a região</option>
-                            {regioes.map((r) => (
-                                <option key={r} value={r}>{r}</option>
+                            {cidades.map((c) => (
+                                <option key={c} value={c}>{c}</option>
+                            ))}
+                        </select>
+                        <Icone nome="chevronBaixo" size={16} className="selectSeta" />
+                    </div>
+                </div>
+
+                <div className="filtroGrupo">
+                    <label className="filtroLabel">Bairro</label>
+                    <div className="selectWrap">
+                        <select
+                            value={filtros.bairro}
+                            onChange={(e) => setFiltro('bairro', e.target.value)}
+                            disabled={bairros.length === 0}
+                        >
+                            <option value="">{filtros.cidade ? 'Todos os bairros' : 'Escolha uma cidade'}</option>
+                            {bairros.map((b) => (
+                                <option key={b} value={b}>{b}</option>
                             ))}
                         </select>
                         <Icone nome="chevronBaixo" size={16} className="selectSeta" />

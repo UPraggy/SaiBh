@@ -82,9 +82,44 @@ function normalizarPerfil(l) {
     return { ...l, bebe, bebeObs, idealPessoas: ideal }
 }
 
+/**
+ * Municípios da Região Metropolitana de BH (+ colar metropolitano usual).
+ * O campo `regiao` das bases mistura CIDADE e BAIRRO: o OSM trouxe a maioria
+ * como "Belo Horizonte" (cidade), e o Google trouxe nomes de bairro (ex.:
+ * "Savassi", "Santa Cruz"). Sem um campo próprio, o usuário não conseguia
+ * filtrar cidade e bairro separadamente. Aqui derivamos `cidade` e `bairro`
+ * a partir do `regiao`: se ele é o nome de um município conhecido, vira CIDADE;
+ * caso contrário tratamos como BAIRRO de Belo Horizonte (origem dos dados).
+ */
+const CIDADES_RMBH = new Set([
+    'Belo Horizonte', 'Betim', 'Contagem', 'Ribeirão das Neves', 'Santa Luzia',
+    'Ibirité', 'Sabará', 'Vespasiano', 'Nova Lima', 'Caeté', 'Lagoa Santa',
+    'Pedro Leopoldo', 'Esmeraldas', 'São José da Lapa', 'Igarapé', 'Mateus Leme',
+    'Brumadinho', 'Sarzedo', 'Raposos', 'Confins', 'Rio Acima', 'Mário Campos',
+    'Juatuba', 'Capim Branco', 'São Joaquim de Bicas', 'Florestal', 'Matozinhos',
+    'Nova União', 'Taquaraçu de Minas', 'Baldim', 'Jaboticatubas', 'Itaguara',
+    'Rio Manso', 'Itatiaiuçu', 'Sete Lagoas', 'Itabirito',
+])
+
+/**
+ * derivarLocalidade(lugar)
+ * Acrescenta `cidade` e `bairro` sem perder o `regiao` original (usado em telas).
+ * Respeita valores já presentes (caso um curado venha com cidade/bairro à mão).
+ */
+function derivarLocalidade(l) {
+    if (l.cidade || l.bairro) return l
+    const reg = (l.regiao || '').trim()
+    const ehCidade = CIDADES_RMBH.has(reg)
+    return {
+        ...l,
+        cidade: ehCidade ? reg : (reg ? 'Belo Horizonte' : ''),
+        bairro: ehCidade ? '' : reg,
+    }
+}
+
 const OSM_NORM = lugaresOSM.map(normalizarPerfil)
 const GOOGLE_NORM = lugaresGoogle.map(normalizarPerfil)
-const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM]
+const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM].map(derivarLocalidade)
 
 /** Retorna a lista completa de lugares (curados + OSM + Google). */
 function getLugares() {

@@ -126,11 +126,14 @@ function derivarLocalidade(l) {
 
 /**
  * comFoto(lugar): garante uma capa para TODO lugar. Curados mantêm a foto
- * própria; OSM/Google ganham uma foto topical por categoria (determinística
- * pelo id). Ver fotos.js. O CardLugar cai no ícone se a imagem falhar.
+ * própria (real, do local); OSM/Google ganham uma foto topical por categoria
+ * (determinística pelo id) — uma imagem ILUSTRATIVA, não a foto real do ponto.
+ * Marcamos essas com `fotoInventada:true` para o CardLugar exibir o selo
+ * "Imagem ilustrativa" e tratar a foto real (curada) como ampliável.
+ * Ver fotos.js. O CardLugar cai no ícone se a imagem falhar.
  */
 function comFoto(l) {
-    return l.foto ? l : { ...l, foto: fotoDe(l) }
+    return l.foto ? l : { ...l, foto: fotoDe(l), fotoInventada: true }
 }
 
 /**

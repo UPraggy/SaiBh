@@ -16,7 +16,8 @@
  *   onToggleSalvo (id) => void
  *   surpresa      bool — realce do "Me Surpreenda"
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import LugaresBH from '../funcionalidades/lugaresBH.js'
 import GlobalVar from './GlobalVar.jsx'
 import { Icone, CategoriaIcone } from './Icones.jsx'
@@ -49,10 +50,28 @@ function Estrelas({ nota }) {
 
 function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, destaque = false, visitado = false, onToggleVisitado }) {
     const [imgErro, setImgErro] = useState(false)
+    const [zoom, setZoom] = useState(false)
     const realce = surpresa || destaque
 
     const cat = LugaresBH.categorias[lugar.categoria]
     const temFoto = lugar.foto && !imgErro
+    // Foto REAL (curada, do próprio local) → ampliável; ILUSTRATIVA (Unsplash por
+    // categoria, marcada em comFoto) → ganha o selo "Imagem ilustrativa".
+    const fotoReal = temFoto && !lugar.fotoInventada
+    const fotoIlustrativa = temFoto && lugar.fotoInventada
+
+    // fecha o lightbox no Esc e trava o scroll do fundo enquanto aberto
+    useEffect(() => {
+        if (!zoom) return
+        const onKey = (e) => { if (e.key === 'Escape') setZoom(false) }
+        document.addEventListener('keydown', onKey)
+        const scrollAnterior = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+        return () => {
+            document.removeEventListener('keydown', onKey)
+            document.body.style.overflow = scrollAnterior
+        }
+    }, [zoom])
     const temNota = typeof lugar.nota === 'number'
     const faixa = faixaScore(lugar.score)
     const motivos = Array.isArray(lugar.motivos) ? lugar.motivos.slice(0, 3) : []
@@ -63,21 +82,54 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
     const statusLabel = lugar.statusLabel || (lugar.abertoAgora ? 'Aberto agora' : 'Fechado agora')
 
     return (
+        <>
         <article className={`cardLugar ${realce ? 'cardSurpresa' : ''}`} data-cat={lugar.categoria}>
             {/* ---------------- Capa ---------------- */}
-            <div className="cardTopo">
+            <div className={`cardTopo ${fotoReal ? 'cardTopoReal' : ''}`}>
                 {temFoto ? (
-                    <img
-                        className="cardFoto"
-                        src={lugar.foto}
-                        alt={lugar.nome}
-                        loading="lazy"
-                        onError={() => setImgErro(true)}
-                    />
+                    fotoReal ? (
+                        // foto real → botão que abre o lightbox (ampliar)
+                        <button
+                            type="button"
+                            className="cardFotoBtn"
+                            onClick={() => setZoom(true)}
+                            aria-label={`Ampliar foto de ${lugar.nome}`}
+                            title="Ampliar foto"
+                        >
+                            <img
+                                className="cardFoto cardFotoReal"
+                                src={lugar.foto}
+                                alt={lugar.nome}
+                                loading="lazy"
+                                onError={() => setImgErro(true)}
+                            />
+                            <span className="cardAmpliarDica">
+                                <Icone nome="busca" size={15} /> Ampliar
+                            </span>
+                        </button>
+                    ) : (
+                        <img
+                            className="cardFoto"
+                            src={lugar.foto}
+                            alt={lugar.nome}
+                            loading="lazy"
+                            onError={() => setImgErro(true)}
+                        />
+                    )
                 ) : (
                     <div className="cardFallback">
                         <CategoriaIcone categoria={lugar.categoria} size={60} />
                     </div>
+                )}
+
+                {/* selo de imagem ilustrativa (OSM/Google sem foto real do local) */}
+                {fotoIlustrativa && (
+                    <span
+                        className={`cardFotoIlustrativa ${realce ? 'acimaSurpresa' : ''}`}
+                        title="Foto ilustrativa da categoria — não é a imagem real do local. Toque em “Ver no mapa” para fotos reais."
+                    >
+                        <Icone nome="info" size={12} /> Imagem ilustrativa
+                    </span>
                 )}
 
                 {/* selo de match */}
@@ -200,6 +252,42 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                 )}
             </div>
         </article>
+
+        {/* ---------------- Lightbox (ampliar foto real) — portal p/ escapar
+            do transform do card e de wrappers animados ---------------- */}
+        {zoom && fotoReal && createPortal(
+            <div
+                className="cardLightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label={`Foto de ${lugar.nome}`}
+                onClick={() => setZoom(false)}
+            >
+                <button
+                    type="button"
+                    className="cardLightboxFechar"
+                    aria-label="Fechar"
+                    onClick={() => setZoom(false)}
+                >
+                    <Icone nome="x" size={22} />
+                </button>
+                <figure className="cardLightboxFig" onClick={(e) => e.stopPropagation()}>
+                    <img src={lugar.foto} alt={lugar.nome} />
+                    <figcaption>
+                        <strong>{lugar.nome}</strong>
+                        <a
+                            href={GlobalVar.mapsUrl(lugar)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Icone nome="mapa" size={14} /> Ver no Google Maps
+                        </a>
+                    </figcaption>
+                </figure>
+            </div>,
+            document.body,
+        )}
+        </>
     )
 }
 

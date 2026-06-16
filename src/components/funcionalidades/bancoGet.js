@@ -7,10 +7,16 @@
  * um backend real depois.
  */
 import LugaresBH from './lugaresBH.js'
-import lugaresOSM from './lugaresOSM.json'
-import lugaresGoogle from './lugaresGoogle.json'
 import GlobalVar from '../subComponents/GlobalVar.jsx'
 import { fotoDe } from './fotos.js'
+
+/**
+ * Os JSONs pesados (OSM ~2.86MB + Google) NÃO são importados estaticamente:
+ * isso inchava o bundle principal (~2.9MB). Aqui usamos import() dinâmico, então
+ * o Vite separa as bases num chunk próprio carregado SOB DEMANDA, na primeira
+ * chamada de getLugares(). O app abre leve (UI/curados) e busca o dataset em
+ * paralelo. Ver carregarTodos() — o resultado é memoizado numa Promise única.
+ */
 
 /**
  * Base unica, em tres camadas:
@@ -118,9 +124,6 @@ function derivarLocalidade(l) {
     }
 }
 
-const OSM_NORM = lugaresOSM.map(normalizarPerfil)
-const GOOGLE_NORM = lugaresGoogle.map(normalizarPerfil)
-
 /**
  * comFoto(lugar): garante uma capa para TODO lugar. Curados mantêm a foto
  * própria; OSM/Google ganham uma foto topical por categoria (determinística
@@ -130,18 +133,41 @@ function comFoto(l) {
     return l.foto ? l : { ...l, foto: fotoDe(l) }
 }
 
-const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM]
-    .map(derivarLocalidade)
-    .map(comFoto)
+/**
+ * carregarTodos(): monta a base completa UMA vez (memoizada).
+ * Importa os JSONs pesados dinamicamente → chunk separado, fora do bundle
+ * inicial. Se algo falhar no fetch do chunk, ainda devolvemos os curados,
+ * pra app nunca ficar vazia.
+ */
+let _todosPromise = null
+function carregarTodos() {
+    if (_todosPromise) return _todosPromise
+    _todosPromise = Promise.all([
+        import('./lugaresOSM.json'),
+        import('./lugaresGoogle.json'),
+    ])
+        .then(([osm, google]) => {
+            const OSM_NORM = (osm.default || osm).map(normalizarPerfil)
+            const GOOGLE_NORM = (google.default || google).map(normalizarPerfil)
+            return [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM]
+                .map(derivarLocalidade)
+                .map(comFoto)
+        })
+        .catch((e) => {
+            console.error('Falha ao carregar dataset OSM/Google:', e)
+            return CURADOS.map(derivarLocalidade).map(comFoto)
+        })
+    return _todosPromise
+}
 
 /** Retorna a lista completa de lugares (curados + OSM + Google). */
 function getLugares() {
-    return Promise.resolve(TODOS)
+    return carregarTodos()
 }
 
 /** Retorna um lugar pelo id. */
 function getLugarPorId(id) {
-    return Promise.resolve(TODOS.find((l) => l.id === Number(id)) || null)
+    return carregarTodos().then((todos) => todos.find((l) => l.id === Number(id)) || null)
 }
 
 /** Metadados das categorias (label + icone) para montar filtros. */

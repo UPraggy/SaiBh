@@ -10,6 +10,7 @@ import LugaresBH from './lugaresBH.js'
 import lugaresOSM from './lugaresOSM.json'
 import lugaresGoogle from './lugaresGoogle.json'
 import GlobalVar from '../subComponents/GlobalVar.jsx'
+import { fotoDe } from './fotos.js'
 
 /**
  * Base unica, em tres camadas:
@@ -119,7 +120,19 @@ function derivarLocalidade(l) {
 
 const OSM_NORM = lugaresOSM.map(normalizarPerfil)
 const GOOGLE_NORM = lugaresGoogle.map(normalizarPerfil)
-const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM].map(derivarLocalidade)
+
+/**
+ * comFoto(lugar): garante uma capa para TODO lugar. Curados mantêm a foto
+ * própria; OSM/Google ganham uma foto topical por categoria (determinística
+ * pelo id). Ver fotos.js. O CardLugar cai no ícone se a imagem falhar.
+ */
+function comFoto(l) {
+    return l.foto ? l : { ...l, foto: fotoDe(l) }
+}
+
+const TODOS = [...CURADOS, ...OSM_NORM, ...GOOGLE_NORM]
+    .map(derivarLocalidade)
+    .map(comFoto)
 
 /** Retorna a lista completa de lugares (curados + OSM + Google). */
 function getLugares() {

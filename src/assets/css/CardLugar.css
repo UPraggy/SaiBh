@@ -180,6 +180,70 @@
 }
 .cardLightboxFig figcaption a:hover { transform: translateY(-2px); }
 
+/* ---- Carrossel: palco, setas, contador, thumbnails ---- */
+.cardLightboxPalco {
+    position: relative;
+    background: #1c0f09;
+}
+.cardLightboxSeta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(40, 22, 14, .55);
+    border-radius: 999px;
+    backdrop-filter: blur(3px);
+    transition: background var(--t), transform var(--t);
+    z-index: 2;
+}
+.cardLightboxSeta:hover { background: var(--terracota); transform: translateY(-50%) scale(1.08); }
+.cardLightboxSeta--esq { left: 12px; }
+.cardLightboxSeta--esq svg { transform: scaleX(-1); }
+.cardLightboxSeta--dir { right: 12px; }
+.cardLightboxContador {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-family: var(--f-ui);
+    font-size: .78rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(40, 22, 14, .6);
+    padding: 4px 11px;
+    border-radius: 999px;
+    backdrop-filter: blur(3px);
+    z-index: 2;
+}
+.cardLightboxThumbs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 18px 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.cardLightboxThumb {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 48px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1c0f09;
+    opacity: .6;
+    transition: opacity var(--t), border-color var(--t);
+}
+.cardLightboxThumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cardLightboxThumb:hover { opacity: .85; }
+.cardLightboxThumb.ativa { opacity: 1; border-color: var(--terracota); }
+
 .cardFallback {
     position: absolute;
     inset: 0;

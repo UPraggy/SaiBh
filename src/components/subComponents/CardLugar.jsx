@@ -51,6 +51,7 @@ function Estrelas({ nota }) {
 function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, destaque = false, visitado = false, onToggleVisitado }) {
     const [imgErro, setImgErro] = useState(false)
     const [zoom, setZoom] = useState(false)
+    const [idx, setIdx] = useState(0)
     const realce = surpresa || destaque
 
     const cat = LugaresBH.categorias[lugar.categoria]
@@ -60,10 +61,19 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
     const fotoReal = temFoto && !lugar.fotoInventada
     const fotoIlustrativa = temFoto && lugar.fotoInventada
 
+    // Carrossel do lightbox: cover + galeria curada (se houver).
+    const fotos = lugar.galeria?.length ? [lugar.foto, ...lugar.galeria] : [lugar.foto]
+    const temGaleria = fotos.length > 1
+    const irPara = (n) => setIdx((n + fotos.length) % fotos.length)
+
     // fecha o lightbox no Esc e trava o scroll do fundo enquanto aberto
     useEffect(() => {
-        if (!zoom) return
-        const onKey = (e) => { if (e.key === 'Escape') setZoom(false) }
+        if (!zoom) { setIdx(0); return }
+        const onKey = (e) => {
+            if (e.key === 'Escape') setZoom(false)
+            else if (e.key === 'ArrowLeft') irPara(idx - 1)
+            else if (e.key === 'ArrowRight') irPara(idx + 1)
+        }
         document.addEventListener('keydown', onKey)
         const scrollAnterior = document.body.style.overflow
         document.body.style.overflow = 'hidden'
@@ -71,7 +81,7 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
             document.removeEventListener('keydown', onKey)
             document.body.style.overflow = scrollAnterior
         }
-    }, [zoom])
+    }, [zoom, idx])
     const temNota = typeof lugar.nota === 'number'
     const faixa = faixaScore(lugar.score)
     const motivos = Array.isArray(lugar.motivos) ? lugar.motivos.slice(0, 3) : []
@@ -272,7 +282,48 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                     <Icone nome="x" size={22} />
                 </button>
                 <figure className="cardLightboxFig" onClick={(e) => e.stopPropagation()}>
-                    <img src={lugar.foto} alt={lugar.nome} />
+                    <div className="cardLightboxPalco">
+                        {temGaleria && (
+                            <button
+                                type="button"
+                                className="cardLightboxSeta cardLightboxSeta--esq"
+                                aria-label="Foto anterior"
+                                onClick={() => irPara(idx - 1)}
+                            >
+                                <Icone nome="chevron" size={22} />
+                            </button>
+                        )}
+                        <img src={fotos[idx]} alt={lugar.nome} />
+                        {temGaleria && (
+                            <button
+                                type="button"
+                                className="cardLightboxSeta cardLightboxSeta--dir"
+                                aria-label="Próxima foto"
+                                onClick={() => irPara(idx + 1)}
+                            >
+                                <Icone nome="chevron" size={22} />
+                            </button>
+                        )}
+                        {temGaleria && (
+                            <span className="cardLightboxContador">{idx + 1}/{fotos.length}</span>
+                        )}
+                    </div>
+                    {temGaleria && (
+                        <div className="cardLightboxThumbs">
+                            {fotos.map((f, i) => (
+                                <button
+                                    key={i}
+                                    type="button"
+                                    className={`cardLightboxThumb${i === idx ? ' ativa' : ''}`}
+                                    aria-label={`Foto ${i + 1}`}
+                                    aria-current={i === idx}
+                                    onClick={() => setIdx(i)}
+                                >
+                                    <img src={f} alt="" loading="lazy" />
+                                </button>
+                            ))}
+                        </div>
+                    )}
                     <figcaption>
                         <strong>{lugar.nome}</strong>
                         <a

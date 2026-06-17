@@ -91,6 +91,11 @@ export default class LugaresBH {
         {
             id: 1,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Praca_do_Papa%2C_Belo_Horizonte_%28cropped%29.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%283%29.jpg/1280px-Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%283%29.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%281%29.jpg/1280px-Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%281%29.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%286%29.jpg/1280px-Pra%C3%A7a_do_Papa%2C_Mangabeiras%2C_Belo_Horizonte%2C_fevereiro_de_2023_%286%29.jpg",
+            ],
             nome: 'Praça do Papa (Praça Israel Pinheiro)',
             categoria: 'praca',
             regiao: 'Mangabeiras',
@@ -115,6 +120,11 @@ export default class LugaresBH {
         {
             id: 2,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/P%C3%B4r-do-Sol_no_Mirante_do_Mangabeiras_%28Belo_Horizonte-MG%29.JPG/1280px-P%C3%B4r-do-Sol_no_Mirante_do_Mangabeiras_%28Belo_Horizonte-MG%29.JPG',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Mirantemangabeiras.JPG/1280px-Mirantemangabeiras.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chevrolet_hall.JPG/1280px-Chevrolet_hall.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Bairross%C3%A3opedroesantoant%C3%B4nio.JPG/1280px-Bairross%C3%A3opedroesantoant%C3%B4nio.JPG",
+            ],
             nome: 'Mirante das Mangabeiras',
             categoria: 'mirante',
             regiao: 'Mangabeiras',
@@ -139,6 +149,11 @@ export default class LugaresBH {
         {
             id: 3,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pra%C3%A7a_da_Liberdade_-_Belo_Horizonte.jpg/1280px-Pra%C3%A7a_da_Liberdade_-_Belo_Horizonte.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Pra%C3%A7a_da_Liberdade_-_Belo_Horizonte_-_MG.JPG/1280px-Pra%C3%A7a_da_Liberdade_-_Belo_Horizonte_-_MG.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Secretaria_da_Via%C3%A7%C3%A3o%2C_Pra%C3%A7a_da_Liberdade_01.jpg/1280px-Secretaria_da_Via%C3%A7%C3%A3o%2C_Pra%C3%A7a_da_Liberdade_01.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Secretaria_da_Via%C3%A7%C3%A3o%2C_Pra%C3%A7a_da_Liberdade_02.jpg/1280px-Secretaria_da_Via%C3%A7%C3%A3o%2C_Pra%C3%A7a_da_Liberdade_02.jpg",
+            ],
             nome: 'Praça da Liberdade',
             categoria: 'praca',
             regiao: 'Funcionários',
@@ -163,6 +178,11 @@ export default class LugaresBH {
         {
             id: 4,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503153052.jpg/1280px-Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503153052.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Xadrez.JPG/1280px-Xadrez.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503160236.jpg/1280px-Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503160236.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503164114.jpg/1280px-Pra%C3%A7a_Carlos_Chagas_-_Belo_Horizonte_-_20250503164114.jpg",
+            ],
             nome: 'Praça da Assembleia',
             categoria: 'praca',
             regiao: 'Funcionários',
@@ -213,6 +233,11 @@ export default class LugaresBH {
         {
             id: 6,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Parque_das_Mangabeiras_-_Belo_Horizonte-MG.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Serra_do_Curral_vista_de_dentro_do_Parque_das_Mangabeiras.jpg/1280px-Serra_do_Curral_vista_de_dentro_do_Parque_das_Mangabeiras.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Parque_BH_01.jpg/1280px-Parque_BH_01.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Mata_do_Parque_das_Mangabeiras_-_Belo_Horizonte-MG.JPG/1280px-Mata_do_Parque_das_Mangabeiras_-_Belo_Horizonte-MG.JPG",
+            ],
             nome: 'Parque das Mangabeiras',
             categoria: 'parque',
             regiao: 'Mangabeiras',
@@ -261,6 +286,11 @@ export default class LugaresBH {
         {
             id: 8,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Igrejinha_de_S%C3%A3o_Francisco_de_Assis_6.jpeg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Igreja_S%C3%A3o_Francisco_na_Pampulha_06.JPG/1280px-Igreja_S%C3%A3o_Francisco_na_Pampulha_06.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vista_da_Igreja_de_S%C3%A3o_Francisco_de_Assis_com_a_Pampulha_ao_Fundo.jpg/1280px-Vista_da_Igreja_de_S%C3%A3o_Francisco_de_Assis_com_a_Pampulha_ao_Fundo.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Igreja_S%C3%A3o_Francisco_de_Assis-_Pampulha-_BH-MG.jpg/1280px-Igreja_S%C3%A3o_Francisco_de_Assis-_Pampulha-_BH-MG.jpg",
+            ],
             nome: 'Orla / Parque Ecológico da Pampulha',
             categoria: 'parque',
             regiao: 'Pampulha',
@@ -285,6 +315,10 @@ export default class LugaresBH {
         {
             id: 9,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Parque_Municipal_Fazenda_Lagoa_do_Nado.jpg/1280px-Parque_Municipal_Fazenda_Lagoa_do_Nado.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Lagoa_do_Nado.jpg/1280px-Lagoa_do_Nado.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Lagoadonado.jpg/1280px-Lagoadonado.jpg",
+            ],
             nome: 'Parque Lagoa do Nado',
             categoria: 'parque',
             regiao: 'Pampulha (Itapoã)',
@@ -309,6 +343,11 @@ export default class LugaresBH {
         {
             id: 10,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto_-_Belo_Horizonte_-_20250409150611.jpg/1280px-Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto_-_Belo_Horizonte_-_20250409150611.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Mineir%C3%A3o_2014.jpg/1280px-Mineir%C3%A3o_2014.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Vista_do_Mineirinho_e_do_Mineir%C3%A3o%2C_Belo_Horizonte_MG.JPG/1280px-Vista_do_Mineirinho_e_do_Mineir%C3%A3o%2C_Belo_Horizonte_MG.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Mineirinho%2C_Lagoa_da_Pampulha_e_Mineir%C3%A3o%2C_Belo_Horizonte_MG.JPG/1280px-Mineirinho%2C_Lagoa_da_Pampulha_e_Mineir%C3%A3o%2C_Belo_Horizonte_MG.JPG",
+            ],
             nome: 'Esplanada do Mineirão',
             categoria: 'familia',
             regiao: 'Pampulha',
@@ -335,6 +374,10 @@ export default class LugaresBH {
         {
             id: 11,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Centro_Cultural_Banco_do_Brasil%2C_Belo_Horizonte_-_panoramio.jpg/1280px-Centro_Cultural_Banco_do_Brasil%2C_Belo_Horizonte_-_panoramio.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Centro_Cultural_Banco_do_Brasil_-_panoramio_%281%29.jpg/1280px-Centro_Cultural_Banco_do_Brasil_-_panoramio_%281%29.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Centro_Cultural_do_Banco_do_Brasil_%28CCBB%29.jpg/1280px-Centro_Cultural_do_Banco_do_Brasil_%28CCBB%29.jpg",
+            ],
             nome: 'CCBB - Centro Cultural Banco do Brasil',
             categoria: 'cultura',
             regiao: 'Centro',
@@ -383,6 +426,11 @@ export default class LugaresBH {
         {
             id: 13,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Museu_de_Artes_e_Of%C3%ADcios_2022.jpg/1280px-Museu_de_Artes_e_Of%C3%ADcios_2022.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_0.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_0.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_1.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_1.JPG",
+            ],
             nome: 'Museu de Artes e Ofícios',
             categoria: 'cultura',
             regiao: 'Centro (Praça da Estação)',
@@ -483,6 +531,11 @@ export default class LugaresBH {
         {
             id: 17,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Mercado_Central%2C_Belo_Horizonte%2C_Minas_Gerais_-_2023-11-05_-_DSC01893_%28cropped%29.jpg/1280px-Mercado_Central%2C_Belo_Horizonte%2C_Minas_Gerais_-_2023-11-05_-_DSC01893_%28cropped%29.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Entrada_do_Mercado_Central_de_Belo_Horizonte%2C_2022.jpg/1280px-Entrada_do_Mercado_Central_de_Belo_Horizonte%2C_2022.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103625.jpg/1280px-Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103625.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103759.jpg/1280px-Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103759.jpg",
+            ],
             nome: 'Mercado Central',
             categoria: 'mercado',
             regiao: 'Centro',
@@ -557,6 +610,11 @@ export default class LugaresBH {
         {
             id: 20,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Pra%C3%A7a_Savassi_em_Belo_Horizonte.JPG',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Free_Hugs_at_Pra%C3%A7a_da_Savassi%2C_Belo_Horizonte%2C_MG_%2C_Brazil.jpg/1280px-Free_Hugs_at_Pra%C3%A7a_da_Savassi%2C_Belo_Horizonte%2C_MG_%2C_Brazil.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Pr%C3%A9dios_na_Savassi%2C_Belo_Horizonte_MG.JPG/1280px-Pr%C3%A9dios_na_Savassi%2C_Belo_Horizonte_MG.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/P%C3%B4r_do_sol_na_Savassi%2C_Belo_Horizonte_MG.JPG/1280px-P%C3%B4r_do_sol_na_Savassi%2C_Belo_Horizonte_MG.JPG",
+            ],
             nome: 'Quarteirão da Savassi',
             categoria: 'bar',
             regiao: 'Savassi',
@@ -581,6 +639,11 @@ export default class LugaresBH {
         {
             id: 21,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/WPGS_20220728_BeloHorizonte_RuaSapucai_P2051666.jpg/1280px-WPGS_20220728_BeloHorizonte_RuaSapucai_P2051666.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Viaduto_Santa_Tereza.jpg/1280px-Viaduto_Santa_Tereza.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Viaduto_Santa_Tereza_Belo_Horizonte%2C_Brasil.jpg/1280px-Viaduto_Santa_Tereza_Belo_Horizonte%2C_Brasil.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Viaduto_Santa_Tereza%2C_Belo_Horizonte%2C_Brasil.JPG/1280px-Viaduto_Santa_Tereza%2C_Belo_Horizonte%2C_Brasil.JPG",
+            ],
             nome: 'Viaduto Santa Tereza & Rua Sapucaí',
             categoria: 'bar',
             regiao: 'Santa Tereza / Floresta',
@@ -681,6 +744,11 @@ export default class LugaresBH {
         {
             id: 25,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Tigre_Zoologico_BH_MG_29.09.2007.JPG',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Zool%C3%B3gico_municipal_de_Belo_Horizonte_-_MG.jpg/1280px-Zool%C3%B3gico_municipal_de_Belo_Horizonte_-_MG.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Zool%C3%B3gico_Municipal_de_Belo_Horizonte_-_MG.jpg/1280px-Zool%C3%B3gico_Municipal_de_Belo_Horizonte_-_MG.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Zool%C3%B3gico_municipal_de_Belo_Horizonte_MG.jpg/1280px-Zool%C3%B3gico_municipal_de_Belo_Horizonte_MG.jpg",
+            ],
             nome: 'Zoológico de BH (Fundação Zoo-Botânica)',
             categoria: 'familia',
             regiao: 'Pampulha',
@@ -755,6 +823,11 @@ export default class LugaresBH {
         {
             id: 28,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Bhshopping.JPG',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Estacionamentobhshopping.JPG/1280px-Estacionamentobhshopping.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Senhora_do_carmo.JPG/1280px-Senhora_do_carmo.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Bhshoppingestacionamento.JPG/1280px-Bhshoppingestacionamento.JPG",
+            ],
             nome: 'BH Shopping',
             categoria: 'shopping',
             regiao: 'Belvedere',
@@ -781,6 +854,11 @@ export default class LugaresBH {
         {
             id: 29,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Inhotim_-_panoramio_%28cropped%29.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Ahearn_Torres_Inhotim_Brumadinho_01.jpg/1280px-Ahearn_Torres_Inhotim_Brumadinho_01.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Ahearn_Torres_Inhotim_Brumadinho_02.jpg/1280px-Ahearn_Torres_Inhotim_Brumadinho_02.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Ahearn_Torres_Inhotim_Brumadinho_03.jpg/1280px-Ahearn_Torres_Inhotim_Brumadinho_03.jpg",
+            ],
             nome: 'Inhotim (Brumadinho)',
             categoria: 'regiao',
             regiao: 'Brumadinho (~60 km)',
@@ -805,6 +883,11 @@ export default class LugaresBH {
         {
             id: 30,
             foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/In%C3%ADcio_Centro_Hist%C3%B3rico_de_Sabar%C3%A1.jpg/1280px-In%C3%ADcio_Centro_Hist%C3%B3rico_de_Sabar%C3%A1.jpg',
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Centro%2C_Sabar%C3%A1_-_MG%2C_Brazil_-_panoramio_%281%29.jpg/1280px-Centro%2C_Sabar%C3%A1_-_MG%2C_Brazil_-_panoramio_%281%29.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Rio_das_Velhas_no_centro_hist%C3%B3rico_de_Sabar%C3%A1.jpg/1280px-Rio_das_Velhas_no_centro_hist%C3%B3rico_de_Sabar%C3%A1.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Centro_Hist%C3%B3rico_de_Sabar%C3%A1_a_noite.jpg/1280px-Centro_Hist%C3%B3rico_de_Sabar%C3%A1_a_noite.jpg",
+            ],
             nome: 'Centro Histórico de Sabará',
             categoria: 'regiao',
             regiao: 'Sabará (~25 km)',
@@ -852,7 +935,12 @@ export default class LugaresBH {
         },
         {
             id: 32,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_1.JPG/1280px-Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_1.JPG",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_0.JPG/1280px-Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_0.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_2.JPG/1280px-Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil_2.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil.JPG/1280px-Pra%C3%A7a_da_Esta%C3%A7%C3%A3o%2C_Belo_Horizonte%2C_Brasil.JPG",
+            ],
             nome: 'Praça da Estação (Praça Rui Barbosa)',
             categoria: 'praca',
             regiao: 'Centro',

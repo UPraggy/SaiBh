@@ -4701,8 +4701,8 @@
   "id": 3065,
   "curado": false,
   "fonte": "google",
-  "foto": null,
-  "nome": "Bank of Brazil Cultural Center",
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Centro_Cultural_Banco_do_Brasil%2C_Belo_Horizonte_-_panoramio.jpg/1280px-Centro_Cultural_Banco_do_Brasil%2C_Belo_Horizonte_-_panoramio.jpg",
+  "nome": "Centro Cultural Banco do Brasil (CCBB BH)",
   "categoria": "cultura",
   "regiao": "Centro",
   "endereco": "Praça da Liberdade, 450 Art & culture in an ornate palace",
@@ -4766,7 +4766,10 @@
   "website": null,
   "telefone": null,
   "lat": null,
-  "lng": null
+  "lng": null,
+  "galeria": [
+   "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Centro_Cultural_Banco_do_Brasil_-_Belo_Horizonte_%2814104071681%29.jpg/1280px-Centro_Cultural_Banco_do_Brasil_-_Belo_Horizonte_%2814104071681%29.jpg"
+  ]
  },
  {
   "id": 3066,
@@ -4987,8 +4990,8 @@
   "id": 3069,
   "curado": false,
   "fonte": "google",
-  "foto": null,
-  "nome": "UFMG Cultural Center",
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Centro_Cultural_da_UFMG_-_Belo_Horizonte_-_20250902125033.jpg/1280px-Centro_Cultural_da_UFMG_-_Belo_Horizonte_-_20250902125033.jpg",
+  "nome": "Centro Cultural UFMG",
   "categoria": "cultura",
   "regiao": "Centro",
   "endereco": "Av. Santos Dumont, 174",
@@ -9235,7 +9238,7 @@
   "id": 3128,
   "curado": false,
   "fonte": "google",
-  "foto": null,
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Casa_do_Baile_-_Pampulha_BH.jpg/1280px-Casa_do_Baile_-_Pampulha_BH.jpg",
   "nome": "Casa do Baile",
   "categoria": "cultura",
   "regiao": "Pampulha",
@@ -9300,14 +9303,17 @@
   "website": null,
   "telefone": null,
   "lat": null,
-  "lng": null
+  "lng": null,
+  "galeria": [
+   "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Casa_do_Baile_2.jpg/1280px-Casa_do_Baile_2.jpg"
+  ]
  },
  {
   "id": 3129,
   "curado": false,
   "fonte": "google",
-  "foto": null,
-  "nome": "Pampulha Ecological Park",
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/PedroVilela_Lagoa_da_Pampulha_Belo_Horizonte_MG_%2840158074024%29.jpg/1280px-PedroVilela_Lagoa_da_Pampulha_Belo_Horizonte_MG_%2840158074024%29.jpg",
+  "nome": "Parque Ecológico da Pampulha",
   "categoria": "parque",
   "regiao": "Pampulha",
   "endereco": "Av. Otacílio Negrão de Lima, 7111 Scenic parkland for recreation & events",
@@ -9371,7 +9377,10 @@
   "website": null,
   "telefone": null,
   "lat": null,
-  "lng": null
+  "lng": null,
+  "galeria": [
+   "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Por_do_sol_Lagoa_da_Pampulha_Belo_Horizonte.jpg/1280px-Por_do_sol_Lagoa_da_Pampulha_Belo_Horizonte.jpg"
+  ]
  },
  {
   "id": 3130,
@@ -9887,8 +9896,8 @@
   "id": 3137,
   "curado": false,
   "fonte": "google",
-  "foto": null,
-  "nome": "Kubitschek House Museum",
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Museu_Casa_Kubitschek.jpg/1280px-Museu_Casa_Kubitschek.jpg",
+  "nome": "Museu Casa Kubitschek (Casa JK)",
   "categoria": "cultura",
   "regiao": "Pampulha",
   "endereco": "Av. Otacílio Negrão de Lima, 4188 Modernist architecture & decor",
@@ -9952,7 +9961,10 @@
   "website": null,
   "telefone": null,
   "lat": null,
-  "lng": null
+  "lng": null,
+  "galeria": [
+   "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Museu_Casa_Kubitschek_na_Pampulha.jpg/1280px-Museu_Casa_Kubitschek_na_Pampulha.jpg"
+  ]
  },
  {
   "id": 3138,
@@ -10030,8 +10042,8 @@
   "id": 3139,
   "curado": false,
   "fonte": "google",
-  "foto": null,
-  "nome": "Brazilian Football Museum",
+  "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Mineir%C3%A3o_%28Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto%29.jpg/1280px-Mineir%C3%A3o_%28Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto%29.jpg",
+  "nome": "Museu Brasileiro do Futebol (Mineirão)",
   "categoria": "cultura",
   "regiao": "Pampulha",
   "endereco": "Av. Coronel Oscar Paschoal, s/n",
@@ -10095,7 +10107,10 @@
   "website": null,
   "telefone": null,
   "lat": null,
-  "lng": null
+  "lng": null,
+  "galeria": [
+   "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto_-_Belo_Horizonte_-_20250409150611.jpg/1280px-Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto_-_Belo_Horizonte_-_20250409150611.jpg"
+  ]
  },
  {
   "id": 3140,

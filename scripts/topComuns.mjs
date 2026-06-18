@@ -1,0 +1,11 @@
+import { readFileSync } from 'fs';
+const D='src/components/funcionalidades/';
+const osm=JSON.parse(readFileSync(D+'lugaresOSM.json','utf8'));
+const goo=JSON.parse(readFileSync(D+'lugaresGoogle.json','utf8'));
+const all=[...osm.map(x=>({...x,_src:'osm'})),...goo.map(x=>({...x,_src:'goo'}))];
+console.log('OSM',osm.length,'GOOGLE',goo.length,'TOTAL',all.length);
+console.log('sample keys:',Object.keys(all[0]).join(','));
+console.log('id range osm:',Math.min(...osm.map(x=>x.id)),'-',Math.max(...osm.map(x=>x.id)),'| goo:',Math.min(...goo.map(x=>x.id)),'-',Math.max(...goo.map(x=>x.id)));
+const top=all.filter(x=>!x.foto).sort((a,b)=>(b.avaliacoes||0)-(a.avaliacoes||0)).slice(0,30);
+console.log('\n#id\tsrc\tnota\taval\tcat\tnome');
+for(const t of top)console.log(`${t.id}\t${t._src}\t${t.nota||''}\t${t.avaliacoes||0}\t${t.categoria}\t${t.nome}`);

@@ -484,7 +484,8 @@ export default class LugaresBH {
         },
         {
             id: 15,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Caff%C3%A8_espresso_Specialty_Arabica_variet%C3%A0_Heirloom_originaria_di_Chelbesa_Gedeb_in_Etiopia_a_Milano.jpg/1280px-Caff%C3%A8_espresso_Specialty_Arabica_variet%C3%A0_Heirloom_originaria_di_Chelbesa_Gedeb_in_Etiopia_a_Milano.jpg",
+            galeria: ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Red_Rock_Coffee_Specialty_Drinks.jpg/1280px-Red_Rock_Coffee_Specialty_Drinks.jpg"],
             nome: 'Cuppa Coffee Roasters',
             categoria: 'cafe',
             regiao: 'Savassi / Lourdes',
@@ -508,7 +509,8 @@ export default class LugaresBH {
         },
         {
             id: 16,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Mercado_Novo_de_Belo_Horizonte.jpg/1280px-Mercado_Novo_de_Belo_Horizonte.jpg",
+            galeria: ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Mercado_Novo_em_BH_01.jpg/1280px-Mercado_Novo_em_BH_01.jpg"],
             nome: 'Birosca dos Cafés / cafés do Mercado Novo',
             categoria: 'cafe',
             regiao: 'Centro (Mercado Novo)',
@@ -709,7 +711,8 @@ export default class LugaresBH {
         },
         {
             id: 23,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Almo%C3%A7o_em_Ouro_Preto.jpg/1280px-Almo%C3%A7o_em_Ouro_Preto.jpg",
+            galeria: ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Feij%C3%A3o_tropeiro.jpg/1280px-Feij%C3%A3o_tropeiro.jpg"],
             nome: 'Dona Lucinha (buffet mineiro)',
             categoria: 'restaurante',
             regiao: 'Funcionários / Savassi',
@@ -733,7 +736,8 @@ export default class LugaresBH {
         },
         {
             id: 24,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Vista_parcial_da_Savassi%2C_Belo_Horizonte_MG2.JPG/1280px-Vista_parcial_da_Savassi%2C_Belo_Horizonte_MG2.JPG",
+            galeria: ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/P%C3%B4r_do_sol_na_Savassi%2C_Belo_Horizonte_MG.JPG/1280px-P%C3%B4r_do_sol_na_Savassi%2C_Belo_Horizonte_MG.JPG"],
             nome: 'Pizzarias e mesas da Praça da Savassi',
             categoria: 'restaurante',
             regiao: 'Savassi',

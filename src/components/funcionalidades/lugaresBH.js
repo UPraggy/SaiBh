@@ -456,7 +456,11 @@ export default class LugaresBH {
         // ===================== CAFÉS =====================
         {
             id: 14,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil.JPG",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_0.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_0.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_1.JPG/1280px-Museu_de_Artes_e_Of%C3%ADcios%2C_Belo_Horizonte%2C_Brasil_1.JPG",
+            ],
             nome: 'Café com Letras',
             categoria: 'cafe',
             regiao: 'Savassi',
@@ -559,7 +563,11 @@ export default class LugaresBH {
         },
         {
             id: 18,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103625.jpg/1280px-Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103625.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103759.jpg/1280px-Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213103759.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213104142.jpg/1280px-Mercado_Central_de_Belo_Horizonte_-_Belo_Horizonte_-_20220213104142.jpg",
+            ],
             nome: 'Mercado Novo',
             categoria: 'mercado',
             regiao: 'Centro',
@@ -583,7 +591,11 @@ export default class LugaresBH {
         },
         {
             id: 19,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Mercado_Novo_de_Belo_Horizonte.jpg/1280px-Mercado_Novo_de_Belo_Horizonte.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Mercado_Novo_em_BH_01.jpg/1280px-Mercado_Novo_em_BH_01.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Mercado_Novo_em_BH_02.jpg/1280px-Mercado_Novo_em_BH_02.jpg",
+            ],
             nome: 'Feira Hippie (Av. Afonso Pena)',
             categoria: 'feira',
             regiao: 'Centro',
@@ -669,7 +681,11 @@ export default class LugaresBH {
         // ===================== RESTAURANTES =====================
         {
             id: 22,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Viaduto_Santa_Tereza.jpg/1280px-Viaduto_Santa_Tereza.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Viaduto_Santa_Tereza_Belo_Horizonte%2C_Brasil.jpg/1280px-Viaduto_Santa_Tereza_Belo_Horizonte%2C_Brasil.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Viaduto_Santa_Tereza%2C_Belo_Horizonte%2C_Brasil.JPG/1280px-Viaduto_Santa_Tereza%2C_Belo_Horizonte%2C_Brasil.JPG",
+            ],
             nome: 'Xapuri (comida mineira)',
             categoria: 'restaurante',
             regiao: 'Pampulha (Mangabeiras p/ ref.)',
@@ -772,7 +788,11 @@ export default class LugaresBH {
         },
         {
             id: 26,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Zool%C3%B3gico_municipal_de_Belo_Horizonte_-_MG.jpg/1280px-Zool%C3%B3gico_municipal_de_Belo_Horizonte_-_MG.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tigre_Zoologico_BH_MG_29.09.2007.JPG/1280px-Tigre_Zoologico_BH_MG_29.09.2007.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Elefante_Zoo_Belo_Horizonte.jpg/1280px-Elefante_Zoo_Belo_Horizonte.jpg",
+            ],
             nome: 'Parque Guanabara (diversões)',
             categoria: 'familia',
             regiao: 'Pampulha',
@@ -798,7 +818,10 @@ export default class LugaresBH {
         // ===================== SHOPPINGS (plano chuva / noite) =====================
         {
             id: 27,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Parque_Guanabara_-_Belo_Horizonte.jpg/1280px-Parque_Guanabara_-_Belo_Horizonte.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/MIRAGE_PARQUE_GUANABARA.jpg/1280px-MIRAGE_PARQUE_GUANABARA.jpg",
+            ],
             nome: 'Pátio Savassi',
             categoria: 'shopping',
             regiao: 'Savassi',
@@ -911,7 +934,11 @@ export default class LugaresBH {
         },
         {
             id: 31,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Vista_parcial_do_centro_hist%C3%B3rico_de_Sabar%C3%A1.jpg/1280px-Vista_parcial_do_centro_hist%C3%B3rico_de_Sabar%C3%A1.jpg",
+            galeria: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Centro%2C_Sabar%C3%A1_-_MG%2C_Brazil_-_panoramio_%281%29.jpg/1280px-Centro%2C_Sabar%C3%A1_-_MG%2C_Brazil_-_panoramio_%281%29.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Centro_Hist%C3%B3rico_de_Sabar%C3%A1_a_noite.jpg/1280px-Centro_Hist%C3%B3rico_de_Sabar%C3%A1_a_noite.jpg",
+            ],
             nome: 'Gruta da Lapinha (Lagoa Santa)',
             categoria: 'regiao',
             regiao: 'Lagoa Santa (~40 km)',

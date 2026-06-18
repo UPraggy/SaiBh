@@ -21,6 +21,7 @@ import { createPortal } from 'react-dom'
 import LugaresBH from '../funcionalidades/lugaresBH.js'
 import GlobalVar from './GlobalVar.jsx'
 import { Icone, CategoriaIcone } from './Icones.jsx'
+import { montarLinkPlano } from '../funcionalidades/planoUtil.js'
 import '../../assets/css/CardLugar.css'
 
 const LABEL_PERIODO = { manha: 'Manhã', tarde: 'Tarde', noite: 'Noite' }
@@ -52,7 +53,27 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
     const [imgErro, setImgErro] = useState(false)
     const [zoom, setZoom] = useState(false)
     const [idx, setIdx] = useState(0)
+    const [linkCopiado, setLinkCopiado] = useState(false)
     const realce = surpresa || destaque
+
+    // Compartilhar ESTE lugar: gera um plano de 1 item (?plano=...) reusando a
+    // mesma decodificação do roteiro. Share nativo no mobile, clipboard no resto.
+    const compartilharLugar = async () => {
+        const link = montarLinkPlano({ ids: [lugar.id] })
+        const dados = {
+            title: `${lugar.nome} — SaiBH`,
+            text: `Dá uma olhada nesse lugar em BH: ${lugar.nome}`,
+            url: link,
+        }
+        try {
+            if (navigator.share) { await navigator.share(dados); return }
+        } catch { /* usuário cancelou o share nativo → cai pro clipboard */ }
+        try {
+            await navigator.clipboard.writeText(link)
+            setLinkCopiado(true)
+            setTimeout(() => setLinkCopiado(false), 1800)
+        } catch { /* clipboard indisponível: ignora silenciosamente */ }
+    }
 
     const cat = LugaresBH.categorias[lugar.categoria]
     const temFoto = lugar.foto && !imgErro
@@ -177,6 +198,15 @@ function CardLugar({ lugar, salvo = false, onToggleSalvo, surpresa = false, dest
                         onClick={() => onToggleSalvo && onToggleSalvo(lugar.id)}
                     >
                         <Icone nome={salvo ? 'coracaoCheio' : 'coracao'} size={19} />
+                    </button>
+                    <button
+                        type="button"
+                        className={`cardAcaoBtn cardCompartilhar ${linkCopiado ? 'copiado' : ''}`}
+                        aria-label="Compartilhar este lugar"
+                        title={linkCopiado ? 'Link copiado!' : 'Compartilhar este lugar'}
+                        onClick={compartilharLugar}
+                    >
+                        <Icone nome={linkCopiado ? 'check' : 'compartilhar'} size={18} />
                     </button>
                 </div>
 

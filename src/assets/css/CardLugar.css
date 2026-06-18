@@ -324,6 +324,10 @@
 /* "Ja fui": fica verde quando ativo (visitado) */
 .cardJaFui:hover { color: var(--verde); }
 .cardJaFui.ativo { color: #fff; background: var(--verde); box-shadow: 0 4px 12px rgba(31, 157, 110, .4); }
+/* Compartilhar lugar: terracota no hover e no feedback de "copiado"
+   (verde é exclusivo do selo de match, nunca usar aqui) */
+.cardCompartilhar:hover { color: var(--terracota); }
+.cardCompartilhar.copiado { color: #fff; background: var(--terracota); }
 
 /* tag surpresa */
 .cardSurpresaTag {

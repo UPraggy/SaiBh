@@ -206,7 +206,7 @@ export default class LugaresBH {
         },
         {
             id: 5,
-            foto: null,
+            foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Assembl%C3%A9ia_Legislativa_de_Minas_Gerais_-_panoramio.jpg/1280px-Assembl%C3%A9ia_Legislativa_de_Minas_Gerais_-_panoramio.jpg",
             nome: 'Mirante do Belvedere (Big Boi)',
             categoria: 'mirante',
             regiao: 'Belvedere',

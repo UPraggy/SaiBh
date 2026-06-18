@@ -1,0 +1,13 @@
+import { readFileSync } from 'fs';
+const G=JSON.parse(readFileSync('src/components/funcionalidades/lugaresGoogle.json','utf8'));
+const O=JSON.parse(readFileSync('src/components/funcionalidades/lugaresOSM.json','utf8'));
+const all=[...G,...O];
+const pubCat=/parque|mirante|cultura|museu|igreja|praça|monumento|teatro/i;
+const naoPub=/restaurante|bar|cafe|café|pizz|lanch|petisc|costel/i;
+const nomeIcon=/praça da liberdade|savassi|pampulha|são francisco|sao francisco|liberdade|catedral|cristo rei|boa viagem|são josé|sao jose|américo|americo giannetti|municipal|estação|estacao|palácio das artes|palacio das artes|memorial|gerdau|minas e do metal|artes e ofícios|oficios|papa|mangabeiras|obelisco|pirulito|praça sete|praça 7/i;
+const ja=new Set([3065,3069,3128,3129,3137,3139]);
+const cand=all.filter(p=>!p.foto && !ja.has(p.id) && !naoPub.test(p.categoria||'') && (pubCat.test(p.categoria||'')||nomeIcon.test(p.nome)));
+const seen=new Set();
+const uniq=cand.filter(p=>{const k=p.nome.toLowerCase().trim();if(seen.has(k))return false;seen.add(k);return true;});
+uniq.sort((a,b)=>(b.avaliacoes||0)-(a.avaliacoes||0)||(b.nota||0)-(a.nota||0));
+for(const p of uniq.slice(0,24)) console.log(`${p.id}\t${p.avaliacoes||0}av\t${p.nome}\t[${p.categoria}/${p.fonte}]`);

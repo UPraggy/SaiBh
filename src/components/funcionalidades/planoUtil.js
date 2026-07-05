@@ -18,6 +18,12 @@ function deBase64Url(b64u) {
     const b64 = b64u.replace(/-/g, '+').replace(/_/g, '/')
     return decodeURIComponent(escape(atob(b64)))
 }
+const listaFiltro = (valor) => Array.isArray(valor) ? valor.filter(Boolean) : (valor ? [valor] : [])
+const guardarLista = (f, chave, valor) => {
+    const lista = listaFiltro(valor)
+    if (lista.length === 1) f[chave] = lista[0]
+    else if (lista.length > 1) f[chave] = lista
+}
 
 /**
  * codificarPlano({ ids, filtros }) → string base64url
@@ -29,7 +35,9 @@ export function codificarPlano({ ids = [], filtros = {} } = {}) {
     if (filtros.comBebe) { f.b = 1; if (filtros.idadeBebe) f.bi = filtros.idadeBebe }
     if (filtros.pessoas && filtros.pessoas !== 2) f.pe = filtros.pessoas
     if (filtros.custoMax) f.c = filtros.custoMax
-    if (filtros.categoria) f.cat = filtros.categoria
+    guardarLista(f, 'cat', filtros.categoria)
+    guardarLista(f, 'cid', filtros.cidade)
+    guardarLista(f, 'bai', filtros.bairro)
     if (filtros.regiao) f.r = filtros.regiao
     if (filtros.comida && filtros.comida !== 'tanto') f.co = filtros.comida
     const payload = { v: 1, ids: ids.map(Number).filter(Boolean), f }
@@ -43,7 +51,9 @@ function expandirFiltros(f = {}) {
     if (f.b) { out.comBebe = true; if (f.bi) out.idadeBebe = Number(f.bi) }
     if (f.pe) out.pessoas = Number(f.pe)
     if (f.c) out.custoMax = f.c
-    if (f.cat) out.categoria = f.cat
+    if (f.cat) out.categoria = listaFiltro(f.cat)
+    if (f.cid) out.cidade = listaFiltro(f.cid)
+    if (f.bai) out.bairro = listaFiltro(f.bai)
     if (f.r) out.regiao = f.r
     if (f.co) out.comida = f.co
     return out

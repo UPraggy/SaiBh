@@ -41,13 +41,15 @@ const PADRAO = {
     periodo: 'qualquer',
     custoMax: '',
     comida: 'tanto',
-    categoria: '',
-    cidade: '',
-    bairro: '',
+    categoria: [],
+    cidade: [],
+    bairro: [],
     pessoas: 2,
     comBebe: false,
     soAbertoAgora: false,
     diaOffset: 0,
+    pertoDeMim: false,
+    raioKm: 5,
 }
 
 // idade da criança em texto curto: "8 meses", "1 ano", "2a 3m", "10 anos"
@@ -72,6 +74,9 @@ const IDADE_PRESETS = [
 // passo do stepper: granularidade fina (mês) p/ bebês, anual depois dos 2 anos
 function passoIdade(m) { return m < 24 ? 1 : 12 }
 const IDADE_MAX = 120
+const RAIOS_KM = [1, 2, 3, 4, 5]
+const listaFiltro = (valor) => Array.isArray(valor) ? valor : (valor ? [valor] : [])
+const temFiltro = (valor) => listaFiltro(valor).length > 0
 
 // rótulo curto de um dia à frente: "Hoje", "Amanhã" ou "Qua 18" etc.
 function rotuloDia(offset, isoData) {
@@ -82,7 +87,44 @@ function rotuloDia(offset, isoData) {
     return { topo: semana.charAt(0) + semana.slice(1).toLowerCase(), base: String(d.getDate()) }
 }
 
-function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = [], clima, ativaResp, onSugerir, temVisitados = false }) {
+function MultiLista({ opcoes, selecionados, onToggle, vazio, className = '' }) {
+    const valores = listaFiltro(selecionados)
+    return (
+        <div className={`multiLista ${className}`}>
+            {opcoes.length === 0 ? (
+                <span className="multiVazio">{vazio}</span>
+            ) : opcoes.map((op) => {
+                const ativo = valores.includes(op.value)
+                return (
+                    <button
+                        key={op.value}
+                        type="button"
+                        className={`multiOpcao ${ativo ? 'ativo' : ''}`}
+                        aria-pressed={ativo}
+                        onClick={() => onToggle(op.value)}
+                    >
+                        {ativo ? <Icone nome="check" size={13} /> : null}
+                        <span>{op.label}</span>
+                    </button>
+                )
+            })}
+        </div>
+    )
+}
+
+function FiltrosBar({
+    filtros,
+    setFiltro,
+    limparTudo,
+    cidades = [],
+    bairros = [],
+    clima,
+    ativaResp,
+    onSugerir,
+    temVisitados = false,
+    onAtivarLocalizacao,
+    statusLocalizacao = 'idle',
+}) {
     const [aberto, setAberto] = useState(false)
 
     const diaOffset = filtros.diaOffset || 0
@@ -98,15 +140,19 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
         chips.push({ k: 'custoMax', t: CUSTOS.find((c) => c.v === filtros.custoMax)?.t, reset: PADRAO.custoMax })
     if (filtros.comida !== PADRAO.comida)
         chips.push({ k: 'comida', t: LugaresBH.comidaOpcoes[filtros.comida], reset: PADRAO.comida })
-    if (filtros.categoria)
-        chips.push({ k: 'categoria', t: LugaresBH.categorias[filtros.categoria]?.label, reset: PADRAO.categoria })
-    if (filtros.cidade) chips.push({ k: 'cidade', t: filtros.cidade, reset: PADRAO.cidade })
-    if (filtros.bairro) chips.push({ k: 'bairro', t: filtros.bairro, reset: PADRAO.bairro })
+    listaFiltro(filtros.categoria).forEach((cat) => chips.push({
+        k: `categoria-${cat}`,
+        t: LugaresBH.categorias[cat]?.label || cat,
+        reset: () => toggleLista('categoria', cat),
+    }))
+    listaFiltro(filtros.cidade).forEach((cidade) => chips.push({ k: `cidade-${cidade}`, t: cidade, reset: () => toggleLista('cidade', cidade) }))
+    listaFiltro(filtros.bairro).forEach((bairro) => chips.push({ k: `bairro-${bairro}`, t: bairro, reset: () => toggleLista('bairro', bairro) }))
     if (filtros.pessoas !== PADRAO.pessoas)
         chips.push({ k: 'pessoas', t: `${filtros.pessoas} ${filtros.pessoas === 1 ? 'pessoa' : 'pessoas'}`, reset: PADRAO.pessoas })
     if (filtros.comBebe)
         chips.push({ k: 'comBebe', t: `Com criança (${formatIdade(filtros.idadeBebe)})`, reset: PADRAO.comBebe })
     if (filtros.soAbertoAgora) chips.push({ k: 'soAbertoAgora', t: 'Aberto agora', reset: PADRAO.soAbertoAgora })
+    if (filtros.pertoDeMim) chips.push({ k: 'pertoDeMim', t: `Perto de mim (${filtros.raioKm || 5} km)`, reset: PADRAO.pertoDeMim })
 
     const totalAtivos = chips.length
 
@@ -116,6 +162,32 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
     }
 
     const climaTxt = clima?.ok ? `${clima.temp}°C · ${clima.probChuva}% chuva` : 'clima indisponível'
+    const categoriasOpcoes = Object.entries(LugaresBH.categorias).map(([value, c]) => ({ value, label: c.label }))
+    const cidadesOpcoes = cidades.map((value) => ({ value, label: value }))
+    const bairrosOpcoes = bairros.map((value) => ({ value, label: value }))
+    const cidadeSelecionada = temFiltro(filtros.cidade)
+
+    function toggleLista(campo, valor) {
+        const atual = listaFiltro(filtros[campo])
+        const proximo = atual.includes(valor) ? atual.filter((v) => v !== valor) : [...atual, valor]
+        setFiltro(campo, proximo)
+    }
+
+    function alternarPertoDeMim() {
+        if (filtros.pertoDeMim) {
+            setFiltro('pertoDeMim', false)
+            return
+        }
+        onAtivarLocalizacao?.()
+    }
+
+    const localizacaoTexto = {
+        idle: `Mostra lugares ate ${filtros.raioKm || 5} km`,
+        loading: 'Buscando sua posicao...',
+        ready: `Raio de ${filtros.raioKm || 5} km`,
+        denied: 'Permissao negada no navegador',
+        unsupported: 'Navegador sem geolocalizacao',
+    }[statusLocalizacao] || 'Mostra lugares perto de voce'
 
     // ---- conteudo dos grupos (reaproveitado em desktop e no sheet) ----------
     const grupos = (
@@ -222,21 +294,18 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
 
                 <div className="filtroGrupo">
                     <label className="filtroLabel">Categoria</label>
-                    <div className="selectWrap">
-                        <select value={filtros.categoria} onChange={(e) => setFiltro('categoria', e.target.value)}>
-                            <option value="">Todas as categorias</option>
-                            {Object.entries(LugaresBH.categorias).map(([v, c]) => (
-                                <option key={v} value={v}>{c.label}</option>
-                            ))}
-                        </select>
-                        <Icone nome="chevronBaixo" size={16} className="selectSeta" />
-                    </div>
+                    <MultiLista
+                        opcoes={categoriasOpcoes}
+                        selecionados={filtros.categoria}
+                        onToggle={(valor) => toggleLista('categoria', valor)}
+                        vazio="Sem categorias"
+                    />
                 </div>
 
                 <div className="filtroGrupo">
                     <label className="filtroLabel">Cidade</label>
                     <div className="selectWrap">
-                        <select value={filtros.cidade} onChange={(e) => setFiltro('cidade', e.target.value)}>
+                        <select multiple size={Math.min(5, Math.max(3, cidades.length))} value={listaFiltro(filtros.cidade)} onChange={(e) => setFiltro('cidade', Array.from(e.target.selectedOptions, (o) => o.value).filter(Boolean))}>
                             <option value="">Toda a região</option>
                             {cidades.map((c) => (
                                 <option key={c} value={c}>{c}</option>
@@ -250,11 +319,13 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
                     <label className="filtroLabel">Bairro</label>
                     <div className="selectWrap">
                         <select
-                            value={filtros.bairro}
-                            onChange={(e) => setFiltro('bairro', e.target.value)}
+                            multiple
+                            size={Math.min(5, Math.max(3, bairros.length))}
+                            value={listaFiltro(filtros.bairro)}
+                            onChange={(e) => setFiltro('bairro', Array.from(e.target.selectedOptions, (o) => o.value).filter(Boolean))}
                             disabled={bairros.length === 0}
                         >
-                            <option value="">{filtros.cidade ? 'Todos os bairros' : 'Escolha uma cidade'}</option>
+                            <option value="">{cidadeSelecionada ? 'Todos os bairros' : 'Escolha uma cidade'}</option>
                             {bairros.map((b) => (
                                 <option key={b} value={b}>{b}</option>
                             ))}
@@ -349,6 +420,28 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
                 >
                     <Icone nome="relogio" size={16} /> Aberto agora ({GlobalVar.horaAgoraTexto()})
                 </button>
+
+                <div className="pertoBox">
+                    <button
+                        type="button"
+                        className={`togglePill ${filtros.pertoDeMim ? 'on' : ''}`}
+                        aria-pressed={filtros.pertoDeMim}
+                        onClick={alternarPertoDeMim}
+                        disabled={statusLocalizacao === 'loading'}
+                    >
+                        <Icone nome="pin" size={16} /> Perto de mim
+                    </button>
+                    <div className="raioWrap">
+                        <select
+                            value={filtros.raioKm || 5}
+                            onChange={(e) => setFiltro('raioKm', Number(e.target.value))}
+                            aria-label="Raio de busca"
+                        >
+                            {RAIOS_KM.map((km) => <option key={km} value={km}>{km} km</option>)}
+                        </select>
+                        <span>{localizacaoTexto}</span>
+                    </div>
+                </div>
             </div>
 
             {/* Switch: considerar clima */}
@@ -377,7 +470,7 @@ function FiltrosBar({ filtros, setFiltro, limparTudo, cidades = [], bairros = []
     const linhaChips = totalAtivos > 0 && (
         <div className="filtroChips">
             {chips.map((c) => (
-                <button key={c.k} type="button" className="chipAtivo" onClick={() => setFiltro(c.k, c.reset)}>
+                <button key={c.k} type="button" className="chipAtivo" onClick={() => typeof c.reset === 'function' ? c.reset() : setFiltro(c.k, c.reset)}>
                     {c.t} <Icone nome="x" size={13} />
                 </button>
             ))}

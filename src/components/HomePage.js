@@ -46,13 +46,17 @@ const FILTROS_INICIAIS = () => ({
     idadeBebe: 6,
     pessoas: 2,
     custoMax: '',
-    categoria: '',
-    cidade: '',            // filtro de cidade (município da RMBH)
-    bairro: '',            // filtro de bairro (em cascata com a cidade)
+    categoria: [],
+    cidade: [],            // filtro de cidade (município da RMBH)
+    bairro: [],            // filtro de bairro (em cascata com a cidade)
     comida: 'tanto',
     soAbertoAgora: false,
     considerarClima: true,
+    pertoDeMim: false,
+    raioKm: 5,
 })
+
+const listaFiltro = (valor) => Array.isArray(valor) ? valor : (valor ? [valor] : [])
 
 function HomePage({ ativaResp }) {
     const [clima, setClima] = useState(null)
@@ -60,6 +64,8 @@ function HomePage({ ativaResp }) {
     const [lugares, setLugares] = useState([])
 
     const [filtros, setFiltros] = useState(FILTROS_INICIAIS)
+    const [posicaoUsuario, setPosicaoUsuario] = useState(null)
+    const [statusLocalizacao, setStatusLocalizacao] = useState('idle')
 
     // "Meus Lugares" (persiste entre sessoes)
     const [salvos, setSalvos] = useState(() => GlobalVar.getLocal(CHAVE_SALVOS) || [])
@@ -85,9 +91,31 @@ function HomePage({ ativaResp }) {
     // troca um filtro. Caso especial: ao mudar a CIDADE, zera o BAIRRO (a lista de
     // bairros é em cascata com a cidade, então o bairro antigo não faz mais sentido).
     const setFiltro = useCallback((campo, valor) => setFiltros((p) => (
-        campo === 'cidade' ? { ...p, cidade: valor, bairro: '' } : { ...p, [campo]: valor }
+        campo === 'cidade' ? { ...p, cidade: listaFiltro(valor), bairro: [] } : { ...p, [campo]: valor }
     )), [])
     const limparTudo = useCallback(() => setFiltros(FILTROS_INICIAIS), [])
+
+    const ativarLocalizacao = useCallback(() => {
+        if (!navigator.geolocation) {
+            setStatusLocalizacao('unsupported')
+            setFiltros((p) => ({ ...p, pertoDeMim: false }))
+            return
+        }
+
+        setStatusLocalizacao('loading')
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                setPosicaoUsuario({ lat: coords.latitude, lng: coords.longitude })
+                setStatusLocalizacao('ready')
+                setFiltros((p) => ({ ...p, pertoDeMim: true }))
+            },
+            () => {
+                setStatusLocalizacao('denied')
+                setFiltros((p) => ({ ...p, pertoDeMim: false }))
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 5 * 60 * 1000 },
+        )
+    }, [])
 
     // ---- Meus Lugares: salvar / remover ----
     const toggleSalvo = useCallback((id) => {
@@ -119,8 +147,9 @@ function HomePage({ ativaResp }) {
     // bairros p/ o segundo select, EM CASCATA: só os bairros da cidade escolhida.
     // Sem cidade escolhida, mostra todos os bairros conhecidos (a maioria é de BH).
     const bairros = useMemo(() => {
-        const base = filtros.cidade
-            ? lugares.filter((l) => l.cidade === filtros.cidade)
+        const cidadesSelecionadas = listaFiltro(filtros.cidade)
+        const base = cidadesSelecionadas.length
+            ? lugares.filter((l) => cidadesSelecionadas.includes(l.cidade))
             : lugares
         return [...new Set(base.map((l) => l.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'))
     }, [lugares, filtros.cidade])
@@ -143,10 +172,16 @@ function HomePage({ ativaResp }) {
         }
     }, [filtros])
 
+    const filtrosComLocalizacao = useMemo(() => ({
+        ...filtrosEfetivos,
+        userLat: posicaoUsuario?.lat,
+        userLng: posicaoUsuario?.lng,
+    }), [filtrosEfetivos, posicaoUsuario])
+
     // recomendacao filtrada (reage aos filtros do usuario, inclusive considerarClima)
     const recomendados = useMemo(
-        () => recomendar(lugares, climaSelecionado, filtrosEfetivos),
-        [lugares, climaSelecionado, filtrosEfetivos],
+        () => recomendar(lugares, climaSelecionado, filtrosComLocalizacao),
+        [lugares, climaSelecionado, filtrosComLocalizacao],
     )
 
     // ranking estavel do dia para o hero (ignora os filtros do usuario, mas respeita o clima)
@@ -243,9 +278,9 @@ function HomePage({ ativaResp }) {
 
         setFiltros((p) => ({
             ...p,
-            categoria: cat || '',
-            cidade: cid || '',
-            bairro: bai || '',
+            categoria: cat ? [cat] : [],
+            cidade: cid ? [cid] : [],
+            bairro: bai ? [bai] : [],
             custoMax: tetoCusto >= 0 ? ordemCusto[tetoCusto] : '',
         }))
         setPainelSalvos(false)
@@ -331,6 +366,8 @@ function HomePage({ ativaResp }) {
                 ativaResp={ativaResp}
                 onSugerir={sugerirPeloHistorico}
                 temVisitados={visitados.length > 0}
+                onAtivarLocalizacao={ativarLocalizacao}
+                statusLocalizacao={statusLocalizacao}
             />
 
             <main className="conteudoWrapper resultados">

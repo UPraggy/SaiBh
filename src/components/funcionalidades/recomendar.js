@@ -24,6 +24,28 @@ import bancoGet from './bancoGet.js'
 
 // ordem de custo p/ comparar com o teto escolhido
 const ORDEM_CUSTO = { gratis: 0, barato: 1, medio: 2, caro: 3 }
+const listaFiltro = (valor) => Array.isArray(valor) ? valor.filter(Boolean) : (valor ? [valor] : [])
+const normalizarTexto = (valor) => String(valor || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase()
+
+function contemNormalizado(selecionados, valor) {
+    const lista = listaFiltro(selecionados).map(normalizarTexto)
+    return lista.length === 0 || lista.includes(normalizarTexto(valor))
+}
+
+function distanciaKm(aLat, aLng, bLat, bLng) {
+    const toRad = (v) => v * Math.PI / 180
+    const R = 6371
+    const dLat = toRad(bLat - aLat)
+    const dLng = toRad(bLng - aLng)
+    const lat1 = toRad(aLat)
+    const lat2 = toRad(bLat)
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2
+    return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)))
+}
 
 // categorias que, no "chute", costumam acomodar bem crianças
 const CATS_CRIANCA = new Set([
@@ -199,6 +221,10 @@ function pontuar(lugar, clima, f) {
 
     // ---- 7) reforco final ----
     if (f.considerarClima && lugar.destaqueHoje && clima?.ok && clima.categoria !== 'chuva') score += 4
+    if (typeof lugar.distanciaKm === 'number') {
+        score += Math.max(0, Math.round((f.raioKm - lugar.distanciaKm) * 2))
+        motivos.push(`${lugar.distanciaKm.toFixed(1)} km de vocÃª`)
+    }
 
     score = Math.max(0, Math.min(100, Math.round(score)))
     return { score, motivos, abertoAgora, okPeriodo, statusTipo, statusLabel }
@@ -220,23 +246,33 @@ function recomendar(lugares, clima, filtros = {}) {
         idadeBebe: Number(filtros.idadeBebe) || 0,
         pessoas: Number(filtros.pessoas) || 0,
         custoMax: filtros.custoMax || '',
-        categoria: filtros.categoria || '',
-        cidade: filtros.cidade || '',
-        bairro: filtros.bairro || '',
+        categoria: listaFiltro(filtros.categoria),
+        cidade: listaFiltro(filtros.cidade),
+        bairro: listaFiltro(filtros.bairro),
         comida: filtros.comida || 'tanto',
         soAbertoAgora: !!filtros.soAbertoAgora,
+        pertoDeMim: !!filtros.pertoDeMim,
+        raioKm: Math.min(5, Math.max(1, Number(filtros.raioKm) || 5)),
+        userLat: Number(filtros.userLat),
+        userLng: Number(filtros.userLng),
         // default true: se nao vier no objeto de filtros, o clima conta.
         considerarClima: filtros.considerarClima !== false,
     }
+    const temPosicao = Number.isFinite(f.userLat) && Number.isFinite(f.userLng)
 
     // dia escolhido (0-6). Quando válido, vira filtro duro de "abre nesse dia".
     const diaValido = typeof f.dia === 'number' && f.dia >= 0 && f.dia <= 6
 
     return lugares
         // filtros duros
-        .filter((l) => !f.categoria || l.categoria === f.categoria)
-        .filter((l) => !f.cidade || l.cidade === f.cidade)
-        .filter((l) => !f.bairro || l.bairro === f.bairro)
+        .map((l) => {
+            if (!f.pertoDeMim || !temPosicao || !Number.isFinite(Number(l.lat)) || !Number.isFinite(Number(l.lng))) return l
+            return { ...l, distanciaKm: distanciaKm(f.userLat, f.userLng, Number(l.lat), Number(l.lng)) }
+        })
+        .filter((l) => contemNormalizado(f.categoria, l.categoria))
+        .filter((l) => contemNormalizado(f.cidade, l.cidade))
+        .filter((l) => contemNormalizado(f.bairro, l.bairro))
+        .filter((l) => !f.pertoDeMim || (temPosicao && typeof l.distanciaKm === 'number' && l.distanciaKm <= f.raioKm))
         .filter((l) => (f.comida === 'com' ? l.temComida : f.comida === 'sem' ? !l.temComida : true))
         .filter((l) => !f.custoMax || ORDEM_CUSTO[l.custo] <= ORDEM_CUSTO[f.custoMax])
         // levar criança é filtro DURO, mas "chutamos" além do campo `bebe`:

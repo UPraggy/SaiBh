@@ -77,6 +77,15 @@
 }
 .selectWrap select:hover { border-color: var(--terracota-cl); }
 .selectWrap select:focus { outline: none; border-color: var(--vinho); box-shadow: 0 0 0 3px var(--rosa-bg); }
+.selectWrap select[multiple] {
+    min-height: 118px;
+    padding-right: 13px;
+}
+.selectWrap select[multiple] option {
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+.selectWrap select[multiple] + .selectSeta { display: none; }
 .selectSeta {
     position: absolute;
     right: 12px;
@@ -84,6 +93,46 @@
     transform: translateY(-50%);
     color: var(--cafe-3);
     pointer-events: none;
+}
+
+.multiLista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    max-width: 620px;
+    max-height: 128px;
+    overflow-y: auto;
+    padding: 2px 2px 4px;
+    scrollbar-width: thin;
+}
+.multiOpcao {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 34px;
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    font-weight: 650;
+    color: var(--cafe);
+    background: var(--bege);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: var(--t);
+}
+.multiOpcao:hover { border-color: var(--terracota-cl); color: var(--vinho); }
+.multiOpcao.ativo {
+    background: var(--rosa-bg);
+    border-color: var(--vinho);
+    color: var(--vinho);
+}
+.multiOpcao svg { flex-shrink: 0; }
+.multiVazio {
+    font-family: var(--f-ui);
+    font-size: .82rem;
+    color: var(--cafe-3);
+    padding: 9px 0;
 }
 
 /* ---- contador de pessoas ---- */
@@ -148,6 +197,35 @@
     color: var(--vinho);
 }
 .togglePill.on svg { color: var(--vinho); }
+.togglePill:disabled { opacity: .65; cursor: wait; }
+
+.pertoBox {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+}
+.raioWrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--f-ui);
+    font-size: .78rem;
+    color: var(--cafe-3);
+}
+.raioWrap select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--f-ui);
+    font-weight: 700;
+    color: var(--vinho);
+    background: var(--bege-card);
+    border: 1.5px solid var(--bege-borda);
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.raioWrap select:focus { outline: none; border-color: var(--vinho); box-shadow: 0 0 0 3px var(--rosa-bg); }
 
 /* bloco idade do bebe (anima ao abrir) */
 .bebeBox {
@@ -541,4 +619,7 @@
     .selectWrap, .selectWrap select { width: 100%; min-width: 0; }
     .filtroGrupo { width: 100%; }
     .filtroPessoas { width: auto; }
+    .multiLista { max-width: 100%; max-height: 150px; }
+    .pertoBox { width: 100%; align-items: flex-start; flex-direction: column; }
+    .raioWrap { width: 100%; justify-content: space-between; }
 }

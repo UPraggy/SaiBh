@@ -1,0 +1,20 @@
+{
+  "name": "SaiBH — Onde sair em Belo Horizonte",
+  "short_name": "SaiBH",
+  "description": "Descubra os melhores lugares para sair em Belo Horizonte e região, do jeito certo: clima ao vivo, período, custo, com bebê e mais.",
+  "id": "/",
+  "start_url": "/?fonte=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "background_color": "#f7efe4",
+  "theme_color": "#8a1f3f",
+  "categories": ["travel", "lifestyle", "food"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "192x192 512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

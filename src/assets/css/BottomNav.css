@@ -1,0 +1,109 @@
+/* BottomNav.css — menu inferior fixo (faixa vinho). No mobile ocupa a largura
+   toda, colado embaixo; no desktop vira uma pilula flutuante central. A acao
+   "Me Surpreenda" ganha uma bolha terracota elevada no centro. */
+:root { --bottomnav-h: 64px; }
+
+.bottomNav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 55;
+    height: calc(var(--bottomnav-h) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    gap: 2px;
+    background: var(--grad-vinho);
+    box-shadow: 0 -8px 26px rgba(59, 36, 25, .22);
+}
+
+.bnItem {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: none;
+    background: none;
+    color: rgba(255, 247, 236, .82);
+    font-family: var(--f-ui);
+    font-size: .68rem;
+    font-weight: 700;
+    padding: 6px 2px;
+    cursor: pointer;
+    transition: color var(--t), transform var(--t);
+    -webkit-tap-highlight-color: transparent;
+}
+.bnItem > span:last-child {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bnItem .icone { color: var(--terracota-cl); transition: color var(--t), transform var(--t); }
+.bnItem:hover,
+.bnItem:focus-visible { color: #fff7ec; outline: none; }
+.bnItem:hover .icone { color: #fff7ec; transform: translateY(-1px); }
+.bnItem:active { transform: translateY(1px); }
+
+/* contador (salvos / ja fui) */
+.bnIconeBadge { position: relative; display: inline-flex; }
+.bnBadge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--terracota);
+    color: #fff;
+    font-size: .62rem;
+    font-weight: 800;
+    font-style: normal;
+    line-height: 1;
+    border-radius: 999px;
+    border: 1.5px solid var(--vinho-d);
+}
+
+/* acao central "Me Surpreenda" — bolha elevada */
+.bnSurpresa { position: relative; }
+.bnSurpresaBolha {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-top: -18px;
+    border-radius: 50%;
+    background: var(--grad-terracota);
+    box-shadow: 0 6px 16px rgba(208, 106, 60, .5);
+    border: 3px solid var(--vinho);
+    transition: transform var(--t);
+}
+.bnSurpresa .bnSurpresaBolha .icone { color: #fff7ec; }
+.bnSurpresa:hover .bnSurpresaBolha { transform: translateY(-2px); }
+
+/* desktop: pilula flutuante central (nao ocupa a largura toda) */
+@media (min-width: 900px) {
+    .bottomNav {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 18px;
+        width: auto;
+        height: var(--bottomnav-h);
+        padding: 0 10px;
+        gap: 4px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .14);
+    }
+    .bnItem { flex: 0 0 auto; padding: 6px 18px; }
+    .bnSurpresaBolha { margin-top: 0; width: 40px; height: 40px; border-width: 2px; }
+}

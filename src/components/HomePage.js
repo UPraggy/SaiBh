@@ -25,6 +25,8 @@ import DestaqueHoje from './subComponents/DestaqueHoje.jsx'
 import FiltrosBar from './subComponents/FiltrosBar.jsx'
 import CardLugar from './subComponents/CardLugar.jsx'
 import Rodape from './subComponents/Rodape.jsx'
+import BottomNav from './subComponents/BottomNav.jsx'
+import InstallPrompt from './subComponents/InstallPrompt.jsx'
 import { Icone } from './subComponents/Icones.jsx'
 
 import '../assets/css/HomePage.css'
@@ -339,14 +341,7 @@ function HomePage({ ativaResp }) {
 
     return (
         <div className="homePage">
-            <TopMenu
-                clima={clima}
-                ativaResp={ativaResp}
-                salvosCount={salvos.length}
-                onAbrirSalvos={() => { setPainelVisitados(false); setPainelSalvos(true) }}
-                visitadosCount={visitados.length}
-                onAbrirVisitados={() => { setPainelSalvos(false); setPainelVisitados(true) }}
-            />
+            <TopMenu clima={clima} ativaResp={ativaResp} />
 
             <DestaqueHoje
                 clima={clima}
@@ -423,6 +418,27 @@ function HomePage({ ativaResp }) {
             </main>
 
             <Rodape />
+
+            {/* Menu inferior fixo — as acoes principais sempre ao alcance do polegar.
+                Substitui os botoes que antes apertavam o topo e abre mais opcoes. */}
+            <BottomNav
+                salvosCount={salvos.length}
+                visitadosCount={visitados.length}
+                onInicio={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                onFiltros={() => {
+                    // desktop = .filtroLinha; mobile = .filtrosMobileBar; senão os resultados
+                    const el = document.querySelector('.filtrosMobileBar')
+                        || document.querySelector('.filtroLinha')
+                        || document.querySelector('.resultados')
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+                onSurpresa={meSurpreenda}
+                onAbrirSalvos={() => { setPainelVisitados(false); setPainelSalvos(true) }}
+                onAbrirVisitados={() => { setPainelSalvos(false); setPainelVisitados(true) }}
+            />
+
+            {/* O proprio app sugere a instalacao (PWA) quando o navegador permite */}
+            <InstallPrompt />
 
             {/* ---------------- Painel "Meus Lugares" ---------------- */}
             {painelSalvos && (

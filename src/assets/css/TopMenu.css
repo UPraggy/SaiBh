@@ -1,6 +1,7 @@
 /**
  * TopMenu.css — cabecalho fixo, faixa vinho (--grad-vinho), texto claro.
- * Marca a esquerda; clima + relogio + "Meus lugares" a direita.
+ * Enxuto: a marca em destaque a esquerda; dia/hora + clima a direita.
+ * As acoes foram para o menu inferior (BottomNav.css).
  */
 .topMenu {
     width: 100%;
@@ -15,20 +16,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 14px;
     min-height: var(--menu-h);
     box-sizing: border-box;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
+/* a marca respira e pode encolher sem empurrar a area da direita pra fora */
+.topMenuInner > .logo { min-width: 0; flex: 0 1 auto; }
+
 .topDireita {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
-/* chip dia/hora */
+/* chip dia/hora (so desktop) */
 .topAgora {
     display: inline-flex;
     align-items: center;
@@ -46,49 +51,7 @@
 }
 .topAgora svg { color: var(--terracota-cl); }
 
-/* botao Meus lugares */
-.topSalvos {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--f-ui);
-    font-weight: 700;
-    font-size: .88rem;
-    color: #fff7ec;
-    background: rgba(255, 255, 255, .1);
-    border: 1px solid rgba(255, 255, 255, .18);
-    padding: 9px 15px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: var(--t);
-}
-.topSalvos:hover {
-    background: var(--grad-terracota);
-    border-color: transparent;
-    transform: translateY(-1px);
-}
-.topSalvos svg { color: var(--terracota-cl); transition: var(--t); }
-.topSalvos:hover svg { color: #fff7ec; }
-
-.topSalvosBadge {
-    min-width: 20px;
-    height: 20px;
-    padding: 0 6px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--terracota);
-    color: #fff;
-    font-size: .72rem;
-    font-weight: 800;
-    border-radius: 999px;
-    line-height: 1;
-}
-.topSalvos:hover .topSalvosBadge { background: var(--vinho-d); }
-
 @media (max-width: 767px) {
     .topMenuInner { gap: 10px; padding-top: 8px; padding-bottom: 8px; }
     .topDireita { gap: 8px; }
-    .topSalvos { padding: 8px 11px; }
 }

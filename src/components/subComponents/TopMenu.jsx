@@ -1,7 +1,9 @@
 /**
  * TopMenu.jsx
- * Cabecalho fixo (faixa vinho): marca "Pin do Por do Sol" + clima ao vivo de BH
- * + botao "Meus Lugares" com contador. Sticky no topo.
+ * Cabecalho fixo (faixa vinho), enxuto: a MARCA em destaque no topo (esquerda)
+ * + dia/hora e o clima ao vivo de BH (direita). As acoes (Meus lugares, Ja fui,
+ * Me Surpreenda...) vivem agora no menu inferior (BottomNav) — antes elas
+ * apertavam o topo e vazavam do layout no mobile.
  */
 import Logo from './Logo.jsx'
 import ClimaWidget from './ClimaWidget.jsx'
@@ -9,7 +11,7 @@ import { Icone } from './Icones.jsx'
 import GlobalVar from './GlobalVar.jsx'
 import '../../assets/css/TopMenu.css'
 
-function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos, visitadosCount = 0, onAbrirVisitados }) {
+function TopMenu({ clima, ativaResp }) {
     const hoje = GlobalVar.diasSemana[GlobalVar.diaAtual()]
     const agora = GlobalVar.horaAgoraTexto()
 
@@ -18,7 +20,7 @@ function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos, visitadosCo
             <div className="conteudoWrapper topMenuInner">
                 <Logo
                     variante="clara"
-                    size={ativaResp ? 28 : 34}
+                    size={ativaResp ? 30 : 36}
                     subtitulo={!ativaResp ? 'Onde sair em Belo Horizonte e região' : undefined}
                 />
 
@@ -30,28 +32,6 @@ function TopMenu({ clima, ativaResp, salvosCount = 0, onAbrirSalvos, visitadosCo
                     )}
 
                     <ClimaWidget clima={clima} ativaResp={ativaResp} />
-
-                    <button
-                        type="button"
-                        className="topSalvos"
-                        onClick={onAbrirSalvos}
-                        aria-label={`Meus lugares (${salvosCount} salvos)`}
-                    >
-                        <Icone nome={salvosCount > 0 ? 'coracaoCheio' : 'coracao'} size={19} />
-                        {!ativaResp && <span>Meus lugares</span>}
-                        {salvosCount > 0 && <span className="topSalvosBadge">{salvosCount}</span>}
-                    </button>
-
-                    <button
-                        type="button"
-                        className="topSalvos topVisitados"
-                        onClick={onAbrirVisitados}
-                        aria-label={`Lugares que já fui (${visitadosCount})`}
-                    >
-                        <Icone nome="check" size={19} />
-                        {!ativaResp && <span>Já fui</span>}
-                        {visitadosCount > 0 && <span className="topSalvosBadge">{visitadosCount}</span>}
-                    </button>
                 </div>
             </div>
         </header>

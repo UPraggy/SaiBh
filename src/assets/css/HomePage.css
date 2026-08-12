@@ -5,6 +5,8 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* espaco pro menu inferior fixo (BottomNav) nao cobrir o rodape/conteudo */
+    padding-bottom: calc(var(--bottomnav-h, 64px) + env(safe-area-inset-bottom, 0px) + 14px);
 }
 
 /* ---------------- area de resultados ---------------- */
